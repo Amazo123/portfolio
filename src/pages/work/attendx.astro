@@ -19,9 +19,9 @@ const sections = [
     <div class="rail" data-reveal><span class="rail__num">01</span><span class="rail__label">Overview</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
       AttendX is a biometric staff attendance terminal, built for the NASCOMSOFT annual hackathon
-      over five weeks as <strong>TEAM RAMP</strong> — a four-person team I coordinated as product
-      manager and hardware engineer. The idea: clock in with a finger, not a signature — and make
-      sure nobody can clock in for somebody else.
+      over five weeks as <strong>TEAM RAMP</strong>, a four-person team I coordinated as product
+      manager and hardware engineer. The idea: clock in with a finger instead of a signature, and
+      make sure nobody can clock in for somebody else.
     </p>
     <dl class="kv" data-reveal>
       <dt>Team</dt><dd>4 people — I owned the physical build end to end and coordinated the product</dd>
@@ -36,13 +36,13 @@ const sections = [
     <p class="body" data-reveal>
       The terminal walks a member through one interaction: identify on the LCD, present a finger or
       a PIN, get a verdict in the time it takes to put a hand down. Everything on the bench was
-      wired and spoken for before the enclosure was designed around it.
+      wired and tested before the enclosure was designed around it.
     </p>
     <ul class="body bullets" data-reveal>
       <li><strong>Enrolment and matching on-module.</strong> The SFM-V1.7 capacitive sensor keeps templates inside the module itself, so the terminal works with no network and no database to lose.</li>
-      <li><strong>Two clock-in paths.</strong> Fingerprint for the honest path; a 4×4 keypad PIN as the fallback for a damaged or bandaged finger — and the fallback is where the interesting engineering lives.</li>
+      <li><strong>Two clock-in paths.</strong> Fingerprint for the honest path; a 4×4 keypad PIN as the fallback for a damaged or bandaged finger. The fallback path is where the interesting engineering ended up.</li>
       <li><strong>A visible, auditable state machine.</strong> The 16×2 LCD mirrors the terminal's state at every step: waiting → identifying → matched/rejected → logged, so a failure is never silent.</li>
-      <li><strong>Built, not drawn.</strong> The whole terminal — camera, sensor, LCD, keypad — lives in a 3D-printed enclosure that was measured from the actual wiring loom, not from the schematic.</li>
+      <li><strong>Enclosure measured from the real loom.</strong> The camera, sensor, LCD and keypad live in a 3D-printed enclosure that was measured from the actual wiring loom, not from the schematic.</li>
     </ul>
   </section>
 
@@ -52,13 +52,13 @@ const sections = [
     <p class="body" data-reveal>
       Every attendance system has a hole, and ours was obvious: the keypad PIN path. A friend with
       your PIN can clock you in from a car park. Removing the PIN would have punished everyone with
-      a genuine fingerprint problem — so instead, <strong>the fallback stops being anonymous</strong>.
+      a genuine fingerprint problem, so instead <strong>the fallback stops being anonymous</strong>.
     </p>
     <div class="note" data-reveal>
       <p class="note__title">Design decision</p>
       <p>The moment an employee clocks in by keypad PIN instead of fingerprint, the ESP32-S3-CAM
       fires an <strong>automatic camera snapshot</strong> and attaches it to that log entry. The PIN
-      path still works for the person it was built for — but proxy attendance now leaves a face
+      path still works for the person it was built for, but proxy attendance now leaves a face
       next to the record.</p>
     </div>
     <p class="body" data-reveal>
@@ -94,8 +94,8 @@ const sections = [
     </div>
     <p class="body" data-reveal>
       TEAM RAMP took <strong>1st place overall</strong> at the NASCOMSOFT annual hackathon grand
-      finale. For me the project is the smallest complete proof of how I like to work: own the
-      physical build, wire it so failures are visible, and treat the system's design hole as
+      finale. For me this project is the smallest complete example of how I like to work: own the
+      physical build, wire it so failures are visible, and take the system's design hole as
       seriously as its feature list.
     </p>
   </section>

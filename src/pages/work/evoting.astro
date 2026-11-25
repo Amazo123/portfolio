@@ -19,15 +19,15 @@ const sections = [
     <div class="rail" data-reveal><span class="rail__num">01</span><span class="rail__label">Overview</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
       A biometric voting terminal: one ESP32, one voter at a time. A vote only exists after an
-      <strong>AS608 optical fingerprint match</strong>, twenty political party choices sit behind a
+      <strong>AS608 optical fingerprint match</strong>. Twenty political party choices sit behind a
       paginated 16×4 LCD and 4×4 keypad, and every verified ballot is pushed over Wi-Fi to a
-      Render-hosted dashboard backed by Neon PostgreSQL — so the tally updates live while voting is
+      Render-hosted dashboard backed by Neon PostgreSQL, so the tally updates live while voting is
       still happening.
     </p>
     <dl class="kv" data-reveal>
-      <dt>Why biometric</dt><dd>One fingerprint, one vote — the module's template matching is the eligibility gate, and it works offline.</dd>
+      <dt>Why biometric</dt><dd>One fingerprint, one vote. The module's template matching is the eligibility gate, and it works offline.</dd>
       <dt>Why the cloud</dt><dd>Collation is where paper systems fail. Writing each ballot straight to a hosted database removes the transcription step entirely.</dd>
-      <dt>The hard part</dt><dd>Not the voting logic — keeping an optical scanner alive on the same rail as Wi-Fi and an LCD.</dd>
+      <dt>The hard part</dt><dd>Not the voting logic. It was keeping an optical scanner alive on the same rail as Wi-Fi and an LCD.</dd>
     </dl>
   </section>
 
@@ -37,12 +37,12 @@ const sections = [
     <ol class="chain" data-reveal>
       <li><span class="mono chain__k">identify</span><span>Voter presents a finger; the AS608 optical module matches against enrolled templates on-module.</span></li>
       <li><span class="mono chain__k">offer</span><span>Twenty parties, paginated across the 16×4 LCD — four at a time, chosen with the 4×4 keypad. Pagination beats scrolling: the whole option list stays legible at arm's length.</span></li>
-      <li><span class="mono chain__k">confirm</span><span>One deliberate confirm step before the ballot is cast — mis-key recovery without inviting double-voting.</span></li>
+      <li><span class="mono chain__k">confirm</span><span>One confirm step before the ballot is cast, so a mis-key can be recovered without inviting double-voting.</span></li>
       <li><span class="mono chain__k">record</span><span>The ballot goes out over Wi-Fi to the dashboard; the terminal returns to the identify state immediately.</span></li>
     </ol>
     <p class="body" data-reveal>
-      The state machine is deliberately boring — identify → offer → confirm → record, with one way
-      in and one way out of each state. Election equipment should be dull.
+      The state machine is deliberately boring: identify, offer, confirm, record, with one way in
+      and one way out of each state. Election equipment should be dull.
     </p>
   </section>
 
@@ -77,9 +77,9 @@ const sections = [
       <dt>Dashboard</dt><dd>Live tallies per party, updating as votes land — the collation centre reads the same table the terminal writes.</dd>
     </dl>
     <p class="body" data-reveal>
-      The entire pipeline runs on free tiers, end to end: a deliberate constraint that shaped the
-      design in useful ways — one request per ballot, no streaming sockets to hold open, a schema
-      simple enough to reason about at a glance.
+      The whole pipeline runs on free tiers, end to end. That constraint shaped the design in
+      useful ways: one request per ballot, no streaming sockets to hold open, and a schema simple
+      enough to read at a glance.
     </p>
   </section>
 
@@ -93,10 +93,10 @@ const sections = [
       <div class="stat stat--amber"><p class="stat__value tnum">demo</p><p class="stat__label">Status — working demonstration build, not fielded equipment</p></div>
     </div>
     <p class="body" data-reveal>
-      Honest scope: this is a working demonstration of the architecture — biometric gate, paginated
-      ballot, live cloud tally — not certified election equipment. What it proves is the part I own:
-      the hardware bring-up, the power design, and a firmware state machine that treats a reboot
-      mid-ballot as a defect, not a quirk.
+      Honest scope: this is a working demonstration of the architecture (biometric gate, paginated
+      ballot, live cloud tally), not certified election equipment. What it proves is the part I
+      own: hardware bring-up, power design, and a firmware state machine that treats a reboot
+      mid-ballot as a defect.
     </p>
   </section>
 </CaseLayout>

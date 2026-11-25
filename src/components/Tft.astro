@@ -34,14 +34,14 @@ const { src, alt, caption, bezel = true, label = 'CryNet · ILI9341', width = 32
   .tft { margin: 0; }
 
   .tft__device {
-    background: linear-gradient(180deg, #0a1112, #060b0c);
+    background: var(--device-bg);
     border: 1px solid var(--line-strong);
     border-radius: 8px;
     padding: 10px;
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.6),
-      0 18px 50px -18px rgba(45, 212, 191, 0.18),
-      inset 0 1px 0 rgba(110, 231, 213, 0.08);
+      0 0 0 1px rgba(0, 0, 0, 0.12),
+      var(--device-glow),
+      var(--device-inset);
   }
 
   .tft__strip {

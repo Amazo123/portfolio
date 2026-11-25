@@ -3,12 +3,13 @@ import Base from '../layouts/Base.astro';
 import Waveform from '../components/Waveform.astro';
 import CaseCard from '../components/CaseCard.astro';
 import ShortCard from '../components/ShortCard.astro';
+import Icon from '../components/Icon.astro';
 import { caseStudies, shortCards, timeline } from '../lib/projects';
 import { site } from '../lib/site';
 import { url } from '../lib/url';
 
 const description =
-  'Amazing Adelowo — embedded systems engineer. Final-year computer engineering student building devices that decide on-chip: biometric attendance, e-voting with live cloud tallies, a robot fleet, and an on-device infant-cry monitor. Firmware, radios, sensors — and the bench logs that prove they work.';
+  'Amazing Adelowo builds embedded systems: firmware, sensors and radios for devices that do their thinking on the chip. Final-year computer engineering student at the University of Maiduguri. On this site: an on-device infant cry monitor, a hackathon-winning attendance terminal, an e-voting machine with live results, and a robot fleet.';
 
 const toneVar = {
   accent: 'var(--accent)',
@@ -46,11 +47,11 @@ const rack = [
         <p class="hero__role mono" data-reveal style="--delay:120ms">Embedded systems engineer</p>
 
         <p class="lede" data-reveal style="--delay:180ms">
-          I build devices that make their own decisions — no cloud round-trip between a sensor
-          and an answer. On this bench so far: an attendance terminal that took 1st place, an
-          e-voting machine with live cloud tallies, a fleet of docking robots, and a cot-side
-          monitor that hears infant cries entirely on-chip. I care about the whole chain —
-          the schematic, the solder, the radio, and the serial log that proves it worked.
+          I build embedded systems: the schematic, the solder, the firmware and the radio, all one
+          chain. Recent bench work includes a biometric attendance terminal that took 1st place at
+          our company hackathon, an e-voting machine with live cloud results, a fleet of three
+          docking robots, and a cot-side cry monitor that runs its neural network on the chip
+          itself.
         </p>
 
         <div class="hero__actions" data-reveal style="--delay:240ms">
@@ -97,19 +98,19 @@ const rack = [
       <div class="stats" data-reveal>
         <div class="stat">
           <p class="stat__value tnum">0.9993</p>
-          <p class="stat__label">CryNet test AUC — INT8 model, all on-chip</p>
+          <p class="stat__label">CryNet test AUC · INT8 model, on-chip</p>
         </div>
         <div class="stat stat--amber">
           <p class="stat__value tnum">1st</p>
-          <p class="stat__label">Overall — NASCOMSOFT hackathon · AttendX</p>
+          <p class="stat__label">NASCOMSOFT hackathon · AttendX</p>
         </div>
         <div class="stat stat--green">
           <p class="stat__value tnum">20</p>
-          <p class="stat__label">Party choices on the e-voting terminal, live-synced to cloud</p>
+          <p class="stat__label">Party choices on the e-voting terminal, synced live</p>
         </div>
         <div class="stat stat--plain">
           <p class="stat__value tnum">13</p>
-          <p class="stat__label">Builds documented here — 4 case studies · 9 bench builds</p>
+          <p class="stat__label">Builds documented here · 4 case studies, 9 bench builds</p>
         </div>
       </div>
     </div>
@@ -144,8 +145,8 @@ const rack = [
         <span class="rail__count mono tnum">9 builds</span>
       </div>
       <p class="lede bench__lede" data-reveal>
-        The shorter builds — LoRa links, LED boards, veroboard robots — each one soldered,
-        scoped and made to work during my internship at NASCOMSOFT Embedded and after hours.
+        Shorter builds: LoRa links, LED boards, veroboard robots. Each one was soldered, scoped
+        and made to work during my internship at NASCOMSOFT EMBEDED, or after hours.
       </p>
       <div class="bench__grid">
         {shortCards.map((c, i) => (
@@ -193,16 +194,25 @@ const rack = [
       </div>
       <div class="contact__grid">
         <div>
-          <h2 class="display--tight" data-reveal>Let's put something<br /><span class="accent">on the bench.</span></h2>
+          <h2 class="display--tight" data-reveal>Get in<br /><span class="accent">touch.</span></h2>
           <p class="lede contact__lede" data-reveal style="--delay:80ms">
-            Internships, junior firmware roles, or a hard problem you want looked at —
-            I answer email fastest.
+            I'm looking for junior embedded and firmware roles, and I'm happy to talk through a
+            hard problem. Email is fastest.
           </p>
         </div>
         <div class="contact__actions" data-reveal style="--delay:140ms">
-          <a class="btn btn--primary" href={`mailto:${site.email}`}>{site.email}</a>
-          <a class="btn" href={site.github} target="_blank" rel="me noopener">GitHub ↗</a>
-          <a class="btn" href={site.linkedin} target="_blank" rel="me noopener">LinkedIn ↗</a>
+          <a class="btn btn--primary" href={`mailto:${site.email}`}>
+            <Icon name="mail" size={14} />
+            <span>{site.email}</span>
+          </a>
+          <a class="btn" href={site.github} target="_blank" rel="me noopener">
+            <Icon name="github" size={14} />
+            <span>GitHub ↗</span>
+          </a>
+          <a class="btn" href={site.linkedin} target="_blank" rel="me noopener">
+            <Icon name="linkedin" size={14} />
+            <span>LinkedIn ↗</span>
+          </a>
         </div>
       </div>
     </div>
@@ -296,13 +306,13 @@ const rack = [
     flex-direction: column;
     gap: 0.6rem;
     padding: 14px;
-    background: linear-gradient(180deg, #0a1112, #060b0c);
+    background: var(--device-bg);
     border: 1px solid var(--line-strong);
     border-radius: 8px;
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.6),
-      0 18px 50px -18px rgba(45, 212, 191, 0.14),
-      inset 0 1px 0 rgba(110, 231, 213, 0.08);
+      0 0 0 1px rgba(0, 0, 0, 0.12),
+      var(--device-glow),
+      var(--device-inset);
   }
 
   .rack__head {
@@ -323,13 +333,13 @@ const rack = [
     padding: 0.8rem 0.95rem;
     border: 1px solid var(--line);
     border-radius: 6px;
-    background: rgba(11, 20, 21, 0.55);
+    background: var(--device-unit);
     transition: border-color 0.25s var(--ease), background-color 0.25s var(--ease), transform 0.25s var(--ease);
   }
 
   .rack__unit:hover {
     border-color: var(--tone);
-    background: rgba(12, 39, 37, 0.5);
+    background: var(--device-unit-hover);
     transform: translateX(3px);
   }
 

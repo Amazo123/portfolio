@@ -1,6 +1,7 @@
 ---
 import { site, nav } from '../lib/site';
 import { url } from '../lib/url';
+import Icon from './Icon.astro';
 
 const path = Astro.url.pathname.replace(/\/$/, '');
 const isActive = (href: string) => {
@@ -26,6 +27,11 @@ const isHome = path === '' || path === import.meta.env.BASE_URL.replace(/\/$/, '
     </nav>
 
     <a class="nav__cta mono" href={`mailto:${site.email}`}>Contact</a>
+
+    <button class="nav__theme" type="button" data-theme-toggle aria-label="Switch to light theme" title="Switch theme">
+      <span class="nav__theme-icon nav__theme-icon--on"><Icon name="sun" size={14} /></span>
+      <span class="nav__theme-icon nav__theme-icon--off"><Icon name="moon" size={14} /></span>
+    </button>
   </div>
 </header>
 
@@ -35,7 +41,7 @@ const isHome = path === '' || path === import.meta.env.BASE_URL.replace(/\/$/, '
     inset: 0 0 auto 0;
     z-index: 100;
     height: var(--nav-h);
-    background: rgba(2, 4, 4, 0.82);
+    background: var(--nav-bg);
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     border-bottom: 1px solid var(--line-soft);
@@ -120,7 +126,28 @@ const isHome = path === '' || path === import.meta.env.BASE_URL.replace(/\/$/, '
     font-size: 0.66rem;
     transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background-color 0.2s var(--ease);
   }
-  .nav__cta:hover { border-color: var(--accent); color: var(--accent); background: rgba(45, 212, 191, 0.06); }
+  .nav__cta:hover { border-color: var(--accent); color: var(--accent); background: var(--btn-hover-bg); }
+
+  /* theme toggle — sun shows in dark mode, moon in light mode */
+  .nav__theme {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background-color 0.2s var(--ease);
+  }
+  .nav__theme:hover { border-color: var(--accent); color: var(--accent); background: var(--btn-hover-bg); }
+
+  .nav__theme-icon { display: none; align-items: center; justify-content: center; }
+  :global(:root:not([data-theme='light'])) .nav__theme-icon--on { display: inline-flex; }
+  :global(:root[data-theme='light']) .nav__theme-icon--off { display: inline-flex; }
 
   @media (max-width: 720px) {
     .nav__role, .nav__cta { display: none; }
@@ -128,3 +155,22 @@ const isHome = path === '' || path === import.meta.env.BASE_URL.replace(/\/$/, '
     .nav__link { padding: 0.45rem 0.6rem; font-size: 0.66rem; }
   }
 </style>
+
+<script>
+  // Theme toggle — persists to localStorage; the boot script in Base.astro
+  // reads it back before first paint, so there is no flash either way.
+  const btn = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+
+  const apply = (t: 'dark' | 'light') => {
+    document.documentElement.setAttribute('data-theme', t);
+    try { localStorage.setItem('theme', t); } catch { /* storage blocked */ }
+    if (btn) btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    if (meta) meta.setAttribute('content', t === 'dark' ? '#020404' : '#f6f5f1');
+  };
+
+  btn?.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    apply(next);
+  });
+</script>

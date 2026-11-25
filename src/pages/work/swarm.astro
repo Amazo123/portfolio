@@ -21,7 +21,7 @@ const sections = [
       Three ESP32 robots built to <strong>dock, latch and move as one payload</strong>. Each robot
       carries a downward-facing electromagnet; to move an object heavier than any one of them, the
       swarm docks around it, energises its magnets, and drives in formation. It is the simplest
-      mechanical answer to "what if the thing is heavier than the robot" — no grippers, no arms,
+      mechanical answer to "what if the thing is heavier than the robot": no grippers, no arms,
       just coupling.
     </p>
     <dl class="kv" data-reveal>
@@ -52,8 +52,8 @@ const sections = [
     <div class="rail" data-reveal><span class="rail__num">03</span><span class="rail__label">Making three robots drive straight</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
       Cheap gearmotors differ. Give three robots the same PWM duty and you get three different
-      speeds and three gentle curves — fatal for a fleet that has to arrive at a dock together.
-      So the calibration came before the choreography.
+      speeds and three gentle curves, which is fatal for a fleet that has to arrive at a dock
+      together. So calibration came before choreography.
     </p>
     <div class="note" data-reveal>
       <p class="note__title">Method</p>
@@ -84,8 +84,8 @@ const sections = [
       <p class="note__title">Straight answer</p>
       <p>This build is <strong>not finished</strong>. The drive calibration, the magnet switching
       and the docking mechanics work on the bench; the marker-driven choreography is the open
-      chapter. I would rather show the honest state than quietly retire the project — the dossier
-      on the lab page records both what works and what does not yet.</p>
+      chapter. I would rather show the honest state than quietly retire the project. The lab page
+      records both what works and what does not yet.</p>
     </div>
   </section>
 
@@ -100,8 +100,7 @@ const sections = [
     </div>
     <p class="body" data-reveal>
       What stands: three working robots, protected electromagnetic coupling, calibrated formation
-      driving. What remains: closing the loop from dashboard plan to dock-and-carry. The gap
-      between those two sentences is exactly the work left.
+      driving. What remains: closing the loop from dashboard plan to dock-and-carry.
     </p>
   </section>
 </CaseLayout>

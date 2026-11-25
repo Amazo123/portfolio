@@ -1,6 +1,7 @@
 ---
 import { site } from '../lib/site';
 import { url } from '../lib/url';
+import Icon from './Icon.astro';
 
 const year = new Date().getFullYear();
 ---
@@ -9,24 +10,36 @@ const year = new Date().getFullYear();
     <div class="footer__grid">
       <div class="footer__col">
         <p class="footer__heading mono">Contact</p>
-        <a class="footer__link" href={`mailto:${site.email}`}>{site.email}</a>
+        <a class="footer__link" href={`mailto:${site.email}`}>
+          <Icon name="mail" size={14} />
+          <span>{site.email}</span>
+        </a>
         <a class="footer__link" href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a>
         <p class="footer__meta">{site.location}</p>
       </div>
 
       <div class="footer__col">
         <p class="footer__heading mono">Elsewhere</p>
-        <a class="footer__link" href={site.github} rel="me noopener" target="_blank">{site.githubLabel}</a>
-        <a class="footer__link" href={site.linkedin} rel="me noopener" target="_blank">{site.linkedinLabel}</a>
-        <a class="footer__link" href={url('/resume.pdf')}>Resume — PDF</a>
+        <a class="footer__link" href={site.github} rel="me noopener" target="_blank">
+          <Icon name="github" size={14} />
+          <span>{site.githubLabel}</span>
+        </a>
+        <a class="footer__link" href={site.linkedin} rel="me noopener" target="_blank">
+          <Icon name="linkedin" size={14} />
+          <span>{site.linkedinLabel}</span>
+        </a>
+        <a class="footer__link" href={url('/resume.pdf')}>
+          <Icon name="resume" size={14} />
+          <span>Resume — PDF</span>
+        </a>
       </div>
 
       <div class="footer__col">
         <p class="footer__heading mono">Currently</p>
         <p class="footer__meta">
-          Final-year B.Eng. Computer Engineering at the University of Maiduguri, and embedded
-          systems intern at NASCOMSOFT Embedded, Bauchi. Open to embedded / firmware roles and
-          internships.
+          Final-year B.Eng. Computer Engineering at the University of Maiduguri. Finished my SIWES
+          internship at NASCOMSOFT EMBEDED, Bauchi in November. Open to embedded / firmware roles
+          and internships.
         </p>
       </div>
     </div>
@@ -56,11 +69,16 @@ const year = new Date().getFullYear();
   .footer__heading { color: var(--dim); margin-bottom: 0.35rem; }
 
   .footer__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     color: var(--muted);
     font-size: 0.9rem;
     transition: color 0.2s var(--ease);
   }
   .footer__link:hover { color: var(--accent); }
+  .footer__link :global(svg) { flex: none; opacity: 0.75; }
+  .footer__link:hover :global(svg) { opacity: 1; }
 
   .footer__meta { color: var(--dim); font-size: 0.82rem; line-height: 1.6; }
 

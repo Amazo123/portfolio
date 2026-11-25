@@ -4,7 +4,7 @@ import { site } from '../lib/site';
 import { url } from '../lib/url';
 
 const description =
-  'About Amazing Adelowo — final-year B.Eng. computer engineering student at the University of Maiduguri, embedded systems intern at NASCOMSOFT Embedded. Attendance terminals, e-voting machines, robot fleets, and an on-device cry monitor.';
+  'About Amazing Adelowo, embedded systems engineer. Final-year B.Eng. computer engineering student at the University of Maiduguri, recently finished a SIWES internship at NASCOMSOFT EMBEDED, Bauchi. Attendance terminals, e-voting machines, robot fleets, and an on-device cry monitor.';
 
 const skills = [
   { group: 'Hardware & prototyping', items: ['Schematic design', 'Proteus', 'Breadboarding', 'Veroboard soldering', 'Oscilloscopes & multimeters', 'Power budgeting', 'Component sourcing'] },
@@ -37,46 +37,44 @@ const coursework = [
       <div class="about__main">
         <p class="lede" data-reveal>
           I'm Amazing Adelowo, a final-year computer engineering student at the University of
-          Maiduguri, and I build <strong>embedded systems that carry their own intelligence</strong> —
-          no cloud round-trip between a sensor and a decision.
+          Maiduguri. I build embedded systems that do their own thinking on the chip.
         </p>
         <div class="body about__prose" data-reveal>
           <p>
-            The habit shows up in everything on the bench: an attendance terminal that
-            photographs proxy clock-ins as they happen, a voting machine that gates every
-            ballot behind a fingerprint scan, robots that find their own way down a straight
-            line before they trust themselves to dock. Different problems, same discipline —
-            draw it first, bring it up slowly, and let the serial log settle every argument.
+            The same approach shows up across the bench: an attendance terminal that photographs
+            proxy clock-ins, a voting machine that checks a fingerprint before every ballot, robots
+            that learned to drive a straight line before they tried to dock. My working rules are
+            simple. Draw the circuit first. Bring it up slowly. Let the serial log settle arguments.
           </p>
           <p>
-            The deepest build is <a href={url('/work/crynet/')}>CryNet</a>, my final-year
-            project: a cot-side monitor that hears infant cries on the chip itself — two
-            microphone nodes, a hand-written DSP front end, and a 135&nbsp;KB neural network
-            that never leaves the device, ending in a buzz on the caregiver's wrist. It taught
-            me that the hard parts are rarely the model — they are the noise floor, the radio
-            airtime, the decoupling cap you didn't place, and the courage to write down what
-            didn't work.
+            The biggest build so far is <a href={url('/work/crynet/')}>CryNet</a>, my final-year
+            project: a cot-side monitor that detects infant cries on the chip itself. Two microphone
+            nodes feed a hub running a 135&nbsp;KB neural network, and the alert ends up as a buzz
+            on the caregiver's wrist. It taught me that the model is rarely the hard part. The hard
+            parts are the noise floor, the radio airtime, the decoupling capacitor you forgot to
+            place, and writing down what didn't work.
           </p>
           <p>
-            At <strong>NASCOMSOFT Embedded in Bauchi</strong>, where I'm doing my industrial
-            training, I design in Proteus before touching a breadboard, bring up LoRa and GSM
-            telemetry links, assemble P10 LED display boards, and troubleshoot at the
-            oscilloscope level. There I was also product manager and hardware engineer for
-            TEAM RAMP, whose biometric attendance terminal took <strong>1st place overall</strong>
-            at the company's annual hackathon — and I got to teach a children's camp the same
-            trick: build the thing, then make it drive around a maze.
+            From June to November 2026 I did my SIWES industrial training at
+            <strong>NASCOMSOFT EMBEDED in Bauchi</strong>. There I designed circuits in Proteus
+            before touching a breadboard, brought up LoRa and GSM telemetry links, assembled P10
+            LED display boards, and learned to troubleshoot at the oscilloscope level. I was also
+            product manager and hardware engineer for TEAM RAMP, whose attendance terminal took
+            <strong>1st place overall</strong> at the company's annual hackathon. And I got to
+            teach a children's robotics camp the same trick: build the thing, then make it drive
+            around a maze.
           </p>
           <p>
-            What I'm looking for: an embedded or firmware role where the hardware is close to
-            the user — medical devices, agritech, safety monitors, robotics. I care about
-            evidence: numbers off a serial console beat adjectives in a meeting.
+            What I'm looking for next: an embedded or firmware role where the hardware sits close
+            to the user, like medical devices, agritech, safety monitors or robotics. I like
+            evidence. A number off a serial console beats an adjective in a meeting.
           </p>
         </div>
 
         <div class="facts" data-reveal>
           <dl class="kv">
             <dt>Currently</dt><dd>Final-year B.Eng. Computer Engineering, University of Maiduguri (expected 2026/27)</dd>
-            <dt>Also</dt><dd>Embedded Systems Intern, NASCOMSOFT Embedded Ltd, Bauchi — featured in the NASCOMSOFT Student Spotlight</dd>
+            <dt>Internship</dt><dd>SIWES at NASCOMSOFT EMBEDED LTD, Bauchi, completed Nov 2026 · featured in the NASCOMSOFT Student Spotlight</dd>
             <dt>Location</dt><dd>{site.location}</dd>
             <dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
           </dl>
@@ -165,7 +163,7 @@ const coursework = [
           <ul class="recs">
             <li><strong>1st place overall</strong> — NASCOMSOFT annual hackathon grand finale, TEAM RAMP / AttendX · Oct 2026</li>
             <li><strong>1st place, Grand Finale Maze Race</strong> — mentored Group Six at the CEAISES & ATBU children's robotics camp · Aug–Sep 2026</li>
-            <li><strong>Student Spotlight</strong> — featured by NASCOMSOFT Embedded during my SIWES internship</li>
+            <li><strong>Student Spotlight</strong> — featured by NASCOMSOFT EMBEDED during my SIWES internship</li>
           </ul>
           <a class="btn" style="margin-top:1.5rem" href={url('/resume.pdf')}>Full CV — PDF ↗</a>
         </div>
@@ -196,9 +194,7 @@ const coursework = [
     justify-content: center;
     border: 1px solid var(--line-strong);
     border-radius: 8px;
-    background:
-      repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(110, 231, 213, 0.035) 12px, rgba(110, 231, 213, 0.035) 24px),
-      linear-gradient(180deg, #0a1112, #060b0c);
+    background: var(--portrait-bg);
     overflow: hidden;
   }
   .portrait img { width: 100%; height: 100%; object-fit: cover; }
@@ -209,15 +205,15 @@ const coursework = [
     border: 1px solid var(--line);
     padding: 0.45rem 0.85rem;
     border-radius: 999px;
-    background: rgba(6, 11, 12, 0.6);
+    background: var(--device-unit);
   }
 
   .side-rack {
     padding: 1rem 1.1rem;
-    background: linear-gradient(180deg, #0a1112, #060b0c);
+    background: var(--device-bg);
     border: 1px solid var(--line-strong);
     border-radius: 8px;
-    box-shadow: inset 0 1px 0 rgba(110, 231, 213, 0.08);
+    box-shadow: var(--device-inset);
   }
 
   .side-rack__head { color: var(--dim); font-size: 0.5rem; margin-bottom: 0.8rem; }

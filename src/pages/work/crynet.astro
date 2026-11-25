@@ -23,33 +23,33 @@ const sections = [
     <div class="rail" data-reveal><span class="rail__num">01</span><span class="rail__label">Overview</span><span class="rail__line"></span></div>
 
     <p class="body" data-reveal>
-      CryNet is a monitor for a room with more than one cot — a NICU bay, a maternity ward, a
-      daycare, a twin nursery. Two microphone nodes sit with the cots, one at each. Each samples
-      its own microphone continuously and decides for itself when something interesting has
-      happened; when it does, it hands its two seconds of audio to a central hub over a short-range
-      radio link. The hub reassembles the audio, runs a small neural network over it, and decides
-      whether that sound is an infant cry. If it is, the hub names the cot on its display and
-      raises an alert over Bluetooth, which a caregiver's wristband turns into a vibration.
+      CryNet is a monitor for rooms with more than one cot: a NICU bay, a maternity ward, a
+      daycare, a twin nursery at home. Two microphone nodes sit beside the cots and listen
+      continuously. When a node hears something interesting, it freezes two seconds of audio and
+      sends them to a central hub over a short-range radio link. The hub runs a small neural
+      network on the clip and decides whether it is an infant cry. If it is, the hub names the cot
+      on its display and sends an alert over Bluetooth, and a wristband turns that into a
+      vibration.
     </p>
 
     <div class="choose" data-reveal>
       <div class="note">
         <p class="note__title">Choice 1 — who speaks</p>
         <p><strong>The nodes decide when to speak; the hub decides what it means.</strong>
-        A node that hears nothing interesting sends almost nothing. This is what makes the radio
-        work with two nodes sharing one channel, and what keeps a battery node alive for a whole shift.</p>
+        A node that hears nothing interesting sends almost nothing. That is what makes the radio
+        work with two nodes sharing one channel, and it keeps a battery node alive for a whole
+        shift.</p>
       </div>
       <div class="note">
         <p class="note__title">Choice 2 — who thinks</p>
         <p><strong>Only the hub runs the model.</strong> One ESP32-S3 with 8 MB of PSRAM is a far
-        better place for a neural network than two small battery-powered nodes — and the model can
-        be retrained and re-flashed in one place instead of at every cot.</p>
+        better home for a neural network than two small battery-powered nodes. It also means the
+        model gets retrained and re-flashed in one place instead of at every cot.</p>
       </div>
       <div class="note">
         <p class="note__title">Choice 3 — who warns</p>
-        <p><strong>The wearable is a dumb, reliable terminal.</strong> It runs no model. It receives
-        an alert and vibrates. Everything about it is about being trusted to say something the
-        caregiver must not miss.</p>
+        <p><strong>The wearable is a dumb, reliable terminal.</strong> It runs no model. Receive
+        alert, vibrate. Its only job is to be trusted with something the caregiver must not miss.</p>
       </div>
     </div>
 
@@ -70,9 +70,9 @@ const sections = [
     <ol class="chain" data-reveal>
       <li><span class="mono chain__k">capture</span><span>16 kHz, 16-bit I²S off the INMP441, continuously. The node removes the DC bias the microphone sits at (~+18000 counts).</span></li>
       <li><span class="mono chain__k">track the floor</span><span>A running noise floor: <code>g_floor += (g_rms − g_floor) × 0.002</code> — slow enough to ride out a scream, fast enough to follow a room.</span></li>
-      <li><span class="mono chain__k">trigger</span><span>Level = 3 × floor, clamped to [0.005, 0.030]. Crossing it freezes a two-second window <em>centred</em> on the crossing — the onset is kept, not clipped off.</span></li>
+      <li><span class="mono chain__k">trigger</span><span>Level = 3 × floor, clamped to [0.005, 0.030]. Crossing it freezes a two-second window <em>centred</em> on the crossing, so the onset is kept rather than clipped off.</span></li>
       <li><span class="mono chain__k">offer</span><span>The node streams the window as a 286-fragment ESP-NOW burst — per-fragment CRC-16, whole-window CRC-32 — and holds it until the hub pulls it.</span></li>
-      <li><span class="mono chain__k">pull</span><span>The hub arbitrates between cots, reassembles the audio, and refuses the window outright if any sample clipped (peak ≥ 31,000 of 32,767 — a saturation that once made it name the wrong cot for 42 seconds).</span></li>
+      <li><span class="mono chain__k">pull</span><span>The hub arbitrates between cots, reassembles the audio, and refuses the window outright if any sample clipped (peak ≥ 31,000 of 32,767; that saturation once made it name the wrong cot for 42 seconds).</span></li>
       <li><span class="mono chain__k">front end</span><span>Zero-padded 512-pt Hann FFT, 81 frames at hop 400 → 257 bins → 64 log-Mel bands → dB floored at −80 → per-window standardisation. All hand-written C on the ESP-DSP FFT: <strong>41.7 ms</strong>.</span></li>
       <li><span class="mono chain__k">decide</span><span>INT8 quantisation, TFLite Micro invoke with ESP-NN SIMD kernels: <strong>101.8 ms</strong> for a 122,770-parameter CNN.</span></li>
       <li><span class="mono chain__k">announce</span><span>Only a near-saturated window announces alone; otherwise two consecutive windows must agree, the second carrying real energy and the right crest. On real room audio the model never sits between P(cry) 0.215 and 0.992 — the rule is built on that gap.</span></li>
@@ -81,12 +81,12 @@ const sections = [
 
     <div class="note note--amber" data-reveal>
       <p class="note__title">The finding that forced the design</p>
-      <p>The original fixed trigger was RMS ≥ 0.030. The confusion session showed a cry at one metre
-      never reaches it — median RMS 0.0070, 0 of 590 records over threshold. The system was blind at
-      one metre <em>by trigger</em>, not by hearing: asked anyway, the model still caught 18 of 44
-      windows. That single measurement is why the adaptive 3×-floor trigger exists. After it: 39
-      trigger events per minute at one metre instead of 0, while the hub asks 5–11 times a minute
-      instead of 1–2.</p>
+      <p>The original fixed trigger was RMS ≥ 0.030. The confusion session showed that a cry at one
+      metre never reaches it: median RMS 0.0070, 0 of 590 records over threshold. So the system was
+      blind at one metre <em>by trigger</em>, not by hearing. Asked anyway, the model still caught
+      18 of 44 windows. That measurement is why the adaptive 3×-floor trigger exists. After the
+      change: 39 trigger events per minute at one metre instead of 0, and the hub asks 5–11 times a
+      minute instead of 1–2.</p>
     </div>
   </section>
 
@@ -106,7 +106,7 @@ const sections = [
     <div class="media-grid media-grid--2" data-reveal>
       <figure class="figure">
         <div class="figure__frame"><img src={url('/img/crynet/photo-colour-check.jpg')} alt="Photograph of the physical hub running its colour-check screen" loading="lazy" /></div>
-        <figcaption>COLOUR CHECK on the real panel — the calibration screen the TFT runs before it is trusted to render alerts.</figcaption>
+        <figcaption>COLOUR CHECK on the real panel. The calibration screen the TFT runs before it is trusted to render alerts.</figcaption>
       </figure>
       <figure class="figure">
         <div class="figure__frame"><img src={url('/img/crynet/panel-after.jpg')} alt="The TFT panel after the display fix" loading="lazy" /></div>
@@ -122,10 +122,10 @@ const sections = [
     <div class="note" data-reveal>
       <p class="note__title">A thing removed on purpose</p>
       <p>The cots originally reported battery percentage, and the panel drew it. The battery sense
-      and every status LED were designed, costed — and then withdrawn (D-83). The panel now shows
-      each cot's audio level and its own view of the radio link instead: the numbers that change
-      decisions, not the ones that change nobody's behaviour. Nothing tells a caregiver a cell is
-      nearly flat; the cells are watched by eye, and the dossier says so.</p>
+      and every status LED were designed, costed, then withdrawn (D-83). The panel now shows each
+      cot's audio level and its own view of the radio link, because those are the numbers that
+      change decisions. Nothing tells a caregiver a cell is nearly flat. The cells are watched by
+      eye, and the dossier says so.</p>
     </div>
   </section>
 
@@ -134,9 +134,9 @@ const sections = [
     <div class="rail" data-reveal><span class="rail__num">04</span><span class="rail__label">The model</span><span class="rail__line"></span></div>
 
     <p class="body" data-reveal>
-      Before training anything I profiled every public infant-cry corpus on Kaggle and Hugging Face
-      — sample rates, durations, F0, spectral flatness, real-versus-synthetic. Three of the five
-      mirrors of one popular dataset were rejected outright: their "silence" class is a constant
+      Before training anything I profiled every public infant-cry corpus on Kaggle and Hugging Face:
+      sample rates, durations, F0, spectral flatness, real versus synthetic. Three of the five
+      mirrors of one popular dataset were rejected outright. Their "silence" class is a constant
       1,225 Hz tone at RMS 0.22, and their "noise" class is renamed ESC-50 files. Training on that
       teaches dataset artifacts, not cries.
     </p>
@@ -148,7 +148,7 @@ const sections = [
     </dl>
 
     <p class="body" data-reveal>
-      The network is a compact CNN over the 81×64 log-Mel spectrogram — 122,770 parameters, 135 KB
+      The network is a compact CNN over the 81×64 log-Mel spectrogram: 122,770 parameters, 135 KB
       as INT8. Two decisions mattered more than the architecture:
     </p>
 
@@ -169,9 +169,9 @@ const sections = [
   <section class="cs-section" id="results">
     <div class="rail" data-reveal><span class="rail__num">05</span><span class="rail__label">Results</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
-      Measured on the desk and in the room, not only in the notebook. Every positive cry in these
-      tests is a recording played through a phone speaker — the honest-status section below says
-      what that means.
+      Measured on the desk and in the room, not only in the notebook. One caveat: every positive
+      cry in these tests is a recording played through a phone speaker. The honest-status section
+      below explains what that means.
     </p>
 
     <h3 class="h3" data-reveal>The confusion session — nine one-minute takes on the real microphone</h3>
@@ -192,13 +192,14 @@ const sections = [
       <dt>Burst duration</dt><dd>2.06–5.19 s, median 3.55 s — down from 5.54–6.93 s before the airtime fixes.</dd>
       <dt>Request → verdict</dt><dd>2.23–5.35 s, mean 4.03 s, end to end.</dd>
       <dt>Demo session</dt><dd><strong>45 bursts, 45/45 complete</strong> — no stall, no timeout, no CRC error, no resend round. 26 alerts at P(cry) 0.9922–0.9961, 16 refusals at 0.0078–0.2148.</dd>
-      <dt>Verdict gap</dt><dd>Nothing between 0.2148 and 0.9922 in the whole session. On real audio in this room the model is not ambivalent — it is either near-zero or saturated.</dd>
+      <dt>Verdict gap</dt><dd>Nothing between 0.2148 and 0.9922 in the whole session. On real audio in this room the model is never ambivalent: it is either near-zero or saturated.</dd>
     </dl>
 
     <h3 class="h3" data-reveal>The two-cot bench session — 2026-11-05/06</h3>
     <p class="body" data-reveal>
-      The session that says the <em>system</em> works, not just the components. Board identities read
-      from each boot banner before anything was flashed; both cot ids survived the flash out of NVS.
+      The session that says the <em>system</em> works, not just the components. Board identities
+      were read from each boot banner before anything was flashed, and both cot ids survived the
+      flash out of NVS.
     </p>
     <dl class="kv" data-reveal>
       <dt>Frames</dt><dd><strong>993 frames off the air, 993 parsed, 0 bad, 0 bad payload</strong> — both cots heard and online.</dd>
@@ -222,9 +223,9 @@ const sections = [
           and whether the nights are getting better or worse.
         </p>
         <ul class="body bullets">
-          <li><strong>No dependencies.</strong> The server is one Python file using only the standard library and a SQLite file — <code>python dashboard/server.py</code> and it runs. A Cloudflare Worker build exists for hosting it free.</li>
-          <li><strong>A contract, tested.</strong> A hardware-free test builds the hub's upload body byte for byte, posts it, and checks what comes back — so the hub and the dashboard cannot drift apart silently.</li>
-          <li><strong>The monitor wins over the record.</strong> The hub's radio is one radio: if the router is not on channel 6, where ESP-NOW lives, the hub drops the Wi-Fi connection and puts the radio back. A dashboard that looks healthy while the wrist has gone silent is the dangerous failure, and the firmware refuses to allow it.</li>
+          <li><strong>No dependencies.</strong> The server is one Python file using only the standard library and a SQLite file. <code>python dashboard/server.py</code> and it runs. A Cloudflare Worker build exists for hosting it free.</li>
+          <li><strong>A contract, tested.</strong> A hardware-free test builds the hub's upload body byte for byte, posts it, and checks what comes back, so the hub and the dashboard cannot drift apart silently.</li>
+          <li><strong>The monitor wins over the record.</strong> The hub has one radio: if the router is not on channel 6, where ESP-NOW lives, the hub drops Wi-Fi and takes the radio back. A dashboard that looks healthy while the wrist has gone silent is the dangerous failure, so the firmware refuses to allow it.</li>
         </ul>
       </div>
       <Tft src={url('/img/crynet/tft-nowifi.png')} alt="Hub panel with no Wi-Fi: still listening, two cots linked" />
@@ -236,7 +237,7 @@ const sections = [
     <div class="rail" data-reveal><span class="rail__num">07</span><span class="rail__label">Honest status</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
       The dossier opens with this section before any results, because these facts shape how every
-      number should be read. A defence — or a portfolio — that hides them is not worth much.
+      number should be read. A project page that hides them is not worth much.
     </p>
 
     <div class="notes-grid" data-reveal>
@@ -262,10 +263,10 @@ const sections = [
       </div>
       <div class="note">
         <p class="note__title">What the system is not</p>
-        <p>Not a certified infant monitor — an academic prototype. Not a cause classifier — the model
-        is binary, cry or no cry, deliberately (the BLE packet has one bit for it). Not a replacement
-        for a parent — a second pair of eyes that wakes someone up. And with no battery monitoring at
-        all, by decision.</p>
+        <p>It is not a certified infant monitor; it is an academic prototype. It is not a cause
+        classifier; the model is binary, cry or no cry, on purpose (the BLE packet has one bit for
+        it). And it is not a replacement for a parent. It is a second pair of ears that wakes
+        someone up. There is no battery monitoring either, by decision.</p>
       </div>
     </div>
   </section>
@@ -282,7 +283,7 @@ const sections = [
       <a class="dl" href={url('/docs/crynet-dossier.pdf')} target="_blank" rel="noopener">
         <span class="dl__kind mono">PDF · 21 chapters</span>
         <span class="dl__title">The two-node dossier</span>
-        <span class="dl__note">Every design decision, measurement and dead end, in order — including the ones that changed the design.</span>
+        <span class="dl__note">Every design decision, measurement and dead end, in order, including the ones that changed the design.</span>
         <span class="dl__meta mono">13.9 MB ↗</span>
       </a>
       <a class="dl" href={url('/docs/crynet-wiring.pdf')} target="_blank" rel="noopener">

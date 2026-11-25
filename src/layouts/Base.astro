@@ -59,7 +59,19 @@ const pageTitle = title === site.name ? `${site.name} — ${site.role}` : `${tit
     {ogAbs && <meta name="twitter:image" content={ogAbs} />}
 
     <meta name="theme-color" content="#020404" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- Theme boot: resolve stored/system preference before first paint, no flash. -->
+    <script is:inline>
+      (function () {
+        var t;
+        try { t = localStorage.getItem('theme'); } catch (e) { /* storage blocked */ }
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
 
   <body>
@@ -96,10 +108,8 @@ const pageTitle = title === site.name ? `${site.name} — ${site.role}` : `${tit
 
 <style is:global>
   body {
-    /* subtle grain + vignette so the near-black canvas doesn't look flat */
-    background-image:
-      radial-gradient(1200px 600px at 75% -10%, rgba(45, 212, 191, 0.055), transparent 60%),
-      radial-gradient(900px 500px at 10% 105%, rgba(45, 212, 191, 0.035), transparent 60%);
+    /* subtle grain + vignette so the canvas doesn't look flat (theme-aware) */
+    background-image: var(--body-glow);
     background-repeat: no-repeat;
     background-attachment: fixed;
   }

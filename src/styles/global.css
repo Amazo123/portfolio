@@ -5,6 +5,8 @@
    ========================================================================== */
 
 :root {
+  color-scheme: dark;
+
   /* --- surface --- */
   --bg: #020404;
   --bg-2: #050b0b;
@@ -33,6 +35,22 @@
   --green: #34d399;
   --blue: #7dd3fc;
 
+  /* --- chrome: nav, device enclosures, page glow --- */
+  --nav-bg: rgba(2, 4, 4, 0.82);
+  --device-bg: linear-gradient(180deg, #0a1112, #060b0c);
+  --device-unit: rgba(11, 20, 21, 0.55);
+  --device-unit-hover: rgba(12, 39, 37, 0.5);
+  --device-glow: 0 18px 50px -18px rgba(45, 212, 191, 0.14);
+  --device-inset: inset 0 1px 0 rgba(110, 231, 213, 0.08);
+  --btn-hover-bg: rgba(45, 212, 191, 0.05);
+  --primary-ink: #02110f;
+  --body-glow:
+    radial-gradient(1200px 600px at 75% -10%, rgba(45, 212, 191, 0.055), transparent 60%),
+    radial-gradient(900px 500px at 10% 105%, rgba(45, 212, 191, 0.035), transparent 60%);
+  --portrait-bg:
+    repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(110, 231, 213, 0.035) 12px, rgba(110, 231, 213, 0.035) 24px),
+    linear-gradient(180deg, #0a1112, #060b0c);
+
   --font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
@@ -44,6 +62,55 @@
   --nav-h: 62px;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------------
+   Light theme — same lab, daylight. Canvas turns to paper, accents darken
+   for contrast, device enclosures turn to white plastic. The LCD screens
+   (.screen) stay dark in both themes: a powered panel is a powered panel.
+   ------------------------------------------------------------------------ */
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f6f5f1;
+  --bg-2: #ecece6;
+  --panel: #ffffff;
+  --panel-2: #f1f7f5;
+  --panel-teal: #def2ec;
+  --panel-alert: #fbeceb;
+  --panel-alert-2: #f7dfde;
+
+  --line: #d9dedb;
+  --line-soft: #e7eae5;
+  --line-strong: #b3c5c0;
+
+  --text: #17231f;
+  --muted: #52645e;
+  --dim: #7e8f8a;
+
+  --accent: #0c8577;
+  --accent-hi: #0a6e61;
+  --accent-deep: #0a5d54;
+  --amber: #a16207;
+  --rose: #be123c;
+  --green: #047857;
+  --blue: #0369a1;
+
+  --nav-bg: rgba(246, 245, 241, 0.85);
+  --device-bg: linear-gradient(180deg, #ffffff, #eef1ef);
+  --device-unit: rgba(246, 248, 247, 0.9);
+  --device-unit-hover: rgba(222, 242, 236, 0.9);
+  --device-glow: 0 18px 50px -20px rgba(12, 133, 119, 0.22);
+  --device-inset: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --btn-hover-bg: rgba(12, 133, 119, 0.08);
+  --primary-ink: #ffffff;
+  --body-glow:
+    radial-gradient(1200px 600px at 75% -10%, rgba(12, 133, 119, 0.05), transparent 60%),
+    radial-gradient(900px 500px at 10% 105%, rgba(12, 133, 119, 0.03), transparent 60%);
+  --portrait-bg:
+    repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(12, 133, 119, 0.05) 12px, rgba(12, 133, 119, 0.05) 24px),
+    linear-gradient(180deg, #ffffff, #eef1ef);
 }
 
 /* ------------------------------------------------------------------ reset */
@@ -79,7 +146,7 @@ a { color: inherit; text-decoration: none; }
 
 button, input, textarea, select { font: inherit; color: inherit; }
 
-::selection { background: var(--accent); color: #02110f; }
+::selection { background: var(--accent); color: var(--primary-ink); }
 
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -232,23 +299,25 @@ h1, h2, h3, h4, h5 {
 .btn:hover {
   border-color: var(--accent);
   color: var(--accent-hi);
-  background: rgba(45, 212, 191, 0.05);
+  background: var(--btn-hover-bg);
 }
 
 .btn--primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #02110f;
+  color: var(--primary-ink);
   font-weight: 700;
 }
 .btn--primary:hover {
   background: var(--accent-hi);
   border-color: var(--accent-hi);
-  color: #02110f;
+  color: var(--primary-ink);
 }
 
 .btn__arrow { transition: transform 0.25s var(--ease); }
 .btn:hover .btn__arrow { transform: translateX(3px); }
+
+.btn svg { flex: none; }
 
 /* ------------------------------------------------------------------ cards */
 
@@ -302,6 +371,12 @@ h1, h2, h3, h4, h5 {
 .chip--amber { border-color: rgba(245, 185, 66, 0.35); color: var(--amber); background: rgba(245, 185, 66, 0.06); }
 .chip--rose { border-color: rgba(251, 113, 133, 0.35); color: var(--rose); background: rgba(251, 113, 133, 0.06); }
 .chip--green { border-color: rgba(52, 211, 153, 0.35); color: var(--green); background: rgba(52, 211, 153, 0.06); }
+
+/* light theme: tint chips from the (darker) theme accents so they keep their fill */
+:root[data-theme='light'] .chip--accent { border-color: color-mix(in srgb, var(--accent) 40%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+:root[data-theme='light'] .chip--amber { border-color: color-mix(in srgb, var(--amber) 40%, transparent); background: color-mix(in srgb, var(--amber) 8%, transparent); }
+:root[data-theme='light'] .chip--rose { border-color: color-mix(in srgb, var(--rose) 40%, transparent); background: color-mix(in srgb, var(--rose) 8%, transparent); }
+:root[data-theme='light'] .chip--green { border-color: color-mix(in srgb, var(--green) 40%, transparent); background: color-mix(in srgb, var(--green) 8%, transparent); }
 
 .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
@@ -506,7 +581,7 @@ h1, h2, h3, h4, h5 {
   z-index: 200;
   padding: 0.6rem 1rem;
   background: var(--accent);
-  color: #02110f;
+  color: var(--primary-ink);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   border-radius: var(--radius);
