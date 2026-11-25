@@ -36,7 +36,7 @@ const sections = [
     <div class="rail" data-reveal><span class="rail__num">02</span><span class="rail__label">The ballot flow</span><span class="rail__line"></span></div>
     <ol class="chain" data-reveal>
       <li><span class="mono chain__k">identify</span><span>Voter presents a finger; the AS608 optical module matches against enrolled templates on-module.</span></li>
-      <li><span class="mono chain__k">offer</span><span>Twenty parties, paginated across the 16×4 LCD — four at a time, chosen with the 4×4 keypad. Pagination beats scrolling: the whole option list stays legible at arm's length.</span></li>
+      <li><span class="mono chain__k">offer</span><span>Twenty parties, paginated across the 16×4 LCD, four at a time, chosen with the 4×4 keypad. Pagination beats scrolling: the whole option list stays legible at arm's length.</span></li>
       <li><span class="mono chain__k">confirm</span><span>One confirm step before the ballot is cast, so a mis-key can be recovered without inviting double-voting.</span></li>
       <li><span class="mono chain__k">record</span><span>The ballot goes out over Wi-Fi to the dashboard; the terminal returns to the identify state immediately.</span></li>
     </ol>
@@ -52,12 +52,12 @@ const sections = [
     <p class="body" data-reveal>
       The AS608's optical scan draws a burst of current at exactly the moment the ESP32 is pushing
       a Wi-Fi frame. On a shared, loosely-decoupled rail the result is a voltage dip during the
-      scan — and the MCU resets mid-ballot. A terminal that reboots while someone is voting is not
+      scan, and the MCU resets mid-ballot. A terminal that reboots while someone is voting is not
       a prototype problem; it is the whole product failing at its one job.
     </p>
     <div class="note" data-reveal>
       <p class="note__title">Fix</p>
-      <p><strong>Decoupling capacitors placed for the scan's current burst</strong> — local charge
+      <p><strong>Decoupling capacitors placed for the scan's current burst</strong>, local charge
       storage at the sensor so the dip never reaches the ESP32's brownout detector. Scans stopped
       resetting the board, and the confirm step stopped doubling as a crash reporter.</p>
     </div>
@@ -73,8 +73,8 @@ const sections = [
     <div class="rail" data-reveal><span class="rail__num">04</span><span class="rail__label">The cloud path</span><span class="rail__line"></span></div>
     <dl class="kv" data-reveal>
       <dt>Terminal → cloud</dt><dd>Ballots POST from the ESP32 over Wi-Fi, one HTTP request per verified vote.</dd>
-      <dt>Backend</dt><dd>Neon PostgreSQL — serverless Postgres, free tier — behind a dashboard hosted on Render, also free tier.</dd>
-      <dt>Dashboard</dt><dd>Live tallies per party, updating as votes land — the collation centre reads the same table the terminal writes.</dd>
+      <dt>Backend</dt><dd>Neon PostgreSQL (serverless Postgres, free tier) behind a dashboard hosted on Render, also free tier.</dd>
+      <dt>Dashboard</dt><dd>Live tallies per party, updating as votes land; the collation centre reads the same table the terminal writes.</dd>
     </dl>
     <p class="body" data-reveal>
       The whole pipeline runs on free tiers, end to end. That constraint shaped the design in
@@ -90,7 +90,7 @@ const sections = [
       <div class="stat"><p class="stat__value tnum">20</p><p class="stat__label">Party choices behind fingerprint + keypad, paginated</p></div>
       <div class="stat stat--green"><p class="stat__value tnum">0</p><p class="stat__label">Resets during optical scans after the decoupling fix</p></div>
       <div class="stat"><p class="stat__value tnum">2</p><p class="stat__label">Free-tier services carrying the live tally (Neon, Render)</p></div>
-      <div class="stat stat--amber"><p class="stat__value tnum">demo</p><p class="stat__label">Status — working demonstration build, not fielded equipment</p></div>
+      <div class="stat stat--amber"><p class="stat__value tnum">demo</p><p class="stat__label">Status: working demonstration build, not fielded equipment</p></div>
     </div>
     <p class="body" data-reveal>
       Honest scope: this is a working demonstration of the architecture (biometric gate, paginated

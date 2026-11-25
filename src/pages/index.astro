@@ -9,7 +9,7 @@ import { site } from '../lib/site';
 import { url } from '../lib/url';
 
 const description =
-  'Amazing Adelowo builds embedded systems: firmware, sensors and radios for devices that do their thinking on the chip. Final-year computer engineering student at the University of Maiduguri. On this site: an on-device infant cry monitor, a hackathon-winning attendance terminal, an e-voting machine with live results, and a robot fleet.';
+  'Amazing Adelowo builds embedded systems: firmware, sensors and radios, from standalone edge devices to cloud-connected products. Final-year computer engineering student at the University of Maiduguri. On this site: an on-device infant cry monitor, a hackathon-winning attendance terminal, an e-voting machine with live results, and a robot fleet.';
 
 const toneVar = {
   accent: 'var(--accent)',
@@ -31,9 +31,8 @@ const rack = [
 // Toolbox marquee — two rows, opposite directions. Everything here is
 // verifiable against the resume; nothing aspirational.
 const toolboxA = [
-  'Embedded C', 'C++', 'Python', 'Git & GitHub', 'SQL', 'Proteus', 'Schematic Design',
-  'Breadboarding', 'Veroboard Soldering', 'Oscilloscopes', 'Multimeters', 'Power Budgeting',
-  'On-Device ML · INT8',
+  'Embedded C', 'C++', 'Proteus', 'Schematic Design', 'Breadboarding',
+  'Veroboard Soldering', 'Oscilloscopes', 'On-Device ML · INT8',
 ];
 const toolboxB = [
   'ESP32', 'ESP32-S3', 'ESP32-C3', 'ATmega328P', 'Arduino Uno / Nano', 'Raspberry Pi',
@@ -46,7 +45,7 @@ const toolboxB = [
     <div class="shell hero__grid">
       <p class="hero__eyebrow mono" data-reveal>
         <span class="hero__status-dot" aria-hidden="true"></span>
-        Open to embedded &amp; firmware roles
+        Open to embedded systems engineering roles
       </p>
 
       <h1 class="display" data-reveal style="--delay:60ms">
@@ -59,7 +58,7 @@ const toolboxB = [
       <p class="lede" data-reveal style="--delay:180ms">
         I design and build embedded systems from schematic to firmware: sensors, radios and the
         code that runs on the chip. Recent bench work includes a biometric attendance terminal
-        that took 1st place at our company hackathon, an e-voting machine with live cloud results,
+        that took 1st place at the NASCOMSOFT EMBEDED Hackathon 2.0, an e-voting machine with live cloud results,
         a fleet of three docking robots, and a cot-side cry monitor that runs its neural network
         on the chip itself.
       </p>
@@ -141,8 +140,8 @@ const toolboxB = [
           <p class="stat__label">Party choices on the e-voting terminal, synced live</p>
         </div>
         <div class="stat stat--plain">
-          <p class="stat__value tnum">13</p>
-          <p class="stat__label">Builds documented here · 4 case studies, 9 bench builds</p>
+          <p class="stat__value tnum">11</p>
+          <p class="stat__label">Builds documented here · 4 case studies, 7 bench builds</p>
         </div>
       </div>
     </div>
@@ -174,7 +173,7 @@ const toolboxB = [
         <span class="rail__num">02</span>
         <span class="rail__label">Also on the bench</span>
         <span class="rail__line"></span>
-        <span class="rail__count mono tnum">9 builds</span>
+        <span class="rail__count mono tnum">7 builds</span>
       </div>
       <p class="lede bench__lede" data-reveal>
         Shorter builds: LoRa links, LED matrix boards, veroboard robots. Each one was soldered,
@@ -228,12 +227,12 @@ const toolboxB = [
         <div>
           <h2 class="display--tight" data-reveal>Get in <span class="accent">touch.</span></h2>
           <p class="lede contact__lede" data-reveal style="--delay:80ms">
-            I'm looking for junior embedded and firmware roles, and I'm glad to talk through a
+            I'm looking for embedded systems engineering roles, and I'm glad to talk through a
             hard problem. Email is fastest.
           </p>
         </div>
         <div class="contact__actions" data-reveal style="--delay:140ms">
-          <a class="btn btn--primary" href={`mailto:${site.email}`}>
+          <a class="btn btn--primary" href={site.emailCompose} target="_blank" rel="noopener">
             <Icon name="mail" size={14} />
             <span>{site.email}</span>
           </a>

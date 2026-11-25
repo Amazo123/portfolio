@@ -37,7 +37,8 @@ const coursework = [
       <div class="about__main">
         <p class="lede" data-reveal>
           I'm Amazing Adelowo, a final-year computer engineering student at the University of
-          Maiduguri. I build embedded systems that do their own thinking on the chip.
+          Maiduguri. I build embedded systems, from standalone edge devices to cloud-connected
+          products.
         </p>
         <div class="body about__prose" data-reveal>
           <p>
@@ -60,13 +61,13 @@ const coursework = [
             before touching a breadboard, brought up LoRa and GSM telemetry links, assembled P10
             LED display boards, and learned to troubleshoot at the oscilloscope level. I was also
             product manager and hardware engineer for TEAM RAMP, whose attendance terminal took
-            <strong>1st place overall</strong> at the company's annual hackathon. I also
+            <strong>1st place overall</strong> at the NASCOMSOFT EMBEDED Hackathon 2.0. I also
             volunteered as an instructor at the CEAISES &amp; ATBU children's robotics camp, where
             the team I mentored took <strong>1st place</strong> in the final maze race.
           </p>
           <p>
-            What I'm looking for next: an embedded or firmware role where the hardware sits close
-            to the user, like medical devices, agritech, safety monitors or robotics. I like
+            What I'm looking for next: an embedded systems engineering role where the hardware sits
+            close to the user, like medical devices, agritech, safety monitors or robotics. I like
             evidence. A number off a serial console beats an adjective in a meeting.
           </p>
         </div>
@@ -76,7 +77,7 @@ const coursework = [
             <dt>Currently</dt><dd>Final-year B.Eng. Computer Engineering, University of Maiduguri (expected 2026/27)</dd>
             <dt>Internship</dt><dd>SIWES at NASCOMSOFT EMBEDED LTD, Bauchi, completed Nov 2026 · featured in the NASCOMSOFT Student Spotlight</dd>
             <dt>Location</dt><dd>{site.location}</dd>
-            <dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+            <dt>Email</dt><dd><a href={site.emailCompose} target="_blank" rel="noopener">{site.email}</a></dd>
           </dl>
         </div>
       </div>
@@ -161,11 +162,11 @@ const coursework = [
         <div data-reveal style="--delay:80ms">
           <h3 class="h3">Selected recognition</h3>
           <ul class="recs">
-            <li><strong>1st place overall</strong> — NASCOMSOFT annual hackathon grand finale, TEAM RAMP / AttendX · Oct 2026</li>
-            <li><strong>1st place, Grand Finale Maze Race</strong> — mentored Group Six at the CEAISES & ATBU children's robotics camp · Aug–Sep 2026</li>
-            <li><strong>Student Spotlight</strong> — featured by NASCOMSOFT EMBEDED during my SIWES internship</li>
+            <li><strong>1st place overall</strong> at the NASCOMSOFT EMBEDED Hackathon 2.0 grand finale, TEAM RAMP / AttendX · Oct 2026</li>
+            <li><strong>1st place, Grand Finale Maze Race</strong> · mentored Group Six at the CEAISES & ATBU children's robotics camp · Aug–Sep 2026</li>
+            <li><strong>Student Spotlight</strong> · featured by NASCOMSOFT EMBEDED during my SIWES internship</li>
           </ul>
-          <a class="btn" style="margin-top:1.5rem" href={url('/resume.pdf')}>Full CV — PDF ↗</a>
+          <a class="btn" style="margin-top:1.5rem" href={url('/resume.pdf')}>Full CV · PDF ↗</a>
         </div>
       </div>
     </div>

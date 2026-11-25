@@ -6,18 +6,18 @@ const description =
   'The lab: wiring sheets, the full CryNet project dossier, and bench-log measurements. The flagship build gets the complete paper trail; the other projects carry their numbers in their case studies.';
 
 const sheets = [
-  { n: 1, title: 'System — power chain and links', note: 'The whole loom on one sheet: hub, both cots, wearable, and where every volt comes from.' },
-  { n: 2, title: 'Cot node — complete wiring (×2)', note: 'INMP441 on GPIO4/5/6, the C3 Pro Mini, and nothing else that is not load-bearing.' },
-  { n: 3, title: 'Main hub — complete wiring (×1)', note: 'ESP32-S3-DevKitC-1 N16R8 with the ILI9341 on GPIO10–14 and backlight on GPIO4.' },
-  { n: 4, title: 'Caregiver wearable — complete wiring (×1)', note: 'SSD1306 OLED and the coin ERM behind a BC547 low-side switch with its 22 Ω stall cap.' },
-  { n: 5, title: 'LX-LCBST-TC-001 — pad map and bench procedure', note: 'The charger board: pad map, and the bench procedure for bringing a cell up safely.' },
+  { n: 1, title: 'System: power chain and links', note: 'The whole loom on one sheet: hub, both cots, wearable, and where every volt comes from.' },
+  { n: 2, title: 'Cot node: complete wiring (×2)', note: 'INMP441 on GPIO4/5/6, the C3 Pro Mini, and nothing else that is not load-bearing.' },
+  { n: 3, title: 'Main hub: complete wiring (×1)', note: 'ESP32-S3-DevKitC-1 N16R8 with the ILI9341 on GPIO10–14 and backlight on GPIO4.' },
+  { n: 4, title: 'Caregiver wearable: complete wiring (×1)', note: 'SSD1306 OLED and the coin ERM behind a BC547 low-side switch with its 22 Ω stall cap.' },
+  { n: 5, title: 'LX-LCBST-TC-001: pad map and bench procedure', note: 'The charger board: pad map, and the bench procedure for bringing a cell up safely.' },
 ];
 
 const log = [
   { when: '2026-11-05/06', what: 'Two-cot bench session', got: '993 frames off the air, 993 parsed, 0 bad. Both cot ids survived the flash out of NVS. Node 2 burst: 286/286 fragments in 0.99 s, CRC-32 MATCH. Found a BLE state-publish bug: the wrist read 0 cot(s) until the packet was rebuilt every cycle.' },
-  { when: '2026-11-20', what: 'Wearable on the Li-Po pouch', got: 'The wrist ran from its pouch and kept working — first cell-powered run. The haptic buzz went missing while on the pouch; firmware exonerated, sagging 3.3 V rail is the live candidate. Two cots crying at once staged: mask held 0x03 for 15 s.' },
-  { when: '2026-10', what: 'Confusion session, 9 takes', got: 'Zero false alarms across 308 non-cry windows — speech, music, film, quiet. And the finding that changed the design: a cry at 1 m never crosses the fixed trigger (0/590 records), which is why the adaptive 3× floor exists.' },
-  { when: '2026-10', what: 'Demo session', got: '45 bursts, 45/45 complete — no stall, timeout, CRC error or resend. 26 alerts at P(cry) 0.9922–0.9961, 16 refusals at 0.0078–0.2148. Nothing in between: the gap the announcement rule is built on.' },
+  { when: '2026-11-20', what: 'Wearable on the Li-Po pouch', got: 'The wrist ran from its pouch and kept working, the first cell-powered run. The haptic buzz went missing while on the pouch; firmware exonerated, sagging 3.3 V rail is the live candidate. Two cots crying at once staged: mask held 0x03 for 15 s.' },
+  { when: '2026-10', what: 'Confusion session, 9 takes', got: 'Zero false alarms across 308 non-cry windows: speech, music, film, quiet. And the finding that changed the design: a cry at 1 m never crosses the fixed trigger (0/590 records), which is why the adaptive 3× floor exists.' },
+  { when: '2026-10', what: 'Demo session', got: '45 bursts, 45/45 complete: no stall, timeout, CRC error or resend. 26 alerts at P(cry) 0.9922–0.9961, 16 refusals at 0.0078–0.2148. Nothing in between: the gap the announcement rule is built on.' },
   { when: '2026-09', what: 'Clipping forensics', got: 'Node 2 peaked at 31,801/32,767 and the system named the wrong cot for 42 seconds. Now: any window with a sample ≥ 31,000 is refused outright (CRYNET_CLIP_PEAK).' },
   { when: '2026-09', what: 'Front-end parity campaign', got: 'C vs Python on the log-Mel chain: max deviation 7 × 10⁻⁵ on the host; on-chip ≤ 1 LSB, ≤ 1 % of the 5,184 features differing. The model never sees a different world in the field than it trained in.' },
 ];
@@ -61,7 +61,7 @@ const log = [
             <div class="figure__frame">
               <img src={url(`/img/wiring/sheet-${s.n}.png`)} alt={`Wiring sheet ${s.n}: ${s.title}`} loading="lazy" />
             </div>
-            <figcaption><span class="sheet__num mono tnum">{s.n} / 5</span> — <strong>{s.title}</strong><br />{s.note}</figcaption>
+            <figcaption><span class="sheet__num mono tnum">{s.n} / 5</span> · <strong>{s.title}</strong><br />{s.note}</figcaption>
           </figure>
         ))}
       </div>
@@ -113,7 +113,7 @@ const log = [
             before any results, because that is the order the numbers should be read in.
           </p>
           <div class="dossier__actions" data-reveal>
-            <a class="btn btn--primary" href={url('/docs/crynet-dossier.pdf')} target="_blank" rel="noopener">Read the dossier — PDF · 13.9 MB ↗</a>
+            <a class="btn btn--primary" href={url('/docs/crynet-dossier.pdf')} target="_blank" rel="noopener">Read the dossier (PDF · 13.9 MB) ↗</a>
             <a class="btn" href={url('/work/crynet/')}>Short version: the case study</a>
           </div>
         </div>
@@ -121,10 +121,6 @@ const log = [
           <img src={url('/img/crynet/panel-mock.png')} alt="The redesigned two-cot panel layout, rendered to a mock before flashing" loading="lazy" />
         </div>
       </div>
-      <p class="figure-caption mono" data-reveal>
-        The redesigned two-cot panel, rendered to a mock before flashing: two full-width cards, each
-        with its own level row and its own network bar — no battery line, by decision (D-83).
-      </p>
     </div>
   </section>
 </Base>

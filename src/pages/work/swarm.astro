@@ -9,7 +9,7 @@ const sections = [
   { id: 'overview', label: 'Overview' },
   { id: 'docking', label: 'Electromagnetic docking' },
   { id: 'drive', label: 'Making three robots drive straight' },
-  { id: 'choreography', label: 'The choreography — in progress' },
+  { id: 'choreography', label: 'The choreography (in progress)' },
   { id: 'status', label: 'Status, honestly' },
 ];
 ---
@@ -27,7 +27,7 @@ const sections = [
     <dl class="kv" data-reveal>
       <dt>Fleet</dt><dd>3 × ESP32 robots, independent drive electronics per unit</dd>
       <dt>Drive</dt><dd>L298N dual H-bridges, logic-level MOSFETs switching the electromagnets</dd>
-      <dt>Power</dt><dd>Buck converters stepping the pack down per unit — one regulator per robot, not one shared rail</dd>
+      <dt>Power</dt><dd>Buck converters stepping the pack down per unit: one regulator per robot, not one shared rail</dd>
       <dt>Coordination</dt><dd>Python-side path planning against ArUco markers (in progress)</dd>
     </dl>
   </section>
@@ -41,8 +41,8 @@ const sections = [
       unprotected transistor in a week.
     </p>
     <ul class="body bullets" data-reveal>
-      <li><strong>Flyback protection on every coil.</strong> Freewheeling diodes across each electromagnet give the collapse current somewhere to go — the drivers survived the whole campaign of dock/latch/release cycles.</li>
-      <li><strong>Logic-level MOSFETs as the coil switches.</strong> The ESP32's 3.3 V GPIO drives the gates directly, no gate-driver stage, because the parts were chosen for V<sub>GS(th)</sub> and R<sub>DS(on)</sub> at 3.3 V — not grabbed from a drawer.</li>
+      <li><strong>Flyback protection on every coil.</strong> Freewheeling diodes across each electromagnet give the collapse current somewhere to go; the drivers survived the whole campaign of dock/latch/release cycles.</li>
+      <li><strong>Logic-level MOSFETs as the coil switches.</strong> The ESP32's 3.3 V GPIO drives the gates directly, no gate-driver stage, because the parts were chosen for V<sub>GS(th)</sub> and R<sub>DS(on)</sub> at 3.3 V, not grabbed from a drawer.</li>
       <li><strong>Buck converters per unit.</strong> Motors and coils share nothing electrical with a neighbour: one robot browning out cannot take the formation with it.</li>
     </ul>
   </section>
@@ -70,13 +70,13 @@ const sections = [
 
   <!-- 04 choreography -->
   <section class="cs-section" id="choreography">
-    <div class="rail" data-reveal><span class="rail__num">04</span><span class="rail__label">The choreography — in progress</span><span class="rail__line"></span></div>
+    <div class="rail" data-reveal><span class="rail__num">04</span><span class="rail__label">The choreography (in progress)</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
-      The upper layer — where the swarm <em>decides</em> — is being built: a Python dashboard that
+      The upper layer, where the swarm <em>decides</em>, is being built: a Python dashboard that
       watches the arena through a camera, reads ArUco markers, and plans dock-and-carry sequences.
     </p>
     <dl class="kv" data-reveal>
-      <dt>Markers</dt><dd>3 payload markers + 3 destination markers — nine unique IDs across the fleet and the arena, so every robot knows which payload is its assignment.</dd>
+      <dt>Markers</dt><dd>3 payload markers + 3 destination markers: nine unique IDs across the fleet and the arena, so every robot knows which payload is its assignment.</dd>
       <dt>Planner</dt><dd>Dashboard-driven path planning in Python: camera → marker poses → assignment → per-robot waypoints.</dd>
       <dt>State</dt><dd>Robots dock, latch and drive as a formation; coordinated payload transport under the planner is the part still being finished.</dd>
     </dl>
@@ -96,7 +96,7 @@ const sections = [
       <div class="stat"><p class="stat__value tnum">3</p><p class="stat__label">Robots built, each with independent drive + magnet electronics</p></div>
       <div class="stat stat--green"><p class="stat__value tnum">±straight</p><p class="stat__label">Per-wheel PWM calibration against a marked line</p></div>
       <div class="stat"><p class="stat__value tnum">9</p><p class="stat__label">Unique ArUco IDs across payload and destination markers</p></div>
-      <div class="stat stat--amber"><p class="stat__value">open</p><p class="stat__label">Planner-driven formation transport — the chapter in progress</p></div>
+      <div class="stat stat--amber"><p class="stat__value">open</p><p class="stat__label">Planner-driven formation transport, the chapter in progress</p></div>
     </div>
     <p class="body" data-reveal>
       What stands: three working robots, protected electromagnetic coupling, calibrated formation

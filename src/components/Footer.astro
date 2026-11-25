@@ -4,14 +4,13 @@ import { url } from '../lib/url';
 import Icon from './Icon.astro';
 
 const year = new Date().getFullYear();
-const updated = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
 ---
 <footer class="footer">
   <div class="shell footer__inner">
     <div class="footer__grid">
       <div class="footer__col">
         <p class="footer__heading mono">Contact</p>
-        <a class="footer__link" href={`mailto:${site.email}`}>
+        <a class="footer__link" href={site.emailCompose} target="_blank" rel="noopener">
           <Icon name="mail" size={14} />
           <span>{site.email}</span>
         </a>
@@ -31,7 +30,7 @@ const updated = new Date().toLocaleString('en-US', { month: 'long', year: 'numer
         </a>
         <a class="footer__link" href={url('/resume.pdf')}>
           <Icon name="resume" size={14} />
-          <span>Resume — PDF</span>
+          <span>Resume · PDF</span>
         </a>
       </div>
 
@@ -39,18 +38,14 @@ const updated = new Date().toLocaleString('en-US', { month: 'long', year: 'numer
         <p class="footer__heading mono">Currently</p>
         <p class="footer__meta">
           Final-year B.Eng. Computer Engineering at the University of Maiduguri. Finished my SIWES
-          internship at NASCOMSOFT EMBEDED, Bauchi in November. Open to embedded / firmware roles
-          and internships.
+          internship at NASCOMSOFT EMBEDED, Bauchi in November. Open to embedded systems
+          engineering roles and internships.
         </p>
       </div>
     </div>
 
     <div class="footer__base">
       <p class="footer__meta mono">© {year} {site.name}</p>
-      <p class="footer__meta mono footer__live">
-        <span class="footer__pulse" aria-hidden="true"></span>
-        Actively maintained · Updated {updated}
-      </p>
       <p class="footer__meta mono">{site.location}</p>
     </div>
   </div>
@@ -99,15 +94,6 @@ const updated = new Date().toLocaleString('en-US', { month: 'long', year: 'numer
   }
 
   .footer__live { display: inline-flex; align-items: center; gap: 0.5rem; }
-
-  .footer__pulse {
-    width: 7px;
-    height: 7px;
-    flex: none;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 8px var(--green);
-  }
 
   @media (max-width: 760px) {
     .footer__grid { grid-template-columns: 1fr; gap: 1.75rem; }

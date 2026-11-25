@@ -18,13 +18,13 @@ const sections = [
   <section class="cs-section" id="overview">
     <div class="rail" data-reveal><span class="rail__num">01</span><span class="rail__label">Overview</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
-      AttendX is a biometric staff attendance terminal, built for the NASCOMSOFT annual hackathon
-      over five weeks as <strong>TEAM RAMP</strong>, a four-person team I coordinated as product
+      AttendX is a biometric staff attendance terminal, built for the NASCOMSOFT EMBEDED
+      Hackathon 2.0 over five weeks as <strong>TEAM RAMP</strong>, a four-person team I coordinated as product
       manager and hardware engineer. The idea: clock in with a finger instead of a signature, and
       make sure nobody can clock in for somebody else.
     </p>
     <dl class="kv" data-reveal>
-      <dt>Team</dt><dd>4 people — I owned the physical build end to end and coordinated the product</dd>
+      <dt>Team</dt><dd>4 people; I owned the physical build end to end and coordinated the product</dd>
       <dt>Timeline</dt><dd>5 weeks (Aug – Oct 2026), grand finale 10 October 2026</dd>
       <dt>Core parts</dt><dd>ESP32-S3-CAM · SFM-V1.7 capacitive fingerprint module · 16×2 I²C LCD · 4×4 keypad · 3D-printed enclosure</dd>
     </dl>
@@ -72,14 +72,14 @@ const sections = [
   <section class="cs-section" id="finale">
     <div class="rail" data-reveal><span class="rail__num">04</span><span class="rail__label">Two days before the finale</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
-      The fingerprint modules arrived late — two days before the grand finale. There was no version
+      The fingerprint modules arrived late, two days before the grand finale. There was no version
       of the demo without them, so the last two days became a bring-up sprint: get an unfamiliar
       sensor talking on an unfamiliar board, on deadline.
     </p>
     <ul class="body bullets" data-reveal>
-      <li><strong>UART first.</strong> Wiring, voltage levels and baud verified point to point with a multimeter and logic probing before any library was trusted — the module speaks a specific UART protocol and every symptom, from silence to garbage bytes, traced back to levels or wiring.</li>
+      <li><strong>UART first.</strong> Wiring, voltage levels and baud verified point to point with a multimeter and logic probing before any library was trusted; the module speaks a specific UART protocol and every symptom, from silence to garbage bytes, traced back to levels or wiring.</li>
       <li><strong>Then power.</strong> The sensor's current draw on a shared rail showed brownout-shaped behaviour during capture; separating the supply path settled it.</li>
-      <li><strong>Result:</strong> a working physical demo on finale day — fingerprint clock-ins, PIN fallback with snapshot, the full loop on the enclosed terminal.</li>
+      <li><strong>Result:</strong> a working physical demo on finale day: fingerprint clock-ins, PIN fallback with snapshot, the full loop on the enclosed terminal.</li>
     </ul>
   </section>
 
@@ -87,13 +87,13 @@ const sections = [
   <section class="cs-section" id="result">
     <div class="rail" data-reveal><span class="rail__num">05</span><span class="rail__label">The result</span><span class="rail__line"></span></div>
     <div class="stats" data-reveal>
-      <div class="stat stat--amber"><p class="stat__value">1st place</p><p class="stat__label">Overall — NASCOMSOFT hackathon grand winner, TEAM RAMP</p></div>
+      <div class="stat stat--amber"><p class="stat__value">1st place</p><p class="stat__label">Overall, NASCOMSOFT EMBEDED Hackathon 2.0 grand winner</p></div>
       <div class="stat"><p class="stat__value tnum">4</p><p class="stat__label">Person team, coordinated as PM & hardware engineer</p></div>
       <div class="stat"><p class="stat__value tnum">2 days</p><p class="stat__label">From late sensor delivery to working demo</p></div>
       <div class="stat"><p class="stat__value tnum">1</p><p class="stat__label">Design decision that closed the system's own hole</p></div>
     </div>
     <p class="body" data-reveal>
-      TEAM RAMP took <strong>1st place overall</strong> at the NASCOMSOFT annual hackathon grand
+      TEAM RAMP took <strong>1st place overall</strong> at the NASCOMSOFT EMBEDED Hackathon 2.0 grand
       finale. For me this project is the smallest complete example of how I like to work: own the
       physical build, wire it so failures are visible, and take the system's design hole as
       seriously as its feature list.
