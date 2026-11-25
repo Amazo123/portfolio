@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazing Adelowo — Resume</title>
+  <style>
+    /* Harvard Resume Template Format — Calibri Typography (2-Page Max Layout) */
+    @page {
+      size: letter;
+      margin: 0.55in 0.6in;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Calibri, 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      color: #000000;
+      background-color: #ffffff;
+      line-height: 1.25;
+      font-size: 10pt;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .no-print {
+      max-width: 8.5in;
+      margin: 12px auto 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    .print-tip {
+      font-size: 12px;
+      color: #475569;
+    }
+
+    .btn-print {
+      background: #1e293b;
+      color: #ffffff;
+      border: 1px solid #0f172a;
+      padding: 6px 14px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-print:hover {
+      background: #000000;
+    }
+
+    .resume-page {
+      max-width: 8.5in;
+      margin: 0 auto 30px;
+      padding: 0.55in 0.6in;
+      background: #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 10pt;
+    }
+
+    .header h1 {
+      font-size: 16pt;
+      font-weight: bold;
+      letter-spacing: 0.5pt;
+      text-transform: uppercase;
+      margin-bottom: 2pt;
+    }
+
+    .header .contact-line {
+      font-size: 9.5pt;
+      line-height: 1.35;
+      color: #000000;
+    }
+
+    .header .contact-line a {
+      color: #000000;
+      text-decoration: underline;
+    }
+
+    /* Section Headers */
+    .section-title {
+      font-size: 11pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5pt;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 1pt;
+      margin-top: 8pt;
+      margin-bottom: 3.5pt;
+    }
+
+    /* Two-column rows */
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 10pt;
+    }
+
+    .row-bold {
+      font-weight: bold;
+      font-size: 10.5pt;
+    }
+
+    .row-italic {
+      font-style: italic;
+    }
+
+    .entry {
+      margin-bottom: 5pt;
+    }
+
+    .entry:last-child {
+      margin-bottom: 1pt;
+    }
+
+    /* Bullet Lists */
+    ul.bullets {
+      list-style-type: disc;
+      margin-left: 17pt;
+      margin-top: 1.5pt;
+      margin-bottom: 1.5pt;
+    }
+
+    ul.bullets li {
+      font-size: 10pt;
+      line-height: 1.25;
+      margin-bottom: 1.5pt;
+      text-align: justify;
+    }
+
+    /* Skills */
+    .skills-block {
+      font-size: 9.5pt;
+      line-height: 1.32;
+    }
+
+    .skills-block p {
+      margin-bottom: 1.8pt;
+    }
+
+    .skills-block strong {
+      font-weight: bold;
+    }
+
+    @media print {
+      @page {
+        margin: 0.55in 0.6in;
+      }
+
+      body {
+        background: none;
+        color: #000;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .resume-page {
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        max-width: 100%;
+      }
+
+      a {
+        color: #000 !important;
+        text-decoration: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="no-print">
+    <span class="print-tip">💡 <strong>PDF Tip:</strong> In your browser's Print window, uncheck <em>"Headers and footers"</em> to remove page URLs and timestamps.</span>
+    <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <div class="resume-page">
+
+    <!-- HEADER -->
+    <div class="header">
+      <h1>Amazing Adelowo</h1>
+      <div class="contact-line">
+        Maiduguri / Bauchi, Nigeria • amazingadelowo@gmail.com • +234 901 877 8748<br>
+        <a href="https://www.linkedin.com/in/amazing-adelowo-15b129200/" target="_blank">linkedin.com/in/amazing-adelowo-15b129200</a> • <a href="https://github.com/Amazo123" target="_blank">github.com/Amazo123</a> • <a href="https://amazingadelowo.pages.dev/" target="_blank">amazingadelowo.pages.dev</a>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section-title">Education</div>
+    <div class="entry">
+      <div class="row row-bold">
+        <span>University of Maiduguri</span>
+        <span>Maiduguri, Borno State, Nigeria</span>
+      </div>
+      <div class="row row-italic">
+        <span>Bachelor of Engineering (B.Eng.) in Computer Engineering</span>
+        <span>Expected: 2026/2027</span>
+      </div>
+      <ul class="bullets">
+        <li><strong>Final-Year Project:</strong> Design and Construction of a Two-Node Infant Cry Detection System with Wearable Caregiver Alert.</li>
+        <li><strong>Relevant Coursework:</strong> Microprocessor Systems, Embedded Systems Design, Digital Electronics & Logic Design, Control Systems, Computer Architecture, Data Communications & Networks, Signals & Systems.</li>
+      </ul>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section-title">Hardware & Embedded Engineering Experience</div>
+
+    <div class="entry">
+      <div class="row row-bold">
+        <span>NASCOMSOFT EMBEDED LTD</span>
+        <span>Bauchi, Nigeria</span>
+      </div>
+      <div class="row row-italic">
+        <span>Embedded Systems Intern</span>
+        <span>June 2026 – November 2026</span>
+      </div>
+      <ul class="bullets">
+        <li>Featured in the NASCOMSOFT Student Spotlight for hands-on project contributions and supporting intern hardware teams.</li>
+        <li>Simulated circuits in Proteus (microcontrollers, LCDs, motor drivers, logic) to check pinouts and power limits before breadboarding and veroboard assembly.</li>
+        <li>Built and tested wireless sensor nodes using RA-02 LoRa (sub-GHz) and SIM800L GSM modules for remote data telemetry and automated SMS alerts.</li>
+        <li>Designed circuit schematics and wrote C/C++ firmware for municipal automation rigs: an ATmega328P dual-LDR streetlight controller with relay switching, and an automated soil-moisture irrigation rig.</li>
+        <li>Assembled 4ft × 1.5ft outdoor P10 LED matrix display boards; wired 5V/4A power supplies, balanced current draw across panels, and routed bus lines.</li>
+        <li>Inspected and troubleshooted prototypes using multimeters and oscilloscopes to check logic voltage levels, PWM switching, and power rail noise.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="row row-bold">
+        <span>TEAM RAMP (NASCOMSOFT EMBEDED LTD Annual Hackathon)</span>
+        <span>Bauchi, Nigeria</span>
+      </div>
+      <div class="row row-italic">
+        <span>Product Manager & Hardware Engineer</span>
+        <span>August 2026 – October 2026</span>
+      </div>
+      <ul class="bullets">
+        <li><strong>Won 1st Place Overall (Grand Winner)</strong> among all competing hardware and software teams for developing AttendX, an IoT biometric staff attendance terminal.</li>
+        <li>Coordinated the 4-person team, structured product deliverables, and co-designed the terminal hardware and finale presentation.</li>
+        <li>Built the physical terminal using an ESP32-S3-CAM, an SFM-V1.7 capacitive fingerprint module, an I2C 16x2 LCD, and a 4x4 keypad inside a 3D-printed enclosure.</li>
+        <li>Wired an automatic camera snapshot fallback that triggers whenever an employee clocks in via keypad PIN instead of fingerprint, preventing proxy attendance.</li>
+        <li>Troubleshooted late sensor delivery 2 days before the finale, verifying UART communication and power rails to deliver a working physical demo to the judges.</li>
+      </ul>
+    </div>
+
+    <!-- HARDWARE & EMBEDDED PROJECTS -->
+    <div class="section-title">Hardware & Embedded Projects</div>
+
+    <div class="entry">
+      <div class="row row-bold">
+        <span>Two-Node Infant Cry Detection System with Wearable Alert</span>
+        <span>2026</span>
+      </div>
+      <div class="row row-italic">
+        <span>ESP32-S3 Hub · 2× ESP32-C3 + INMP441 Audio Nodes · Haptic Wearable · BLE · INT8 On-Chip</span>
+        <span>Final-Year Capstone Project</span>
+      </div>
+      <ul class="bullets">
+        <li>Built a two-node cot-side cry monitor end to end — two ESP32-C3 + INMP441 audio nodes, an ESP32-S3 hub (16 MB flash / 8 MB PSRAM), and a haptic caregiver wearable — with the 135 KB INT8 neural network running entirely on-chip, so no cloud sits in the alert path (github.com/Amazo123/CryNet-TwoNode).</li>
+        <li>Measured <strong>test AUC 0.9993 (INT8)</strong> and <strong>0 false alarms across 308 non-cry bench windows</strong> (speech, music, film, quiet); all 45 demo alert bursts arrived complete — no stalls, timeouts or CRC errors.</li>
+        <li>Hand-wrote the log-Mel DSP front end twice — C for the chip, Python for training — and verified parity: max deviation 7×10⁻⁵ on the host, ≤1 LSB on-chip across the 5,184-feature chain.</li>
+        <li>Derived the alert policy from bench data: an adaptive 3× noise floor (a cry at 1 m never crossed the fixed trigger — 0/590), an announcement-gap rule (26 alerts at P(cry) ≥ 0.99 vs 16 refusals ≤ 0.21, nothing in between), and a clipping guard (windows ≥31,000/32,767 refused) after a clipped recording made the hub name the wrong cot for 42 s.</li>
+        <li>Powered the wearable from a 3.7 V Li-ion pouch cell with TP4056 charging, BLE alerts driving an ERM haptic through a BC547 low-side switch — validated on a cell-powered bench run.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="row row-bold">
+        <span>Biometric E-Voting Machine with Cloud Sync</span>
+        <span>2026</span>
+      </div>
+      <div class="row row-italic">
+        <span>ESP32, AS608 Optical Fingerprint, 16x4 LCD, 4x4 Keypad, Neon PostgreSQL, Render</span>
+        <span>Lead Hardware Developer</span>
+      </div>
+      <ul class="bullets">
+        <li>Built a standalone voting machine with fingerprint authentication and local hardware checks to stop duplicate voting.</li>
+        <li>Connected an AS608 optical fingerprint reader to an ESP32 over UART, adding decoupling capacitors to prevent brownout resets during optical scans.</li>
+        <li>Built an interactive menu on a 16×4 LCD and 4×4 keypad that paginates through 20 political party choices using navigation keys.</li>
+        <li>Sent live vote tallies over Wi-Fi to a Render-hosted dashboard backed by a Neon PostgreSQL cloud database.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="row row-bold">
+        <span>Swarm Robotics Fleet with Electromagnets & Motor Calibration</span>
+        <span>2026</span>
+      </div>
+      <div class="row row-italic">
+        <span>ESP32, L298N Motor Drivers, Logic-Level MOSFETs, Buck Converters, Python</span>
+        <span>Hardware & Robotics Engineer</span>
+      </div>
+      <ul class="bullets">
+        <li>Built three mobile robots carrying downward-facing electromagnets to pick up and transport metal plate payloads.</li>
+        <li>Used L298N dual H-bridge motor drivers and step-down DC-DC buck converters to power ESP32 boards cleanly from battery packs.</li>
+        <li>Wired logic-level MOSFET switches with flyback protection diodes to drive the electromagnets from ESP32 GPIO pins.</li>
+        <li>Tuned motor PWM values in code to correct for physical differences between DC motors, keeping robots driving straight.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="row row-bold">
+        <span>Autonomous Obstacle-Avoidance Robot (Veroboard Build)</span>
+        <span>2026</span>
+      </div>
+      <div class="row row-italic">
+        <span>ATmega328P DIP-28, HC-SR04 Ultrasonic, L298N, DC Motors, Veroboard Soldering</span>
+        <span>Hardware Prototyper</span>
+      </div>
+      <ul class="bullets">
+        <li>Built an autonomous obstacle robot from scratch on veroboard by soldering an ATmega328P DIP chip, 16MHz crystal, capacitors, and an L298N motor driver without an Arduino board.</li>
+        <li>Connected an HC-SR04 ultrasonic sensor with a 20 cm trigger limit to detect walls and obstacles.</li>
+        <li>Wrote motor control code to stop one wheel and turn the other when an obstacle is detected, steering the robot away cleanly.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="row row-bold">
+        <span>Remote-Controlled Hazard-Detection Vehicle</span>
+        <span>2026</span>
+      </div>
+      <div class="row row-italic">
+        <span>Arduino Nano, ESP32-CAM, HC-SR04 Ultrasonic, L298N, Bluetooth</span>
+        <span>Embedded Hardware Developer</span>
+      </div>
+      <ul class="bullets">
+        <li>Built a 4-wheel drive vehicle with directional obstacle interlocks using front and rear ultrasonic sensors.</li>
+        <li>Programmed control logic that blocks forward movement when a front obstacle is detected while still allowing the vehicle to reverse or turn, and blocks reverse movement when an obstacle is behind.</li>
+        <li>Mounted an ESP32-CAM running an on-device machine learning model to spot road hazards like potholes and puddles, triggering a warning buzzer.</li>
+        <li>Interfaced an Arduino Nano with an L298N motor driver and Bluetooth module for smartphone teleoperation.</li>
+      </ul>
+    </div>
+
+    <!-- LEADERSHIP & ACTIVITIES -->
+    <div class="section-title">Leadership & Activities</div>
+    <div class="entry">
+      <div class="row row-bold">
+        <span>Centre for Embedded AI & Smart Energy Systems (CEAISES) & ATBU</span>
+        <span>Bauchi, Nigeria</span>
+      </div>
+      <div class="row row-italic">
+        <span>Robotics & Electronics Volunteer Instructor</span>
+        <span>August 2026 – September 2026</span>
+      </div>
+      <ul class="bullets">
+        <li>Taught young students basic electronics, breadboard wiring, and sensor interfacing (ultrasonic, IR, servos) in a 4-week camp.</li>
+        <li>Mentored Group Six through building and programming an obstacle-avoiding robot, winning <strong>1st Place in the Grand Finale Maze Race</strong>.</li>
+      </ul>
+    </div>
+
+    <!-- SKILLS & INTERESTS -->
+    <div class="section-title">Skills & Interests</div>
+    <div class="skills-block">
+      <p><strong>Hardware & Prototyping:</strong> Schematic Design, Circuit Simulation (Proteus), Breadboarding, Veroboard Soldering, Oscilloscopes & Multimeters, Power Budgeting, Component Sourcing.</p>
+      <p><strong>Microcontrollers & Processors:</strong> ESP32 (ESP32, S3, C3 SuperMini, CAM), ATmega328P, Arduino (Uno, Nano), Raspberry Pi (Linux/SSH). </p>
+      <p><strong>Sensors, Actuators & Power:</strong> SFM-V1.7 Capacitive & AS608 Optical Fingerprint, INMP441 (I2S), MPU6050, Ultrasonic (HC-SR04), PIR, DC Motors, L298N Drivers, Servos, Electromagnets, Relays, Buck Converters, TP4056 Li-Ion Chargers, Solar Panels.</p>
+      <p><strong>Protocols & Buses:</strong> I2C, SPI, UART, I2S (Digital Audio), GPIO, PWM, ADC/DAC.</p>
+      <p><strong>Wireless & IoT:</strong> Wi-Fi, Bluetooth / BLE, LoRa (RA-02), GSM (SIM800L), GPS.</p>
+      <p><strong>Software & Programming:</strong> Embedded C, C++, Python, Git, GitHub, SQL basics, on-device ML (INT8 quantisation).</p>
+      <p><strong>Interests:</strong> Embedded automation, robotics, circuit design, hackathons, football.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
