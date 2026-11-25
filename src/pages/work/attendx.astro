@@ -1,0 +1,110 @@
+---
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import { caseStudies } from '../../lib/projects';
+import { url } from '../../lib/url';
+
+const project = caseStudies[1];
+
+const sections = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'terminal', label: 'The terminal' },
+  { id: 'proxy', label: 'The proxy-attendance trap' },
+  { id: 'finale', label: 'Two days before the finale' },
+  { id: 'result', label: 'The result' },
+];
+---
+<CaseLayout project={project} sections={sections} prev={{ slug: 'crynet', title: 'CryNet' }} next={{ slug: 'evoting', title: 'Biometric e-voting' }}>
+  <!-- 01 overview -->
+  <section class="cs-section" id="overview">
+    <div class="rail" data-reveal><span class="rail__num">01</span><span class="rail__label">Overview</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      AttendX is a biometric staff attendance terminal, built for the NASCOMSOFT annual hackathon
+      over five weeks as <strong>TEAM RAMP</strong> — a four-person team I coordinated as product
+      manager and hardware engineer. The idea: clock in with a finger, not a signature — and make
+      sure nobody can clock in for somebody else.
+    </p>
+    <dl class="kv" data-reveal>
+      <dt>Team</dt><dd>4 people — I owned the physical build end to end and coordinated the product</dd>
+      <dt>Timeline</dt><dd>5 weeks (Aug – Oct 2026), grand finale 10 October 2026</dd>
+      <dt>Core parts</dt><dd>ESP32-S3-CAM · SFM-V1.7 capacitive fingerprint module · 16×2 I²C LCD · 4×4 keypad · 3D-printed enclosure</dd>
+    </dl>
+  </section>
+
+  <!-- 02 the terminal -->
+  <section class="cs-section" id="terminal">
+    <div class="rail" data-reveal><span class="rail__num">02</span><span class="rail__label">The terminal</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      The terminal walks a member through one interaction: identify on the LCD, present a finger or
+      a PIN, get a verdict in the time it takes to put a hand down. Everything on the bench was
+      wired and spoken for before the enclosure was designed around it.
+    </p>
+    <ul class="body bullets" data-reveal>
+      <li><strong>Enrolment and matching on-module.</strong> The SFM-V1.7 capacitive sensor keeps templates inside the module itself, so the terminal works with no network and no database to lose.</li>
+      <li><strong>Two clock-in paths.</strong> Fingerprint for the honest path; a 4×4 keypad PIN as the fallback for a damaged or bandaged finger — and the fallback is where the interesting engineering lives.</li>
+      <li><strong>A visible, auditable state machine.</strong> The 16×2 LCD mirrors the terminal's state at every step: waiting → identifying → matched/rejected → logged, so a failure is never silent.</li>
+      <li><strong>Built, not drawn.</strong> The whole terminal — camera, sensor, LCD, keypad — lives in a 3D-printed enclosure that was measured from the actual wiring loom, not from the schematic.</li>
+    </ul>
+  </section>
+
+  <!-- 03 proxy -->
+  <section class="cs-section" id="proxy">
+    <div class="rail" data-reveal><span class="rail__num">03</span><span class="rail__label">The proxy-attendance trap</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      Every attendance system has a hole, and ours was obvious: the keypad PIN path. A friend with
+      your PIN can clock you in from a car park. Removing the PIN would have punished everyone with
+      a genuine fingerprint problem — so instead, <strong>the fallback stops being anonymous</strong>.
+    </p>
+    <div class="note" data-reveal>
+      <p class="note__title">Design decision</p>
+      <p>The moment an employee clocks in by keypad PIN instead of fingerprint, the ESP32-S3-CAM
+      fires an <strong>automatic camera snapshot</strong> and attaches it to that log entry. The PIN
+      path still works for the person it was built for — but proxy attendance now leaves a face
+      next to the record.</p>
+    </div>
+    <p class="body" data-reveal>
+      It is the cheapest possible anti-spoofing: no extra sensor, no model to run, one wire of
+      logic between "PIN accepted" and "camera captures". Designing the hole to close itself was
+      the part judges remembered.
+    </p>
+  </section>
+
+  <!-- 04 finale -->
+  <section class="cs-section" id="finale">
+    <div class="rail" data-reveal><span class="rail__num">04</span><span class="rail__label">Two days before the finale</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      The fingerprint modules arrived late — two days before the grand finale. There was no version
+      of the demo without them, so the last two days became a bring-up sprint: get an unfamiliar
+      sensor talking on an unfamiliar board, on deadline.
+    </p>
+    <ul class="body bullets" data-reveal>
+      <li><strong>UART first.</strong> Wiring, voltage levels and baud verified point to point with a multimeter and logic probing before any library was trusted — the module speaks a specific UART protocol and every symptom, from silence to garbage bytes, traced back to levels or wiring.</li>
+      <li><strong>Then power.</strong> The sensor's current draw on a shared rail showed brownout-shaped behaviour during capture; separating the supply path settled it.</li>
+      <li><strong>Result:</strong> a working physical demo on finale day — fingerprint clock-ins, PIN fallback with snapshot, the full loop on the enclosed terminal.</li>
+    </ul>
+  </section>
+
+  <!-- 05 result -->
+  <section class="cs-section" id="result">
+    <div class="rail" data-reveal><span class="rail__num">05</span><span class="rail__label">The result</span><span class="rail__line"></span></div>
+    <div class="stats" data-reveal>
+      <div class="stat stat--amber"><p class="stat__value">1st place</p><p class="stat__label">Overall — NASCOMSOFT hackathon grand winner, TEAM RAMP</p></div>
+      <div class="stat"><p class="stat__value tnum">4</p><p class="stat__label">Person team, coordinated as PM & hardware engineer</p></div>
+      <div class="stat"><p class="stat__value tnum">2 days</p><p class="stat__label">From late sensor delivery to working demo</p></div>
+      <div class="stat"><p class="stat__value tnum">1</p><p class="stat__label">Design decision that closed the system's own hole</p></div>
+    </div>
+    <p class="body" data-reveal>
+      TEAM RAMP took <strong>1st place overall</strong> at the NASCOMSOFT annual hackathon grand
+      finale. For me the project is the smallest complete proof of how I like to work: own the
+      physical build, wire it so failures are visible, and treat the system's design hole as
+      seriously as its feature list.
+    </p>
+  </section>
+</CaseLayout>
+
+<style>
+  .bullets { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .bullets li { padding-left: 1.1rem; position: relative; color: var(--muted); }
+  .bullets li::before { content: '▪'; position: absolute; left: 0; color: var(--amber); }
+  .bullets :global(strong) { color: var(--text); font-weight: 500; }
+  .note { margin-top: 1.5rem; }
+</style>

@@ -1,0 +1,377 @@
+---
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import Tft from '../../components/Tft.astro';
+import { caseStudies } from '../../lib/projects';
+import { url } from '../../lib/url';
+
+const project = caseStudies[0];
+
+const sections = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'chain', label: 'The chain' },
+  { id: 'hardware', label: 'Hardware' },
+  { id: 'model', label: 'The model' },
+  { id: 'results', label: 'Results' },
+  { id: 'dashboard', label: 'The dashboard' },
+  { id: 'honest', label: 'Honest status' },
+  { id: 'build', label: 'Build it yourself' },
+];
+---
+<CaseLayout project={project} sections={sections} prev={{ slug: 'swarm', title: 'Swarm robotics' }} next={{ slug: 'attendx', title: 'AttendX' }}>
+  <!-- 01 overview -->
+  <section class="cs-section" id="overview">
+    <div class="rail" data-reveal><span class="rail__num">01</span><span class="rail__label">Overview</span><span class="rail__line"></span></div>
+
+    <p class="body" data-reveal>
+      CryNet is a monitor for a room with more than one cot — a NICU bay, a maternity ward, a
+      daycare, a twin nursery. Two microphone nodes sit with the cots, one at each. Each samples
+      its own microphone continuously and decides for itself when something interesting has
+      happened; when it does, it hands its two seconds of audio to a central hub over a short-range
+      radio link. The hub reassembles the audio, runs a small neural network over it, and decides
+      whether that sound is an infant cry. If it is, the hub names the cot on its display and
+      raises an alert over Bluetooth, which a caregiver's wristband turns into a vibration.
+    </p>
+
+    <div class="choose" data-reveal>
+      <div class="note">
+        <p class="note__title">Choice 1 — who speaks</p>
+        <p><strong>The nodes decide when to speak; the hub decides what it means.</strong>
+        A node that hears nothing interesting sends almost nothing. This is what makes the radio
+        work with two nodes sharing one channel, and what keeps a battery node alive for a whole shift.</p>
+      </div>
+      <div class="note">
+        <p class="note__title">Choice 2 — who thinks</p>
+        <p><strong>Only the hub runs the model.</strong> One ESP32-S3 with 8 MB of PSRAM is a far
+        better place for a neural network than two small battery-powered nodes — and the model can
+        be retrained and re-flashed in one place instead of at every cot.</p>
+      </div>
+      <div class="note">
+        <p class="note__title">Choice 3 — who warns</p>
+        <p><strong>The wearable is a dumb, reliable terminal.</strong> It runs no model. It receives
+        an alert and vibrates. Everything about it is about being trusted to say something the
+        caregiver must not miss.</p>
+      </div>
+    </div>
+
+    <div class="media-grid media-grid--2" data-reveal>
+      <Tft src={url('/img/crynet/tft-listening.png')} bezel={false} alt="Hub panel, listening: two cot cards online" caption="LISTENING — two cots linked, live level bars per cot" />
+      <Tft src={url('/img/crynet/tft-alert.png')} bezel={false} alt="Hub panel with a cry detected on cot one, named, at 97 percent" caption="CRY DETECTED — cot named, confidence on the panel" />
+    </div>
+    <p class="figure-caption mono" data-reveal>panel renders from the running hub · ILI9341 · 320×240 · the same pixels the device draws</p>
+  </section>
+
+  <!-- 02 the chain -->
+  <section class="cs-section" id="chain">
+    <div class="rail" data-reveal><span class="rail__num">02</span><span class="rail__label">The chain</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      The path of a cry, with the constants the firmware actually uses:
+    </p>
+
+    <ol class="chain" data-reveal>
+      <li><span class="mono chain__k">capture</span><span>16 kHz, 16-bit I²S off the INMP441, continuously. The node removes the DC bias the microphone sits at (~+18000 counts).</span></li>
+      <li><span class="mono chain__k">track the floor</span><span>A running noise floor: <code>g_floor += (g_rms − g_floor) × 0.002</code> — slow enough to ride out a scream, fast enough to follow a room.</span></li>
+      <li><span class="mono chain__k">trigger</span><span>Level = 3 × floor, clamped to [0.005, 0.030]. Crossing it freezes a two-second window <em>centred</em> on the crossing — the onset is kept, not clipped off.</span></li>
+      <li><span class="mono chain__k">offer</span><span>The node streams the window as a 286-fragment ESP-NOW burst — per-fragment CRC-16, whole-window CRC-32 — and holds it until the hub pulls it.</span></li>
+      <li><span class="mono chain__k">pull</span><span>The hub arbitrates between cots, reassembles the audio, and refuses the window outright if any sample clipped (peak ≥ 31,000 of 32,767 — a saturation that once made it name the wrong cot for 42 seconds).</span></li>
+      <li><span class="mono chain__k">front end</span><span>Zero-padded 512-pt Hann FFT, 81 frames at hop 400 → 257 bins → 64 log-Mel bands → dB floored at −80 → per-window standardisation. All hand-written C on the ESP-DSP FFT: <strong>41.7 ms</strong>.</span></li>
+      <li><span class="mono chain__k">decide</span><span>INT8 quantisation, TFLite Micro invoke with ESP-NN SIMD kernels: <strong>101.8 ms</strong> for a 122,770-parameter CNN.</span></li>
+      <li><span class="mono chain__k">announce</span><span>Only a near-saturated window announces alone; otherwise two consecutive windows must agree, the second carrying real energy and the right crest. On real room audio the model never sits between P(cry) 0.215 and 0.992 — the rule is built on that gap.</span></li>
+      <li><span class="mono chain__k">reach the wrist</span><span>A six-byte alert packet over BLE → 2.5 s haptic pulse train and a screen that names <em>every</em> crying cot (two-at-once staged on the bench: mask held at 0x03 for fifteen seconds).</span></li>
+    </ol>
+
+    <div class="note note--amber" data-reveal>
+      <p class="note__title">The finding that forced the design</p>
+      <p>The original fixed trigger was RMS ≥ 0.030. The confusion session showed a cry at one metre
+      never reaches it — median RMS 0.0070, 0 of 590 records over threshold. The system was blind at
+      one metre <em>by trigger</em>, not by hearing: asked anyway, the model still caught 18 of 44
+      windows. That single measurement is why the adaptive 3×-floor trigger exists. After it: 39
+      trigger events per minute at one metre instead of 0, while the hub asks 5–11 times a minute
+      instead of 1–2.</p>
+    </div>
+  </section>
+
+  <!-- 03 hardware -->
+  <section class="cs-section" id="hardware">
+    <div class="rail" data-reveal><span class="rail__num">03</span><span class="rail__label">Hardware</span><span class="rail__line"></span></div>
+
+    <dl class="kv" data-reveal>
+      <dt>Cot node × 2</dt>
+      <dd>ESP32-C3 Pro Mini + INMP441 I²S MEMS mic. GPIO4/5/6 for I²S, node ids 1 and 2 set over serial and kept in NVS — verified to survive a reflash. ESP-NOW channel 6. 75 % flash, 50 % RAM.</dd>
+      <dt>Hub</dt>
+      <dd>ESP32-S3-DevKitC-1 (dual-core LX7 @ 240 MHz, 512 KB SRAM, 8 MB PSRAM, 16 MB flash) + 2.8″ ILI9341 TFT on GPIO10–14, backlight GPIO4. 13.0 % RAM, 63.6 % flash.</dd>
+      <dt>Wearable</dt>
+      <dd>ESP32-C3 SuperMini + 0.96″ SSD1306 OLED + coin ERM motor on a BC547 low-side switch (GPIO7 → 2.2 kΩ → base, 22 Ω stall cap). 52 % flash, 5 % RAM.</dd>
+    </dl>
+
+    <div class="media-grid media-grid--2" data-reveal>
+      <figure class="figure">
+        <div class="figure__frame"><img src={url('/img/crynet/photo-colour-check.jpg')} alt="Photograph of the physical hub running its colour-check screen" loading="lazy" /></div>
+        <figcaption>COLOUR CHECK on the real panel — the calibration screen the TFT runs before it is trusted to render alerts.</figcaption>
+      </figure>
+      <figure class="figure">
+        <div class="figure__frame"><img src={url('/img/crynet/panel-after.jpg')} alt="The TFT panel after the display fix" loading="lazy" /></div>
+        <figcaption>Panel after the backlight/contrast fix — before/after shots are kept in the dossier as display evidence.</figcaption>
+      </figure>
+    </div>
+
+    <figure class="figure figure--wide" data-reveal>
+      <div class="figure__frame"><img src={url('/img/wiring/sheet-1.png')} alt="Wiring sheet one: the CryNet system power chain and links" loading="lazy" /></div>
+      <figcaption>Sheet 1 / 5 — system power chain and links. All five sheets (node, hub, wearable, charger pad map) are <a href={url('/lab/')}>in the lab</a>, generated from the wiring tool with a layout checker that fails the build if a label overlaps a component.</figcaption>
+    </figure>
+
+    <div class="note" data-reveal>
+      <p class="note__title">A thing removed on purpose</p>
+      <p>The cots originally reported battery percentage, and the panel drew it. The battery sense
+      and every status LED were designed, costed — and then withdrawn (D-83). The panel now shows
+      each cot's audio level and its own view of the radio link instead: the numbers that change
+      decisions, not the ones that change nobody's behaviour. Nothing tells a caregiver a cell is
+      nearly flat; the cells are watched by eye, and the dossier says so.</p>
+    </div>
+  </section>
+
+  <!-- 04 the model -->
+  <section class="cs-section" id="model">
+    <div class="rail" data-reveal><span class="rail__num">04</span><span class="rail__label">The model</span><span class="rail__line"></span></div>
+
+    <p class="body" data-reveal>
+      Before training anything I profiled every public infant-cry corpus on Kaggle and Hugging Face
+      — sample rates, durations, F0, spectral flatness, real-versus-synthetic. Three of the five
+      mirrors of one popular dataset were rejected outright: their "silence" class is a constant
+      1,225 Hz tone at RMS 0.22, and their "noise" class is renamed ESC-50 files. Training on that
+      teaches dataset artifacts, not cries.
+    </p>
+
+    <dl class="kv" data-reveal>
+      <dt>Primary — ICD</dt><dd>28,478 clips, all 16 kHz mono / 5 s, five balanced folds. Cries from three independent corpora (hundreds of different infants); negatives are VoxCeleb speech, domestic noise, human non-speech, cat meows and silence.</dd>
+      <dt>Cry diversity</dt><dd>Baby Cry 4-class — 4,871 real cries, LUFS-normalised, VAD-trimmed, deduplicated. Held out as an unseen cross-corpus test.</dd>
+      <dt>Hard negatives</dt><dd>ESC-50 (1,960 non-cry clips — speech, laughing, vacuum, alarms, knocks) and a 1,000-clip snoring corpus: the confusion class a nursery monitor hits constantly.</dd>
+    </dl>
+
+    <p class="body" data-reveal>
+      The network is a compact CNN over the 81×64 log-Mel spectrogram — 122,770 parameters, 135 KB
+      as INT8. Two decisions mattered more than the architecture:
+    </p>
+
+    <ul class="body bullets" data-reveal>
+      <li><strong>The front end must match training exactly.</strong> Log-Mel computed by librosa and by naive firmware code differ enough to destroy accuracy, so the training notebook generates the Mel filterbank and Hann window as C tables, and the compiled front end is parity-tested against Python — measured worst-case deviation <strong>7 × 10⁻⁵</strong>, and on-chip ≤ 1 LSB with ≤ 1 % of the 5,184 features differing.</li>
+      <li><strong>Confusers get mined, not tolerated.</strong> Coughing produced a 57 % false-alarm rate — acoustically, a cough is a vocal expulsion. After the main training, the notebook scores its own training set, takes the 600 most cry-like non-cry windows and the 600 least cry-like cry windows, and fine-tunes at 3× lower learning rate. Only training rows are mined, so the held-out folds stay honest. Cross-corpus false alarms fell 0.109 → 0.004 on the validation run, and music false alarms 8.19 % → 0.21 % after the retrain.</li>
+    </ul>
+
+    <div class="stats" data-reveal>
+      <div class="stat"><p class="stat__value tnum">0.9994</p><p class="stat__label">ICD validation AUC · fold 4</p></div>
+      <div class="stat"><p class="stat__value tnum">0.9993</p><p class="stat__label">ICD test AUC · fold 5</p></div>
+      <div class="stat"><p class="stat__value tnum">0.9984</p><p class="stat__label">Cross-corpus AUC — unseen corpora, unseen babies</p></div>
+      <div class="stat"><p class="stat__value tnum">−0.0014</p><p class="stat__label">INT8 vs float32 ΔAUC · 99.956 % decision agreement</p></div>
+    </div>
+  </section>
+
+  <!-- 05 results -->
+  <section class="cs-section" id="results">
+    <div class="rail" data-reveal><span class="rail__num">05</span><span class="rail__label">Results</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      Measured on the desk and in the room, not only in the notebook. Every positive cry in these
+      tests is a recording played through a phone speaker — the honest-status section below says
+      what that means.
+    </p>
+
+    <h3 class="h3" data-reveal>The confusion session — nine one-minute takes on the real microphone</h3>
+    <p class="body" data-reveal>
+      Speech, music, film and quiet, at desk / 30 cm / 1 m distances, cut into 308 non-cry windows:
+    </p>
+
+    <div class="stats" data-reveal>
+      <div class="stat stat--green"><p class="stat__value tnum">0 / 308</p><p class="stat__label">False alarms on non-cry audio — speech, music, film, quiet</p></div>
+      <div class="stat"><p class="stat__value tnum">86.4 %</p><p class="stat__label">Recall on the cry at 15 cm (38/44 windows)</p></div>
+      <div class="stat stat--amber"><p class="stat__value tnum">0 / 44</p><p class="stat__label">Loudest music this room can produce — refused, post-retrain</p></div>
+      <div class="stat stat--plain"><p class="stat__value tnum">20.5 min</p><p class="stat__label">Ambient room with people talking — 0 false alarms</p></div>
+    </div>
+
+    <h3 class="h3" data-reveal>The live chain — hub + node + a real BLE client</h3>
+    <dl class="kv" data-reveal>
+      <dt>Radio integrity</dt><dd><strong>286/286 fragments with CRC-32 MATCH</strong>, with a BLE client connected. 0 bad frames, 0 bad payloads over thousands of frames.</dd>
+      <dt>Burst duration</dt><dd>2.06–5.19 s, median 3.55 s — down from 5.54–6.93 s before the airtime fixes.</dd>
+      <dt>Request → verdict</dt><dd>2.23–5.35 s, mean 4.03 s, end to end.</dd>
+      <dt>Demo session</dt><dd><strong>45 bursts, 45/45 complete</strong> — no stall, no timeout, no CRC error, no resend round. 26 alerts at P(cry) 0.9922–0.9961, 16 refusals at 0.0078–0.2148.</dd>
+      <dt>Verdict gap</dt><dd>Nothing between 0.2148 and 0.9922 in the whole session. On real audio in this room the model is not ambivalent — it is either near-zero or saturated.</dd>
+    </dl>
+
+    <h3 class="h3" data-reveal>The two-cot bench session — 2026-11-05/06</h3>
+    <p class="body" data-reveal>
+      The session that says the <em>system</em> works, not just the components. Board identities read
+      from each boot banner before anything was flashed; both cot ids survived the flash out of NVS.
+    </p>
+    <dl class="kv" data-reveal>
+      <dt>Frames</dt><dd><strong>993 frames off the air, 993 parsed, 0 bad, 0 bad payload</strong> — both cots heard and online.</dd>
+      <dt>A full burst</dt><dd>Node 2: 286/286 fragments in 0.99 s; <code>window crc32 0xA8FCEBD5 → MATCH</code>; the model ran on it and correctly refused room noise.</dd>
+      <dt>Alert + cancel</dt><dd>Console <code>alert 2</code> → wrist <code>ALERT cot 2 type 1 conf 100 %</code>; <code>clear</code> → matching type-2 cancel on the wrist.</dd>
+      <dt>The bug it caught</dt><dd>The wrist still read <code>0 cot(s)</code>: the BLE state packet published only when a cry started or stopped, so a cot <em>joining</em> never reached the caregiver. Fix: rebuild the eight-byte packet every cycle and publish whenever the cry mask, deaf mask or cot count moves. Verified on hardware — the wrist now reads <strong>2 cot(s)</strong>.</dd>
+      <dt>Two at once</dt><dd>Two cots crying together staged 2026-11-20: the crying mask held at 0x03 for fifteen seconds, and the wrist screen names every crying cot (the alert packet names the loudest — one cry, one buzz).</dd>
+    </dl>
+  </section>
+
+  <!-- 06 dashboard -->
+  <section class="cs-section" id="dashboard">
+    <div class="rail" data-reveal><span class="rail__num">06</span><span class="rail__label">The dashboard</span><span class="rail__line"></span></div>
+
+    <div class="dash" data-reveal>
+      <div class="dash__copy">
+        <p class="body">
+          The monitor works with no network at all — but every cry the hub hears is written into
+          its own flash first, and when it finds Wi-Fi it uploads what it has. The dashboard turns
+          that record into something a caregiver can read: which cot, when, how long, how loud,
+          and whether the nights are getting better or worse.
+        </p>
+        <ul class="body bullets">
+          <li><strong>No dependencies.</strong> The server is one Python file using only the standard library and a SQLite file — <code>python dashboard/server.py</code> and it runs. A Cloudflare Worker build exists for hosting it free.</li>
+          <li><strong>A contract, tested.</strong> A hardware-free test builds the hub's upload body byte for byte, posts it, and checks what comes back — so the hub and the dashboard cannot drift apart silently.</li>
+          <li><strong>The monitor wins over the record.</strong> The hub's radio is one radio: if the router is not on channel 6, where ESP-NOW lives, the hub drops the Wi-Fi connection and puts the radio back. A dashboard that looks healthy while the wrist has gone silent is the dangerous failure, and the firmware refuses to allow it.</li>
+        </ul>
+      </div>
+      <Tft src={url('/img/crynet/tft-nowifi.png')} alt="Hub panel with no Wi-Fi: still listening, two cots linked" />
+    </div>
+  </section>
+
+  <!-- 07 honest status -->
+  <section class="cs-section" id="honest">
+    <div class="rail" data-reveal><span class="rail__num">07</span><span class="rail__label">Honest status</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      The dossier opens with this section before any results, because these facts shape how every
+      number should be read. A defence — or a portfolio — that hides them is not worth much.
+    </p>
+
+    <div class="notes-grid" data-reveal>
+      <div class="note note--rose">
+        <p class="note__title">O-2 — no real infant yet</p>
+        <p>Every cry the model has been tested against is a recording played through a phone speaker:
+        compressed, band-limited, EQ'd by a small loudspeaker in a plastic case. The negatives are
+        authentic — this room, this microphone. On the proxy the model is strong; on a real infant
+        it is unproven. This is the single largest accuracy risk in the project.</p>
+      </div>
+      <div class="note note--amber">
+        <p class="note__title">O-1d — no battery runtime measured</p>
+        <p>The wearable has run from its Li-Po pouch and kept working, so the battery path is not
+        wholly untried. But no unit's battery life has been measured — the runtime figures that
+        exist are projections, labelled as such. During the pouch session the haptic buzz went
+        missing; a sagging 3.3 V rail is the live candidate and the investigation is open.</p>
+      </div>
+      <div class="note">
+        <p class="note__title">O-1c — committed, not yet flashed</p>
+        <p>The node's I²S zero watchdog is written and committed but not on the boards — the boards
+        are mid-solder. And the microphone has a measured close-range blind spot (O-1g): a source
+        loud enough to drive it to the rail produces a window the hub refuses outright.</p>
+      </div>
+      <div class="note">
+        <p class="note__title">What the system is not</p>
+        <p>Not a certified infant monitor — an academic prototype. Not a cause classifier — the model
+        is binary, cry or no cry, deliberately (the BLE packet has one bit for it). Not a replacement
+        for a parent — a second pair of eyes that wakes someone up. And with no battery monitoring at
+        all, by decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 build it yourself -->
+  <section class="cs-section" id="build">
+    <div class="rail" data-reveal><span class="rail__num">08</span><span class="rail__label">Build it yourself</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      Everything needed to reproduce the build is written down, because the project was documented
+      as if the next reader is a stranger with a soldering iron.
+    </p>
+
+    <div class="dl-grid" data-reveal>
+      <a class="dl" href={url('/docs/crynet-dossier.pdf')} target="_blank" rel="noopener">
+        <span class="dl__kind mono">PDF · 21 chapters</span>
+        <span class="dl__title">The two-node dossier</span>
+        <span class="dl__note">Every design decision, measurement and dead end, in order — including the ones that changed the design.</span>
+        <span class="dl__meta mono">13.9 MB ↗</span>
+      </a>
+      <a class="dl" href={url('/docs/crynet-wiring.pdf')} target="_blank" rel="noopener">
+        <span class="dl__kind mono">PDF · 5 sheets</span>
+        <span class="dl__title">Wiring diagrams</span>
+        <span class="dl__note">Node, hub, wearable and charger pad map — generated, with a layout checker that fails the build on label collisions.</span>
+        <span class="dl__meta mono">31 KB ↗</span>
+      </a>
+      <a class="dl" href="https://github.com/Amazo123/CryNet-TwoNode" target="_blank" rel="noopener">
+        <span class="dl__kind mono">Firmware · prebuilt</span>
+        <span class="dl__title">Flash by double-click</span>
+        <span class="dl__note">The repo ships built flash images for all three roles plus a <code>flash.bat</code>: press 1, 2 or 3, type the port, it backs up first and then writes. No compiler, no network.</span>
+        <span class="dl__meta mono">GitHub — Amazo123 ↗</span>
+      </a>
+      <a class="dl" href="https://github.com/Amazo123/CryNet-TwoNode" target="_blank" rel="noopener">
+        <span class="dl__kind mono">Training · Kaggle-ready</span>
+        <span class="dl__title">The notebook</span>
+        <span class="dl__note">Downloads the corpora, builds the features, trains, mines hard examples, calibrates the threshold, quantises to INT8 and exports the firmware artifacts — validated end to end, 24 cells.</span>
+        <span class="dl__meta mono">GitHub — Amazo123 ↗</span>
+      </a>
+    </div>
+  </section>
+</CaseLayout>
+
+<style>
+  .choose { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; margin-top: 1.5rem; }
+
+  .media-grid { display: grid; gap: 1rem; margin-top: 1.75rem; }
+  .media-grid--2 { grid-template-columns: 1fr 1fr; }
+
+  :global(.figure) { margin-top: 1.5rem; }
+  .figure--wide { margin-top: 1.75rem; }
+  .figure :global(figcaption) { max-width: 70ch; }
+  .figure :global(figcaption a) { color: var(--accent); }
+
+  .figure-caption { margin-top: 0.6rem; color: var(--dim); font-size: 0.62rem; }
+
+  /* chain */
+  .chain { list-style: none; padding: 0; margin-top: 1.5rem; }
+  .chain li {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-block: 0.85rem;
+    border-top: 1px solid var(--line-soft);
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+  .chain li:last-child { border-bottom: 1px solid var(--line-soft); }
+  .chain__k { color: var(--accent); padding-top: 0.15rem; white-space: nowrap; }
+  .chain code, .body code { font-family: var(--font-mono); font-size: 0.85em; color: var(--accent-hi); background: var(--panel-teal); padding: 0.1em 0.35em; border-radius: 2px; }
+
+  .bullets { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .bullets li { padding-left: 1.1rem; position: relative; }
+  .bullets li::before { content: '▪'; position: absolute; left: 0; color: var(--accent-deep); }
+
+  .h3 { margin-top: 2.25rem; }
+
+  /* dashboard */
+  .dash { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr); gap: clamp(1.5rem, 4vw, 2.75rem); align-items: start; margin-top: 0.5rem; }
+  .dash :global(.screen) { margin-top: 0; }
+
+  /* honest */
+  .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1.5rem; }
+
+  /* downloads */
+  .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1.5rem; }
+  .dl {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem 1.35rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    transition: border-color 0.25s var(--ease), background-color 0.25s var(--ease), transform 0.25s var(--ease);
+  }
+  a.dl:hover { border-color: var(--accent); background: var(--panel-2); transform: translateY(-2px); }
+  .dl__kind { color: var(--dim); font-size: 0.6rem; }
+  .dl__title { font-family: var(--font-display); font-size: 1.08rem; color: var(--text); letter-spacing: -0.015em; }
+  .dl__note { color: var(--muted); font-size: 0.86rem; line-height: 1.6; }
+  .dl__note code { font-family: var(--font-mono); font-size: 0.85em; color: var(--accent-hi); }
+  .dl__meta { color: var(--accent); font-size: 0.62rem; margin-top: auto; }
+
+  @media (max-width: 860px) {
+    .choose, .notes-grid, .dl-grid { grid-template-columns: 1fr; }
+    .media-grid--2 { grid-template-columns: 1fr; }
+    .chain li { grid-template-columns: 1fr; gap: 0.2rem; }
+    .dash { grid-template-columns: 1fr; }
+    .dash :global(.tft) { max-width: 380px; }
+  }
+</style>

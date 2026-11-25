@@ -1,0 +1,258 @@
+---
+import Base from './Base.astro';
+import { url } from '../lib/url';
+import type { CaseStudy } from '../lib/projects';
+
+export interface CaseSection {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  project: CaseStudy;
+  sections: CaseSection[];
+  prev?: { slug: string; title: string };
+  next?: { slug: string; title: string };
+}
+
+const { project, sections, prev, next } = Astro.props;
+
+const toneVar = {
+  accent: 'var(--accent)',
+  amber: 'var(--amber)',
+  green: 'var(--green)',
+  rose: 'var(--rose)',
+  blue: 'var(--blue)',
+}[project.accent];
+
+const statusTone = {
+  'built & tested': 'chip--green',
+  'built · demo': 'chip--accent',
+  'in progress': 'chip--amber',
+  'concept': 'chip--plain',
+}[project.status];
+---
+<Base title={project.title} description={project.summary} ogImage={`/img/og/${project.slug}.png`}>
+  <article class="cs" style={`--tone:${toneVar}`}>
+    <!-- hero -->
+    <header class="cs__hero">
+      <div class="shell">
+        <a class="cs__back mono" href={url('/work/')}>← All work</a>
+
+        <p class="cs__head mono" data-reveal>
+          <span class="cs__index tnum">{project.index}</span>
+          <span aria-hidden="true">/</span>
+          <span>{project.kind}</span>
+          <span class="cs__spacer"></span>
+          <span class="chip {statusTone}">{project.status}</span>
+          <span class="tnum">{project.year}</span>
+        </p>
+
+        <h1 class="display--tight cs__title" data-reveal style="--delay:60ms">{project.title}</h1>
+        <p class="cs__subtitle" data-reveal style="--delay:120ms">{project.subtitle}</p>
+
+        <div class="cs__hero-foot" data-reveal style="--delay:180ms">
+          <p class="cs__summary">{project.summary}</p>
+          <dl class="kv cs__kv">
+            <dt>Role</dt><dd>Sole hardware & firmware engineer</dd>
+            <dt>Stack</dt><dd>{project.stack.join(' · ')}</dd>
+            <dt>Headline</dt><dd>{project.heroMetric.value} — {project.heroMetric.label}</dd>
+          </dl>
+        </div>
+      </div>
+    </header>
+
+    <div class="rule"></div>
+
+    <!-- body + toc -->
+    <div class="shell cs__body-wrap">
+      <nav class="toc" aria-label="On this page">
+        <p class="toc__title mono">Contents</p>
+        <ol class="toc__list">
+          {sections.map((s, i) => (
+            <li>
+              <a class="toc__link mono" href={`#${s.id}`} data-toc={s.id}>
+                <span class="toc__num tnum">{String(i + 1).padStart(2, '0')}</span> {s.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+        {prev && <a class="toc__prev mono" href={url(`/work/${prev.slug}/`)}>← {prev.title}</a>}
+        {next && <a class="toc__next mono" href={url(`/work/${next.slug}/`)}>{next.title} →</a>}
+      </nav>
+
+      <div class="cs__body">
+        <slot />
+
+        <!-- end mark -->
+        <div class="cs__end" data-reveal>
+          <p class="mono dim">— end of case study —</p>
+          <div class="cs__pager">
+            {prev && <a class="btn" href={url(`/work/${prev.slug}/`)}>← {prev.title}</a>}
+            {next && <a class="btn" href={url(`/work/${next.slug}/`)}>{next.title} →</a>}
+            <a class="btn btn--primary" href={url('/work/')}>All work</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .cs { --tone-soft: color-mix(in oklab, var(--tone) 12%, transparent); }
+
+  .cs__hero { padding-block: clamp(2.25rem, 5vw, 4rem) clamp(2.25rem, 5vw, 3.5rem); }
+
+  .cs__back {
+    display: inline-block;
+    color: var(--dim);
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    transition: color 0.2s var(--ease);
+  }
+  .cs__back:hover { color: var(--accent); }
+
+  .cs__head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--dim);
+    margin-bottom: 1.1rem;
+  }
+
+  .cs__index { color: var(--tone); font-size: 0.8rem; font-weight: 700; }
+  .cs__spacer { flex: 1; }
+
+  .cs__title { color: var(--text); }
+  .cs__subtitle {
+    margin-top: 0.9rem;
+    color: color-mix(in oklab, var(--tone) 60%, var(--text));
+    font-size: clamp(1rem, 0.95rem + 0.4vw, 1.25rem);
+    max-width: 52ch;
+    line-height: 1.45;
+  }
+
+  .cs__hero-foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+    align-items: start;
+  }
+
+  .cs__summary { color: var(--muted); max-width: 62ch; font-size: 0.98rem; }
+  .cs__summary :global(strong) { color: var(--text); font-weight: 500; }
+
+  .chip--plain { border-color: var(--line); color: var(--muted); }
+
+  /* ------------------------------------------------------------- toc + body */
+  .cs__body-wrap {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .toc {
+    position: sticky;
+    top: calc(var(--nav-h) + 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .toc__title { color: var(--dim); }
+
+  .toc__list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+
+  .toc__link {
+    display: flex;
+    gap: 0.55rem;
+    padding: 0.34rem 0.55rem;
+    border-left: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+
+  .toc__num { color: var(--dim); }
+
+  .toc__link:hover { color: var(--text); }
+
+  .toc__link.is-active {
+    color: var(--tone);
+    border-left-color: var(--tone);
+  }
+  .toc__link.is-active .toc__num { color: var(--tone); }
+
+  .toc__prev, .toc__next {
+    color: var(--dim);
+    font-size: 0.6rem;
+    padding: 0.3rem 0.55rem;
+    border-left: 1px solid var(--line);
+    transition: color 0.2s var(--ease);
+  }
+  .toc__prev:hover, .toc__next:hover { color: var(--accent); }
+
+  .cs__body { min-width: 0; }
+
+  .cs__end {
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .cs__pager { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+
+  /* shared section styling for case-study bodies */
+  .cs__body :global(.cs-section) { padding-block: clamp(1.75rem, 3.5vw, 2.75rem); }
+  .cs__body :global(.cs-section + .cs-section) { border-top: 1px solid var(--line-soft); }
+
+  @media (max-width: 900px) {
+    .cs__hero-foot { grid-template-columns: 1fr; }
+    .cs__body-wrap { grid-template-columns: 1fr; }
+    .toc {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .toc__title { width: 100%; }
+    .toc__list { flex-direction: row; flex-wrap: wrap; gap: 0.3rem; width: 100%; }
+    .toc__link { border-left: 0; border: 1px solid var(--line); border-radius: 2px; padding: 0.3rem 0.6rem; }
+    .toc__prev, .toc__next { display: none; }
+  }
+</style>
+
+<script>
+  // Highlight the TOC entry for the section currently in view.
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc]');
+  const targets = [...links]
+    .map((l) => document.getElementById(l.getAttribute('data-toc') ?? ''))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (targets.length && 'IntersectionObserver' in window) {
+    const byId = new Map<string, HTMLAnchorElement>();
+    links.forEach((l) => byId.set(l.getAttribute('data-toc') ?? '', l));
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            links.forEach((l) => l.classList.remove('is-active'));
+            byId.get(e.target.id)?.classList.add('is-active');
+          }
+        }
+      },
+      { rootMargin: '-15% 0px -70% 0px' }
+    );
+    targets.forEach((t) => io.observe(t));
+  }
+</script>

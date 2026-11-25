@@ -1,0 +1,279 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/site';
+import { url } from '../lib/url';
+
+const description =
+  'About Amazing Adelowo — final-year B.Eng. computer engineering student at the University of Maiduguri, embedded systems intern at NASCOMSOFT Embedded. Attendance terminals, e-voting machines, robot fleets, and an on-device cry monitor.';
+
+const skills = [
+  { group: 'Hardware & prototyping', items: ['Schematic design', 'Proteus', 'Breadboarding', 'Veroboard soldering', 'Oscilloscopes & multimeters', 'Power budgeting', 'Component sourcing'] },
+  { group: 'Microcontrollers', items: ['ESP32 / S3 / C3 / CAM', 'ATmega328P', 'Arduino Uno / Nano', 'Raspberry Pi (Linux / SSH)'] },
+  { group: 'Sensors · actuators · power', items: ['SFM-V1.7 capacitive fingerprint', 'AS608 optical fingerprint', 'INMP441 I²S mic', 'MPU6050', 'HC-SR04', 'PIR', 'DC motors & servos', 'Electromagnets', 'Relays', 'Buck converters', 'TP4056', 'Solar panels'] },
+  { group: 'Protocols', items: ['I²C', 'SPI', 'UART', 'I²S', 'GPIO', 'PWM', 'ADC/DAC'] },
+  { group: 'Wireless', items: ['Wi-Fi', 'Bluetooth / BLE', 'LoRa RA-02', 'GSM SIM800L', 'GPS'] },
+  { group: 'Software', items: ['Embedded C', 'C++', 'Python', 'Git & GitHub', 'SQL basics'] },
+];
+
+const coursework = [
+  'Microprocessor Systems', 'Embedded Systems Design', 'Digital Electronics & Logic Design',
+  'Control Systems', 'Computer Architecture', 'Data Communications & Networks', 'Signals & Systems',
+];
+---
+<Base title="About" description={description} ogImage="/img/og/about.png">
+  <section class="section--tight">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">00</span>
+        <span class="rail__label">Index</span>
+        <span class="rail__line"></span>
+      </div>
+      <h1 class="display--tight" data-reveal>About</h1>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="shell about__grid">
+      <div class="about__main">
+        <p class="lede" data-reveal>
+          I'm Amazing Adelowo, a final-year computer engineering student at the University of
+          Maiduguri, and I build <strong>embedded systems that carry their own intelligence</strong> —
+          no cloud round-trip between a sensor and a decision.
+        </p>
+        <div class="body about__prose" data-reveal>
+          <p>
+            The habit shows up in everything on the bench: an attendance terminal that
+            photographs proxy clock-ins as they happen, a voting machine that gates every
+            ballot behind a fingerprint scan, robots that find their own way down a straight
+            line before they trust themselves to dock. Different problems, same discipline —
+            draw it first, bring it up slowly, and let the serial log settle every argument.
+          </p>
+          <p>
+            The deepest build is <a href={url('/work/crynet/')}>CryNet</a>, my final-year
+            project: a cot-side monitor that hears infant cries on the chip itself — two
+            microphone nodes, a hand-written DSP front end, and a 135&nbsp;KB neural network
+            that never leaves the device, ending in a buzz on the caregiver's wrist. It taught
+            me that the hard parts are rarely the model — they are the noise floor, the radio
+            airtime, the decoupling cap you didn't place, and the courage to write down what
+            didn't work.
+          </p>
+          <p>
+            At <strong>NASCOMSOFT Embedded in Bauchi</strong>, where I'm doing my industrial
+            training, I design in Proteus before touching a breadboard, bring up LoRa and GSM
+            telemetry links, assemble P10 LED display boards, and troubleshoot at the
+            oscilloscope level. There I was also product manager and hardware engineer for
+            TEAM RAMP, whose biometric attendance terminal took <strong>1st place overall</strong>
+            at the company's annual hackathon — and I got to teach a children's camp the same
+            trick: build the thing, then make it drive around a maze.
+          </p>
+          <p>
+            What I'm looking for: an embedded or firmware role where the hardware is close to
+            the user — medical devices, agritech, safety monitors, robotics. I care about
+            evidence: numbers off a serial console beat adjectives in a meeting.
+          </p>
+        </div>
+
+        <div class="facts" data-reveal>
+          <dl class="kv">
+            <dt>Currently</dt><dd>Final-year B.Eng. Computer Engineering, University of Maiduguri (expected 2026/27)</dd>
+            <dt>Also</dt><dd>Embedded Systems Intern, NASCOMSOFT Embedded Ltd, Bauchi — featured in the NASCOMSOFT Student Spotlight</dd>
+            <dt>Location</dt><dd>{site.location}</dd>
+            <dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+          </dl>
+        </div>
+      </div>
+
+      <aside class="about__side">
+        <div class="portrait" data-reveal>
+          <span class="portrait__ph mono">PORTRAIT · PHOTO PENDING</span>
+          <!-- When a real photo exists, replace the pill with:
+               <img src={url('/img/portrait.jpg')} alt="Amazing Adelowo at the bench" /> -->
+        </div>
+        <div class="side-rack" data-reveal>
+          <p class="side-rack__head pixel">ON THE BENCH</p>
+          <ul class="side-rack__list mono">
+            <li style="--tone:var(--accent)">
+              <span class="side-rack__dot" aria-hidden="true"></span>
+              <a href={url('/work/crynet/')}>CryNet</a>
+              <span class="side-rack__st">built &amp; tested</span>
+            </li>
+            <li style="--tone:var(--amber)">
+              <span class="side-rack__dot" aria-hidden="true"></span>
+              <a href={url('/work/attendx/')}>AttendX</a>
+              <span class="side-rack__st">1st overall</span>
+            </li>
+            <li style="--tone:var(--green)">
+              <span class="side-rack__dot" aria-hidden="true"></span>
+              <a href={url('/work/evoting/')}>E-voting</a>
+              <span class="side-rack__st">built · demo</span>
+            </li>
+            <li style="--tone:var(--blue)">
+              <span class="side-rack__dot" aria-hidden="true"></span>
+              <a href={url('/work/swarm/')}>Swarm fleet</a>
+              <span class="side-rack__st">in progress</span>
+            </li>
+          </ul>
+        </div>
+        <div class="side-facts mono" data-reveal>
+          <p><span class="dim">degree</span> B.Eng. CPE ’27</p>
+          <p><span class="dim">focus</span> embedded systems</p>
+          <p><span class="dim">status</span> open to roles</p>
+          <p><span class="dim">languages</span> EN · HA · YO</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- skills -->
+  <section class="section--tight">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">01</span>
+        <span class="rail__label">Toolbox</span>
+        <span class="rail__line"></span>
+      </div>
+      <div class="skills">
+        {skills.map((s, i) => (
+          <div class="skills__group" data-reveal style={`--delay:${(i % 3) * 60}ms`}>
+            <h3 class="skills__h mono">{s.group}</h3>
+            <div class="chips">
+              {s.items.map((it) => <span class="chip">{it}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- coursework + record -->
+  <section class="section">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">02</span>
+        <span class="rail__label">The record</span>
+        <span class="rail__line"></span>
+      </div>
+      <div class="record">
+        <div data-reveal>
+          <h3 class="h3">Coursework that shows up in the projects</h3>
+          <div class="chips" style="margin-top:1rem">
+            {coursework.map((c) => <span class="chip">{c}</span>)}
+          </div>
+        </div>
+        <div data-reveal style="--delay:80ms">
+          <h3 class="h3">Selected recognition</h3>
+          <ul class="recs">
+            <li><strong>1st place overall</strong> — NASCOMSOFT annual hackathon grand finale, TEAM RAMP / AttendX · Oct 2026</li>
+            <li><strong>1st place, Grand Finale Maze Race</strong> — mentored Group Six at the CEAISES & ATBU children's robotics camp · Aug–Sep 2026</li>
+            <li><strong>Student Spotlight</strong> — featured by NASCOMSOFT Embedded during my SIWES internship</li>
+          </ul>
+          <a class="btn" style="margin-top:1.5rem" href={url('/resume.pdf')}>Full CV — PDF ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .about__prose { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
+  .about__prose a { color: var(--accent); }
+  .facts { margin-top: 2rem; }
+
+  .about__side { display: flex; flex-direction: column; gap: 1rem; }
+
+  /* portrait slot — empty until a real photo lands; pill marks the spot */
+  .portrait {
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    background:
+      repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(110, 231, 213, 0.035) 12px, rgba(110, 231, 213, 0.035) 24px),
+      linear-gradient(180deg, #0a1112, #060b0c);
+    overflow: hidden;
+  }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .portrait__ph {
+    font-size: 0.5rem;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    border: 1px solid var(--line);
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(6, 11, 12, 0.6);
+  }
+
+  .side-rack {
+    padding: 1rem 1.1rem;
+    background: linear-gradient(180deg, #0a1112, #060b0c);
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    box-shadow: inset 0 1px 0 rgba(110, 231, 213, 0.08);
+  }
+
+  .side-rack__head { color: var(--dim); font-size: 0.5rem; margin-bottom: 0.8rem; }
+
+  .side-rack__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    font-size: 0.68rem;
+  }
+
+  .side-rack__list li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .side-rack__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--tone);
+    box-shadow: 0 0 7px var(--tone);
+  }
+
+  .side-rack__list a { color: var(--text); transition: color 0.2s var(--ease); }
+  .side-rack__list a:hover { color: var(--tone); }
+
+  .side-rack__st { color: var(--dim); font-size: 0.58rem; }
+
+  .figure-caption { color: var(--dim); font-size: 0.62rem; }
+  .side-facts { display: flex; flex-direction: column; gap: 0.45rem; margin-top: 1rem; font-size: 0.64rem; }
+  .side-facts .dim { display: inline-block; min-width: 88px; }
+
+  .skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem 2.5rem; margin-top: 1.5rem; }
+  .skills__h { color: var(--dim); margin-bottom: 0.7rem; }
+
+  .record {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .recs { list-style: none; padding: 0; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .recs li { color: var(--muted); padding-left: 1.1rem; position: relative; font-size: 0.92rem; }
+  .recs li::before { content: '▪'; position: absolute; left: 0; color: var(--accent-deep); }
+  .recs :global(strong) { color: var(--text); font-weight: 500; }
+
+  @media (max-width: 900px) {
+    .about__grid { grid-template-columns: 1fr; }
+    .skills { grid-template-columns: 1fr; }
+    .record { grid-template-columns: 1fr; }
+    .about__side { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+  }
+</style>

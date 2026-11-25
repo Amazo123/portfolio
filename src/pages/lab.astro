@@ -1,0 +1,172 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+
+const description =
+  'The lab: the evidence behind the work. CryNet wiring sheets, the full project dossier PDF, bench-log measurements and the tooling — the flagship build gets the full paper trail; the other projects carry their numbers in their case studies.';
+
+const sheets = [
+  { n: 1, title: 'System — power chain and links', note: 'The whole loom on one sheet: hub, both cots, wearable, and where every volt comes from.' },
+  { n: 2, title: 'Cot node — complete wiring (×2)', note: 'INMP441 on GPIO4/5/6, the C3 Pro Mini, and nothing else that is not load-bearing.' },
+  { n: 3, title: 'Main hub — complete wiring (×1)', note: 'ESP32-S3-DevKitC-1 N16R8 with the ILI9341 on GPIO10–14 and backlight on GPIO4.' },
+  { n: 4, title: 'Caregiver wearable — complete wiring (×1)', note: 'SSD1306 OLED and the coin ERM behind a BC547 low-side switch with its 22 Ω stall cap.' },
+  { n: 5, title: 'LX-LCBST-TC-001 — pad map and bench procedure', note: 'The charger board: pad map, and the bench procedure for bringing a cell up safely.' },
+];
+
+const log = [
+  { when: '2026-11-05/06', what: 'Two-cot bench session', got: '993 frames off the air, 993 parsed, 0 bad. Both cot ids survived the flash out of NVS. Node 2 burst: 286/286 fragments in 0.99 s, CRC-32 MATCH. Found the BLE state-publish bug — the wrist read 0 cot(s) until the packet was rebuilt every cycle.' },
+  { when: '2026-11-20', what: 'Wearable on the Li-Po pouch', got: 'The wrist ran from its pouch and kept working — first cell-powered run. The haptic buzz went missing while on the pouch; firmware exonerated, sagging 3.3 V rail is the live candidate. Two cots crying at once staged: mask held 0x03 for 15 s.' },
+  { when: '2026-10', what: 'Confusion session, 9 takes', got: 'Zero false alarms across 308 non-cry windows — speech, music, film, quiet. And the finding that changed the design: a cry at 1 m never crosses the fixed trigger (0/590 records), which is why the adaptive 3× floor exists.' },
+  { when: '2026-10', what: 'Demo session', got: '45 bursts, 45/45 complete — no stall, timeout, CRC error or resend. 26 alerts at P(cry) 0.9922–0.9961, 16 refusals at 0.0078–0.2148. Nothing in between: the gap the announcement rule is built on.' },
+  { when: '2026-09', what: 'Clipping forensics', got: 'Node 2 peaked at 31,801/32,767 and the system named the wrong cot for 42 seconds. Now: any window with a sample ≥ 31,000 is refused outright (CRYNET_CLIP_PEAK).' },
+  { when: '2026-09', what: 'Front-end parity campaign', got: 'C vs Python on the log-Mel chain: max deviation 7 × 10⁻⁵ on the host; on-chip ≤ 1 LSB, ≤ 1 % of the 5,184 features differing. The model never sees a different world in the field than it trained in.' },
+];
+---
+<Base title="Lab" description={description} ogImage="/img/og/lab.png">
+  <section class="section--tight">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">00</span>
+        <span class="rail__label">Index</span>
+        <span class="rail__line"></span>
+      </div>
+      <h1 class="display--tight" data-reveal>Lab</h1>
+      <p class="lede" data-reveal style="--delay:80ms">
+        The evidence, not the pitch — everything that lets a stranger check my work instead of
+        taking my word for it. One note on scope: the full paper trail below belongs to
+        CryNet, the flagship build. The other projects carry their evidence inline, in their
+        own <a class="lab-link" href={url('/work/')}>case studies</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- wiring sheets -->
+  <section class="section--tight">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">01</span>
+        <span class="rail__label">Wiring sheets</span>
+        <span class="rail__line"></span>
+        <a class="rail__dl mono" href={url('/docs/crynet-wiring.pdf')} target="_blank" rel="noopener">PDF · 31 KB ↗</a>
+      </div>
+      <p class="body" data-reveal>
+        Generated, not hand-drawn: every sheet comes out of a layout tool whose checker
+        <strong>fails the build</strong> if a label overlaps another label, sits on a component, or
+        has a wire crossing it — the previous hand-written SVG had wires running through labels.
+      </p>
+      <div class="sheets">
+        {sheets.map((s) => (
+          <figure class="figure sheet" data-reveal>
+            <div class="figure__frame">
+              <img src={url(`/img/wiring/sheet-${s.n}.png`)} alt={`Wiring sheet ${s.n}: ${s.title}`} loading="lazy" />
+            </div>
+            <figcaption><span class="sheet__num mono tnum">{s.n} / 5</span> — <strong>{s.title}</strong><br />{s.note}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- bench log -->
+  <section class="section--tight">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">02</span>
+        <span class="rail__label">Bench log</span>
+        <span class="rail__line"></span>
+      </div>
+      <p class="body" data-reveal>
+        The log is the evidence. The wrist is the output. Entries newest first; every number here
+        came off a serial console or a measurement script, and the dossier records the commands.
+      </p>
+      <ol class="blog">
+        {log.map((e) => (
+          <li class="blog__row" data-reveal>
+            <p class="blog__when mono tnum">{e.when}</p>
+            <div>
+              <h3 class="blog__what">{e.what}</h3>
+              <p class="blog__got">{e.got}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- dossier -->
+  <section class="section">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">03</span>
+        <span class="rail__label">The dossier</span>
+        <span class="rail__line"></span>
+      </div>
+      <div class="dossier">
+        <div data-reveal>
+          <h2 class="h2">Everything, in order.</h2>
+          <p class="body" style="margin-top:1rem">
+            Twenty-one chapters covering the system, the research, the signal contract, the model,
+            the firmware of all three units, the radio link, the alert policy, the BLE contract,
+            the hardware, the display, the results, the bench, the toolchain, the host tools, the
+            limitations, the replication guide and the glossary. It opens with the honest-status
+            section — before any results — because that is how the numbers should be read.
+          </p>
+          <div class="dossier__actions" data-reveal>
+            <a class="btn btn--primary" href={url('/docs/crynet-dossier.pdf')} target="_blank" rel="noopener">Read the dossier — PDF · 13.9 MB ↗</a>
+            <a class="btn" href={url('/work/crynet/')}>The short version — case study</a>
+          </div>
+        </div>
+        <div class="screen dossier__screen" data-reveal style="--delay:120ms">
+          <img src={url('/img/crynet/panel-mock.png')} alt="The redesigned two-cot panel layout, rendered to a mock before flashing" loading="lazy" />
+        </div>
+      </div>
+      <p class="figure-caption mono" data-reveal>
+        The redesigned two-cot panel, rendered to a mock before flashing: two full-width cards, each
+        with its own level row and its own network bar — no battery line, by decision (D-83).
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .rail__dl { color: var(--dim); white-space: nowrap; transition: color 0.2s var(--ease); }
+  .rail__dl:hover { color: var(--accent); }
+
+  .lab-link { color: var(--accent); }
+  .lab-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .sheets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1.25rem; margin-top: 1.75rem; }
+  .sheet .figure__frame { background: #fff; }
+  .sheet__num { color: var(--accent); }
+  .sheet figcaption strong { color: var(--text); font-weight: 500; }
+
+  .blog { list-style: none; padding: 0; margin-top: 1.5rem; }
+  .blog__row {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--line-soft);
+  }
+  .blog__row:last-child { border-bottom: 1px solid var(--line-soft); }
+  .blog__when { color: var(--accent); padding-top: 0.25rem; white-space: nowrap; }
+  .blog__what { font-size: 1.05rem; letter-spacing: -0.015em; }
+  .blog__got { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; max-width: 75ch; line-height: 1.62; }
+
+  .dossier {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(240px, 0.7fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    margin-top: 1.25rem;
+  }
+  .dossier__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.75rem; }
+  .dossier__screen { max-width: 420px; }
+  .figure-caption { margin-top: 1rem; color: var(--dim); font-size: 0.62rem; max-width: 70ch; }
+
+  @media (max-width: 900px) {
+    .sheets { grid-template-columns: 1fr; }
+    .blog__row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .dossier { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro';
+import CaseCard from '../../components/CaseCard.astro';
+import ShortCard from '../../components/ShortCard.astro';
+import { caseStudies, shortCards } from '../../lib/projects';
+import { url } from '../../lib/url';
+
+const description =
+  'Selected hardware and embedded work by Amazing Adelowo: CryNet on-device infant cry detection, AttendX biometric attendance, a biometric e-voting terminal with live cloud tallies, a swarm robotics fleet — plus the shorter bench builds.';
+---
+<Base title="Work" description={description} ogImage="/img/og/work.png">
+  <section class="section--tight">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">00</span>
+        <span class="rail__label">Index</span>
+        <span class="rail__line"></span>
+        <span class="rail__count mono tnum">4 case studies · 9 bench builds</span>
+      </div>
+      <h1 class="display--tight" data-reveal>Work</h1>
+      <p class="lede" data-reveal style="--delay:80ms">
+        Four builds with full case studies — the ones with numbers, schematics and scars — and the
+        shorter bench builds underneath them. Everything here was wired, firmware-ed and fixed by
+        hand at some hour of the night.
+      </p>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">01</span>
+        <span class="rail__label">Case studies</span>
+        <span class="rail__line"></span>
+      </div>
+      <div class="grid-2">
+        {caseStudies.map((p, i) => (
+          <div data-reveal style={`--delay:${(i % 2) * 80}ms`}>
+            <CaseCard project={p} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="rail" data-reveal>
+        <span class="rail__num">02</span>
+        <span class="rail__label">The rest of the bench</span>
+        <span class="rail__line"></span>
+      </div>
+      <div class="grid-3">
+        {shortCards.map((c, i) => (
+          <div data-reveal style={`--delay:${(i % 3) * 60}ms`}>
+            <ShortCard card={c} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .rail__count { color: var(--dim); white-space: nowrap; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; }
+  @media (max-width: 980px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>

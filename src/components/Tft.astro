@@ -1,0 +1,82 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  /** show the device bezel + label strip */
+  bezel?: boolean;
+  /** text on the bezel strip */
+  label?: string;
+  width?: number;
+  height?: number;
+  /** above-the-fold images must not be lazy */
+  eager?: boolean;
+}
+const { src, alt, caption, bezel = true, label = 'CryNet · ILI9341', width = 320, height = 240, eager = false } = Astro.props;
+---
+<figure class="tft">
+  <div class="tft__device">
+    {bezel && (
+      <div class="tft__strip">
+        <span class="tft__label pixel">{label}</span>
+        <span class="tft__dot" aria-hidden="true"></span>
+        <span class="tft__res pixel">320×240</span>
+      </div>
+    )}
+    <div class="tft__screen screen">
+      <img src={src} alt={alt} width={width} height={height} loading={eager ? 'eager' : 'lazy'} decoding={eager ? 'sync' : 'async'} />
+    </div>
+  </div>
+  {caption && <figcaption class="tft__caption mono">{caption}</figcaption>}
+</figure>
+
+<style>
+  .tft { margin: 0; }
+
+  .tft__device {
+    background: linear-gradient(180deg, #0a1112, #060b0c);
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.6),
+      0 18px 50px -18px rgba(45, 212, 191, 0.18),
+      inset 0 1px 0 rgba(110, 231, 213, 0.08);
+  }
+
+  .tft__strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2px 8px;
+  }
+
+  .tft__label { color: var(--dim); font-size: 0.5rem; }
+
+  .tft__res { color: var(--dim); font-size: 0.5rem; }
+
+  .tft__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2.4s infinite var(--ease);
+  }
+
+  .tft__screen {
+    border-color: var(--line-strong);
+  }
+
+  .tft__caption {
+    margin-top: 0.7rem;
+    color: var(--dim);
+    font-size: 0.64rem;
+    line-height: 1.7;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+</style>

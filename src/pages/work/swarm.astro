@@ -1,0 +1,115 @@
+---
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import { caseStudies } from '../../lib/projects';
+import { url } from '../../lib/url';
+
+const project = caseStudies[3];
+
+const sections = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'docking', label: 'Electromagnetic docking' },
+  { id: 'drive', label: 'Making three robots drive straight' },
+  { id: 'choreography', label: 'The choreography — in progress' },
+  { id: 'status', label: 'Status, honestly' },
+];
+---
+<CaseLayout project={project} sections={sections} prev={{ slug: 'evoting', title: 'Biometric e-voting' }} next={{ slug: 'crynet', title: 'CryNet' }}>
+  <!-- 01 overview -->
+  <section class="cs-section" id="overview">
+    <div class="rail" data-reveal><span class="rail__num">01</span><span class="rail__label">Overview</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      Three ESP32 robots built to <strong>dock, latch and move as one payload</strong>. Each robot
+      carries a downward-facing electromagnet; to move an object heavier than any one of them, the
+      swarm docks around it, energises its magnets, and drives in formation. It is the simplest
+      mechanical answer to "what if the thing is heavier than the robot" — no grippers, no arms,
+      just coupling.
+    </p>
+    <dl class="kv" data-reveal>
+      <dt>Fleet</dt><dd>3 × ESP32 robots, independent drive electronics per unit</dd>
+      <dt>Drive</dt><dd>L298N dual H-bridges, logic-level MOSFETs switching the electromagnets</dd>
+      <dt>Power</dt><dd>Buck converters stepping the pack down per unit — one regulator per robot, not one shared rail</dd>
+      <dt>Coordination</dt><dd>Python-side path planning against ArUco markers (in progress)</dd>
+    </dl>
+  </section>
+
+  <!-- 02 docking -->
+  <section class="cs-section" id="docking">
+    <div class="rail" data-reveal><span class="rail__num">02</span><span class="rail__label">Electromagnetic docking</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      The electromagnet is the interesting actuator precisely because it is a hostile load: a bare
+      coil driven by a MOSFET fights every switch-off with a flyback spike that will kill an
+      unprotected transistor in a week.
+    </p>
+    <ul class="body bullets" data-reveal>
+      <li><strong>Flyback protection on every coil.</strong> Freewheeling diodes across each electromagnet give the collapse current somewhere to go — the drivers survived the whole campaign of dock/latch/release cycles.</li>
+      <li><strong>Logic-level MOSFETs as the coil switches.</strong> The ESP32's 3.3 V GPIO drives the gates directly, no gate-driver stage, because the parts were chosen for V<sub>GS(th)</sub> and R<sub>DS(on)</sub> at 3.3 V — not grabbed from a drawer.</li>
+      <li><strong>Buck converters per unit.</strong> Motors and coils share nothing electrical with a neighbour: one robot browning out cannot take the formation with it.</li>
+    </ul>
+  </section>
+
+  <!-- 03 drive -->
+  <section class="cs-section" id="drive">
+    <div class="rail" data-reveal><span class="rail__num">03</span><span class="rail__label">Making three robots drive straight</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      Cheap gearmotors differ. Give three robots the same PWM duty and you get three different
+      speeds and three gentle curves — fatal for a fleet that has to arrive at a dock together.
+      So the calibration came before the choreography.
+    </p>
+    <div class="note" data-reveal>
+      <p class="note__title">Method</p>
+      <p>Each robot ran straight-line trials at fixed duty, the drift was measured, and
+      <strong>per-wheel PWM compensation was tuned against a marked reference line</strong> until
+      each robot tracked true. The fleet's heading error dropped to the point where docking
+      alignment became a mechanical concern instead of an electrical one.</p>
+    </div>
+    <p class="body" data-reveal>
+      It is the least glamorous work on this page and some of the most transferable: measure the
+      component, not the datasheet's version of it.
+    </p>
+  </section>
+
+  <!-- 04 choreography -->
+  <section class="cs-section" id="choreography">
+    <div class="rail" data-reveal><span class="rail__num">04</span><span class="rail__label">The choreography — in progress</span><span class="rail__line"></span></div>
+    <p class="body" data-reveal>
+      The upper layer — where the swarm <em>decides</em> — is being built: a Python dashboard that
+      watches the arena through a camera, reads ArUco markers, and plans dock-and-carry sequences.
+    </p>
+    <dl class="kv" data-reveal>
+      <dt>Markers</dt><dd>3 payload markers + 3 destination markers — nine unique IDs across the fleet and the arena, so every robot knows which payload is its assignment.</dd>
+      <dt>Planner</dt><dd>Dashboard-driven path planning in Python: camera → marker poses → assignment → per-robot waypoints.</dd>
+      <dt>State</dt><dd>Robots dock, latch and drive as a formation; coordinated payload transport under the planner is the part still being finished.</dd>
+    </dl>
+    <div class="note note--amber" data-reveal>
+      <p class="note__title">Straight answer</p>
+      <p>This build is <strong>not finished</strong>. The drive calibration, the magnet switching
+      and the docking mechanics work on the bench; the marker-driven choreography is the open
+      chapter. I would rather show the honest state than quietly retire the project — the dossier
+      on the lab page records both what works and what does not yet.</p>
+    </div>
+  </section>
+
+  <!-- 05 status -->
+  <section class="cs-section" id="status">
+    <div class="rail" data-reveal><span class="rail__num">05</span><span class="rail__label">Status, honestly</span><span class="rail__line"></span></div>
+    <div class="stats" data-reveal>
+      <div class="stat"><p class="stat__value tnum">3</p><p class="stat__label">Robots built, each with independent drive + magnet electronics</p></div>
+      <div class="stat stat--green"><p class="stat__value tnum">±straight</p><p class="stat__label">Per-wheel PWM calibration against a marked line</p></div>
+      <div class="stat"><p class="stat__value tnum">9</p><p class="stat__label">Unique ArUco IDs across payload and destination markers</p></div>
+      <div class="stat stat--amber"><p class="stat__value">open</p><p class="stat__label">Planner-driven formation transport — the chapter in progress</p></div>
+    </div>
+    <p class="body" data-reveal>
+      What stands: three working robots, protected electromagnetic coupling, calibrated formation
+      driving. What remains: closing the loop from dashboard plan to dock-and-carry. The gap
+      between those two sentences is exactly the work left.
+    </p>
+  </section>
+</CaseLayout>
+
+<style>
+  .bullets { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .bullets li { padding-left: 1.1rem; position: relative; color: var(--muted); }
+  .bullets li::before { content: '▪'; position: absolute; left: 0; color: var(--blue); }
+  .bullets :global(strong) { color: var(--text); font-weight: 500; }
+  .note { margin-top: 1.5rem; }
+</style>
