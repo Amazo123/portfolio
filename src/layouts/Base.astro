@@ -75,6 +75,32 @@ const pageTitle = title === site.name ? `${site.name} — ${site.role}` : `${tit
   </head>
 
   <body>
+    <!-- PCB-trace backdrop: a fixed, theme-aware pattern (traces, pads, vias,
+         one silkscreen IC footprint) sitting above the canvas, below the page. -->
+    <svg class="bg-traces" aria-hidden="true" focusable="false">
+      <defs>
+        <pattern id="pcb-traces" width="420" height="420" patternUnits="userSpaceOnUse">
+          <path class="bt-w" d="M64 88H176L216 128H340" />
+          <path class="bt-w" d="M356 48V136L316 176H240" />
+          <path class="bt-w" d="M88 268L128 308H248" />
+          <path class="bt-w" d="M376 336H296L260 300" />
+          <circle class="bt-pad" cx="64" cy="88" r="5.5" />
+          <circle class="bt-pad" cx="340" cy="128" r="5.5" />
+          <circle class="bt-pad" cx="356" cy="48" r="5.5" />
+          <circle class="bt-pad" cx="240" cy="176" r="5.5" />
+          <circle class="bt-pad" cx="88" cy="268" r="5.5" />
+          <circle class="bt-pad" cx="248" cy="308" r="5.5" />
+          <circle class="bt-pad" cx="376" cy="336" r="5.5" />
+          <circle class="bt-pad" cx="260" cy="300" r="5.5" />
+          <circle class="bt-via" cx="48" cy="208" r="7" />
+          <circle class="bt-via" cx="204" cy="44" r="7" />
+          <circle class="bt-via" cx="328" cy="258" r="7" />
+          <rect class="bt-ic" x="128" y="336" width="104" height="44" rx="6" />
+          <circle class="bt-pad" cx="142" cy="350" r="3" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#pcb-traces)" />
+    </svg>
     <a class="skip-link" href="#main">Skip to content</a>
     {chrome && <Nav />}
     <main id="main" style={chrome ? 'padding-top: var(--nav-h);' : undefined}>
@@ -108,13 +134,34 @@ const pageTitle = title === site.name ? `${site.name} — ${site.role}` : `${tit
 
 <style is:global>
   body {
-    /* faint bench-grid over the canvas + soft accent glow, theme-aware */
-    background-image:
-      linear-gradient(color-mix(in srgb, var(--accent) 3.5%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in srgb, var(--accent) 3.5%, transparent) 1px, transparent 1px),
-      var(--body-glow);
-    background-size: 56px 56px, 56px 56px, auto, auto;
-    background-repeat: repeat, repeat, no-repeat, no-repeat;
+    /* soft accent glow over the canvas; the trace pattern svg sits above it */
+    background-image: var(--body-glow);
+    background-repeat: no-repeat;
     background-attachment: fixed;
   }
+
+  .bg-traces {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .bg-traces .bt-w {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-opacity: 0.1;
+  }
+  .bg-traces .bt-pad { fill: var(--accent); fill-opacity: 0.13; }
+  .bg-traces .bt-via { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-opacity: 0.11; }
+  .bg-traces .bt-ic { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 7 5; stroke-opacity: 0.09; }
+
+  :root[data-theme='light'] .bg-traces .bt-w { stroke-opacity: 0.16; }
+  :root[data-theme='light'] .bg-traces .bt-pad { fill-opacity: 0.2; }
+  :root[data-theme='light'] .bg-traces .bt-via { stroke-opacity: 0.17; }
+  :root[data-theme='light'] .bg-traces .bt-ic { stroke-opacity: 0.13; }
 </style>

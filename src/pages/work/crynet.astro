@@ -218,10 +218,11 @@ const sections = [
           and whether the nights are getting better or worse.
         </p>
         <ul class="body bullets">
-          <li><strong>No dependencies.</strong> The server is one Python file using only the standard library and a SQLite file. <code>python dashboard/server.py</code> and it runs. A Cloudflare Worker build exists for hosting it free.</li>
+          <li><strong>No dependencies.</strong> The server is one Python file using only the standard library and a SQLite file. <code>python dashboard/server.py</code> and it runs. A Cloudflare Worker build hosts a public copy: <a href="https://amazings-crynet.amazingadelowo.workers.dev/" target="_blank" rel="noopener">amazings-crynet.amazingadelowo.workers.dev</a>.</li>
           <li><strong>A contract, tested.</strong> A hardware-free test builds the hub's upload body byte for byte, posts it, and checks what comes back, so the hub and the dashboard cannot drift apart silently.</li>
           <li><strong>The monitor wins over the record.</strong> The hub has one radio: if the router is not on channel 6, where ESP-NOW lives, the hub drops Wi-Fi and takes the radio back. A dashboard that looks healthy while the wrist has gone silent is the dangerous failure, so the firmware refuses to allow it.</li>
         </ul>
+        <a class="btn" style="margin-top:1.5rem" href="https://amazings-crynet.amazingadelowo.workers.dev/" target="_blank" rel="noopener">Open the live dashboard ↗</a>
       </div>
       <Tft src={url('/img/crynet/tft-nowifi.png')} alt="Hub panel with no Wi-Fi: still listening, two cots linked" />
     </div>
@@ -251,13 +252,12 @@ const sections = [
         missing; a sagging 3.3 V rail is the live candidate and the investigation is open.</p>
       </div>
       <div class="note">
-        <p class="note__title">O-1c: committed, not yet flashed</p>
-        <p>The node's I²S zero watchdog is written and committed but not on the boards; a node is
-        not reflashed mid-solder (D-79), and the final wiring is still being soldered. The dossier
-        records two limits: it detects exact zeros only, so a microphone stuck at a DC value is
-        not caught, and the fault-injection test proved the code executes and refills a window,
-        not that it recovers the original physical fault. After it goes on it needs a played-cry
-        end-to-end run. The microphone also has a measured close-range blind spot (O-1g): a source
+        <p class="note__title">O-1c: what the zero watchdog does not cover yet</p>
+        <p>The node's I²S zero watchdog is on the boards. The dossier records two limits: it
+        detects exact zeros only, so a microphone stuck at a DC value is not caught, and the
+        fault-injection test proved the code executes and refills a window, not that it recovers
+        the original physical fault. The closing test is a played-cry end-to-end run behind a
+        real recovery. The microphone also has a measured close-range blind spot (O-1g): a source
         loud enough to drive it to the rail produces a window the hub refuses outright.</p>
       </div>
       <div class="note">
@@ -279,6 +279,12 @@ const sections = [
     </p>
 
     <div class="dl-grid" data-reveal>
+      <a class="dl" href="https://amazings-crynet.amazingadelowo.workers.dev/" target="_blank" rel="noopener">
+        <span class="dl__kind mono">Live · Cloudflare Worker</span>
+        <span class="dl__title">The dashboard, hosted</span>
+        <span class="dl__note">The public copy of the cry record: which cot, when, how long, how loud. Read-only, no login.</span>
+        <span class="dl__meta mono">amazings-crynet.amazingadelowo.workers.dev ↗</span>
+      </a>
       <a class="dl" href={url('/docs/crynet-dossier.pdf')} target="_blank" rel="noopener">
         <span class="dl__kind mono">PDF · 21 chapters</span>
         <span class="dl__title">The two-node dossier</span>
@@ -288,8 +294,8 @@ const sections = [
       <a class="dl" href={url('/docs/crynet-wiring.pdf')} target="_blank" rel="noopener">
         <span class="dl__kind mono">PDF · 5 sheets</span>
         <span class="dl__title">Wiring diagrams</span>
-        <span class="dl__note">Node, hub, wearable and charger pad map, generated with a layout checker that fails the build on label collisions.</span>
-        <span class="dl__meta mono">31 KB ↗</span>
+        <span class="dl__note">Node, hub, wearable, the system power chain and the charger pad map, generated with a layout checker that fails the build on label collisions.</span>
+        <span class="dl__meta mono">200 KB ↗</span>
       </a>
       <a class="dl" href="https://github.com/Amazo123/CryNet-TwoNode" target="_blank" rel="noopener">
         <span class="dl__kind mono">Firmware · prebuilt</span>

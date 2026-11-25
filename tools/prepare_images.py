@@ -8,7 +8,8 @@ check photograph) are the same hardware and are pulled from there.
 Photos are downscaled to web sizes (max 1600 px on the long edge, JPEG q84).
 Device-screen PNGs are copied verbatim — they are 320x240 pixel art and must
 stay pixel-exact so `image-rendering: pixelated` can upscale them cleanly.
-Wiring sheets are rendered from the two-node SYSTEM_WIRING_DIAGRAMS.pdf.
+Wiring sheets are rendered from the two-node SYSTEM_WIRING_DIAGRAMS.pdf,
+reordered and renumbered for display.
 """
 from __future__ import annotations
 
@@ -61,6 +62,51 @@ def prep_pdf_pages(pdf: Path, dst_dir: Path, stem: str, dpi: int = 150) -> None:
     doc.close()
 
 
+# The wiring display on the lab page shows the three per-unit sheets first, so
+# the served copy is reordered (node, hub, wearable, system, pad map) and the
+# baked-in sheet ordinals are re-stamped to match.  The source PDF in the
+# CryNet repo is only ever read; the corrected copy lives in public/docs/.
+WIRING_ORDER = [1, 2, 3, 0, 4]  # new page order -> source page indices
+WIRING_RETITLE = {
+    1: ("2 / Cot node - complete wiring (one per node, x2)",
+        "1 / Cot node - complete wiring (one per node, x2)"),
+    2: ("3 / Main hub - complete wiring (x1)",
+        "2 / Main hub - complete wiring (x1)"),
+    3: ("4 / Caregiver wearable - complete wiring (x1)",
+        "3 / Caregiver wearable - complete wiring (x1)"),
+    4: ("1 / CryNet system - power chain and links",
+        "4 / CryNet system - power chain and links"),
+}
+
+
+def prep_wiring(src: Path, dst_pdf: Path, dst_dir: Path, dpi: int = 150) -> None:
+    dst_dir.mkdir(parents=True, exist_ok=True)
+    doc = pymupdf.open(src)
+    doc.select(WIRING_ORDER)
+    for new_no, (old_title, new_title) in WIRING_RETITLE.items():
+        page = doc[new_no - 1]
+        spans = [s for b in page.get_text("dict")["blocks"] if b.get("lines")
+                 for l in b["lines"] for s in l["spans"]]
+        title = max(spans, key=lambda s: s["size"])
+        assert title["text"] == old_title, f"sheet {new_no}: {title['text']!r}"
+        bbox = pymupdf.Rect(title["bbox"]) + (-2, -2, 2, 2)
+        page.add_redact_annot(bbox)
+        page.apply_redactions()
+        # Helvetica-Bold is metric-compatible with the generator's Arial bold
+        ink = (0x18 / 255, 0x26 / 255, 0x38 / 255)
+        page.insert_text(title["origin"], new_title, fontsize=title["size"],
+                         fontname="hebo", color=ink)
+    doc.save(dst_pdf, garbage=3, deflate=True)
+    size = dst_pdf.stat().st_size
+    print(f"  crynet-wiring.pdf          {size/1024:8.1f} KB  (renumbered + reordered)")
+    for i, page in enumerate(pymupdf.open(dst_pdf), start=1):
+        pix = page.get_pixmap(dpi=dpi)
+        out = dst_dir / f"sheet-{i}.png"
+        pix.save(out)
+        print(f"  {out.name:<28} {out.stat().st_size/1024:8.1f} KB  ({pix.width}x{pix.height})")
+    doc.close()
+
+
 def main() -> None:
     out = TWO / "research" / "out"
     fp2_out = FP2 / "research" / "out"
@@ -79,15 +125,14 @@ def main() -> None:
     prep_photo(out / "photo_panel_before_fix.png", DST / "crynet" / "panel-before.jpg")
     prep_photo(out / "photo_panel_after_fix.png", DST / "crynet" / "panel-after.jpg")
 
-    print("Wiring sheets (rendered from the two-node diagrams PDF):")
-    prep_pdf_pages(TWO / "SYSTEM_WIRING_DIAGRAMS.pdf", DST / "wiring", "sheet", dpi=150)
+    print("Wiring sheets (renumbered copy of the two-node diagrams PDF):")
+    prep_wiring(TWO / "SYSTEM_WIRING_DIAGRAMS.pdf", PUB / "docs" / "crynet-wiring.pdf",
+                DST / "wiring", dpi=150)
 
     print("Documents:")
     (PUB / "docs").mkdir(parents=True, exist_ok=True)
     shutil.copy2(TWO / "docs" / "dossier" / "CryNet-TwoNode-Dossier.pdf", PUB / "docs" / "crynet-dossier.pdf")
-    shutil.copy2(TWO / "SYSTEM_WIRING.pdf", PUB / "docs" / "crynet-wiring.pdf")
     print(f"  crynet-dossier.pdf         {(PUB / 'docs' / 'crynet-dossier.pdf').stat().st_size/1048576:8.1f} MB")
-    print(f"  crynet-wiring.pdf          {(PUB / 'docs' / 'crynet-wiring.pdf').stat().st_size/1024:8.1f} KB")
 
 
 if __name__ == "__main__":
