@@ -27,9 +27,9 @@ const {
   chrome = true,
 } = Astro.props;
 
-const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : '';
-const canonical = siteUrl ? absolute(Astro.url.pathname, siteUrl) : undefined;
-const ogAbs = siteUrl ? absolute(ogImage, siteUrl) : undefined;
+const siteOrigin = Astro.site ? new URL(Astro.site).origin : '';
+const canonical = siteOrigin ? `${siteOrigin}${Astro.url.pathname}` : undefined;
+const ogAbs = siteOrigin ? absolute(ogImage, siteOrigin) : undefined;
 const pageTitle = title === site.name ? `${site.name} — ${site.role}` : `${title} — ${site.name}`;
 ---
 <!doctype html>
