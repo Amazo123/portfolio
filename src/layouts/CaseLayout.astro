@@ -54,7 +54,7 @@ const statusTone = {
         <div class="cs__hero-foot" data-reveal style="--delay:180ms">
           <p class="cs__summary">{project.summary}</p>
           <dl class="kv cs__kv">
-            <dt>Role</dt><dd>Sole hardware & firmware engineer</dd>
+            <dt>Role</dt><dd>{project.role ?? 'Sole hardware & firmware engineer'}</dd>
             <dt>Stack</dt><dd>{project.stack.join(' · ')}</dd>
             <dt>Headline</dt><dd>{project.heroMetric.value}: {project.heroMetric.label}</dd>
           </dl>

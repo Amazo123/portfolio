@@ -114,11 +114,6 @@ const sections = [
       </figure>
     </div>
 
-    <figure class="figure figure--wide" data-reveal>
-      <div class="figure__frame"><img src={url('/img/wiring/sheet-1.png')} alt="Wiring sheet one: the CryNet system power chain and links" loading="lazy" /></div>
-      <figcaption>Sheet 1 / 5, the system power chain and links. All five sheets (node, hub, wearable, charger pad map) are <a href={url('/lab/')}>in the lab</a>, generated from the wiring tool with a layout checker that fails the build if a label overlaps a component.</figcaption>
-    </figure>
-
     <div class="note" data-reveal>
       <p class="note__title">A thing removed on purpose</p>
       <p>The cots originally reported battery percentage, and the panel drew it. The battery sense
@@ -257,8 +252,12 @@ const sections = [
       </div>
       <div class="note">
         <p class="note__title">O-1c: committed, not yet flashed</p>
-        <p>The node's I²S zero watchdog is written and committed but not on the boards; the boards
-        are mid-solder. And the microphone has a measured close-range blind spot (O-1g): a source
+        <p>The node's I²S zero watchdog is written and committed but not on the boards; a node is
+        not reflashed mid-solder (D-79), and the final wiring is still being soldered. The dossier
+        records two limits: it detects exact zeros only, so a microphone stuck at a DC value is
+        not caught, and the fault-injection test proved the code executes and refills a window,
+        not that it recovers the original physical fault. After it goes on it needs a played-cry
+        end-to-end run. The microphone also has a measured close-range blind spot (O-1g): a source
         loud enough to drive it to the rail produces a window the hub refuses outright.</p>
       </div>
       <div class="note">
@@ -284,7 +283,7 @@ const sections = [
         <span class="dl__kind mono">PDF · 21 chapters</span>
         <span class="dl__title">The two-node dossier</span>
         <span class="dl__note">Every design decision, measurement and dead end, in order, including the ones that changed the design.</span>
-        <span class="dl__meta mono">13.9 MB ↗</span>
+        <span class="dl__meta mono">17.5 MB ↗</span>
       </a>
       <a class="dl" href={url('/docs/crynet-wiring.pdf')} target="_blank" rel="noopener">
         <span class="dl__kind mono">PDF · 5 sheets</span>

@@ -6,11 +6,9 @@ const description =
   'The lab: wiring sheets, the full CryNet project dossier, and bench-log measurements. The flagship build gets the complete paper trail; the other projects carry their numbers in their case studies.';
 
 const sheets = [
-  { n: 1, title: 'System: power chain and links', note: 'The whole loom on one sheet: hub, both cots, wearable, and where every volt comes from.' },
-  { n: 2, title: 'Cot node: complete wiring (×2)', note: 'INMP441 on GPIO4/5/6, the C3 Pro Mini, and nothing else that is not load-bearing.' },
-  { n: 3, title: 'Main hub: complete wiring (×1)', note: 'ESP32-S3-DevKitC-1 N16R8 with the ILI9341 on GPIO10–14 and backlight on GPIO4.' },
-  { n: 4, title: 'Caregiver wearable: complete wiring (×1)', note: 'SSD1306 OLED and the coin ERM behind a BC547 low-side switch with its 22 Ω stall cap.' },
-  { n: 5, title: 'LX-LCBST-TC-001: pad map and bench procedure', note: 'The charger board: pad map, and the bench procedure for bringing a cell up safely.' },
+  { img: 2, title: 'Cot node: complete wiring (×2)', note: 'INMP441 on GPIO4/5/6, the C3 Pro Mini, and nothing else that is not load-bearing.' },
+  { img: 3, title: 'Main hub: complete wiring (×1)', note: 'ESP32-S3-DevKitC-1 N16R8 with the ILI9341 on GPIO10–14 and backlight on GPIO4.' },
+  { img: 4, title: 'Caregiver wearable: complete wiring (×1)', note: 'SSD1306 OLED and the coin ERM behind a BC547 low-side switch with its 22 Ω stall cap.' },
 ];
 
 const log = [
@@ -59,9 +57,9 @@ const log = [
         {sheets.map((s) => (
           <figure class="figure sheet" data-reveal>
             <div class="figure__frame">
-              <img src={url(`/img/wiring/sheet-${s.n}.png`)} alt={`Wiring sheet ${s.n}: ${s.title}`} loading="lazy" />
+              <img src={url(`/img/wiring/sheet-${s.img}.png`)} alt={`Wiring sheet ${s.img} of the CryNet system: ${s.title}`} loading="lazy" />
             </div>
-            <figcaption><span class="sheet__num mono tnum">{s.n} / 5</span> · <strong>{s.title}</strong><br />{s.note}</figcaption>
+            <figcaption><span class="sheet__num mono tnum">Sheet {s.img} / 5</span> · <strong>{s.title}</strong><br />{s.note}</figcaption>
           </figure>
         ))}
       </div>
@@ -106,14 +104,16 @@ const log = [
         <div data-reveal>
           <h2 class="h2">The full dossier</h2>
           <p class="body" style="margin-top:1rem">
-            Twenty-one chapters: the system, the research, the signal contract, the model, the
-            firmware for all three units, the radio link, the alert policy, the BLE contract, the
-            hardware, the display, the results, the bench, the toolchain, the host tools, the
-            limitations, a replication guide and a glossary. It opens with the honest-status section
+            Twenty-one chapters and two appendices across 684 pages: the system, the research, the
+            signal contract, the model, the firmware for all three units, the radio link, the alert
+            policy, the BLE contract, the cry dashboard, the hardware, the display, the results,
+            the bench, the toolchain, the host tools, the limitations, a replication guide and a
+            glossary. The appendices reproduce the source and the record's own documents, so every
+            claim can be checked against the code. It opens with the honest-status section
             before any results, because that is the order the numbers should be read in.
           </p>
           <div class="dossier__actions" data-reveal>
-            <a class="btn btn--primary" href={url('/docs/crynet-dossier.pdf')} target="_blank" rel="noopener">Read the dossier (PDF · 13.9 MB) ↗</a>
+            <a class="btn btn--primary" href={url('/docs/crynet-dossier.pdf')} target="_blank" rel="noopener">Read the dossier (PDF · 17.5 MB) ↗</a>
             <a class="btn" href={url('/work/crynet/')}>Short version: the case study</a>
           </div>
         </div>
