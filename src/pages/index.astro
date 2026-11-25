@@ -318,6 +318,17 @@ const toolboxB = [
     font-size: 0.62rem;
   }
 
+  /* small phones: let the availability pill wrap instead of clipping */
+  @media (max-width: 720px) {
+    .hero__eyebrow {
+      white-space: normal;
+      max-width: 36ch;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.7;
+    }
+  }
+
   .hero__device-wrap {
     max-width: 660px;
     margin-top: clamp(2.75rem, 5vw, 4.25rem);

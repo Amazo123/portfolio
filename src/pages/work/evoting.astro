@@ -107,4 +107,8 @@ const sections = [
   .chain li:last-child { border-bottom: 1px solid var(--line-soft); }
   .chain__k { color: var(--green); padding-top: 0.15rem; white-space: nowrap; }
   .note { margin-top: 1.5rem; }
+
+  @media (max-width: 640px) {
+    .chain li { grid-template-columns: 1fr; gap: 0.2rem; }
+  }
 </style>
