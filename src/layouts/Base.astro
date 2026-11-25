@@ -108,9 +108,13 @@ const pageTitle = title === site.name ? `${site.name} — ${site.role}` : `${tit
 
 <style is:global>
   body {
-    /* subtle grain + vignette so the canvas doesn't look flat (theme-aware) */
-    background-image: var(--body-glow);
-    background-repeat: no-repeat;
+    /* faint bench-grid over the canvas + soft accent glow, theme-aware */
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--accent) 3.5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 3.5%, transparent) 1px, transparent 1px),
+      var(--body-glow);
+    background-size: 56px 56px, 56px 56px, auto, auto;
+    background-repeat: repeat, repeat, no-repeat, no-repeat;
     background-attachment: fixed;
   }
 </style>

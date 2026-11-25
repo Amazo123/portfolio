@@ -4,6 +4,7 @@ import { url } from '../lib/url';
 import Icon from './Icon.astro';
 
 const year = new Date().getFullYear();
+const updated = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
 ---
 <footer class="footer">
   <div class="shell footer__inner">
@@ -45,8 +46,12 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="footer__base">
-      <p class="footer__meta mono">© {year} {site.name} · Maiduguri, Nigeria</p>
-      <p class="footer__meta mono footer__uptime">uptime {year} · no trackers · static html</p>
+      <p class="footer__meta mono">© {year} {site.name}</p>
+      <p class="footer__meta mono footer__live">
+        <span class="footer__pulse" aria-hidden="true"></span>
+        Actively maintained · Updated {updated}
+      </p>
+      <p class="footer__meta mono">{site.location}</p>
     </div>
   </div>
 </footer>
@@ -85,6 +90,7 @@ const year = new Date().getFullYear();
   .footer__base {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
     margin-top: 2.75rem;
@@ -92,7 +98,16 @@ const year = new Date().getFullYear();
     border-top: 1px solid var(--line-soft);
   }
 
-  .footer__uptime { color: var(--dim); }
+  .footer__live { display: inline-flex; align-items: center; gap: 0.5rem; }
+
+  .footer__pulse {
+    width: 7px;
+    height: 7px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+  }
 
   @media (max-width: 760px) {
     .footer__grid { grid-template-columns: 1fr; gap: 1.75rem; }

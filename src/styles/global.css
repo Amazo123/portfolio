@@ -45,7 +45,7 @@
   --btn-hover-bg: rgba(45, 212, 191, 0.05);
   --primary-ink: #02110f;
   --body-glow:
-    radial-gradient(1200px 600px at 75% -10%, rgba(45, 212, 191, 0.055), transparent 60%),
+    radial-gradient(1100px 560px at 50% -8%, rgba(45, 212, 191, 0.075), transparent 65%),
     radial-gradient(900px 500px at 10% 105%, rgba(45, 212, 191, 0.035), transparent 60%);
   --portrait-bg:
     repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(110, 231, 213, 0.035) 12px, rgba(110, 231, 213, 0.035) 24px),
@@ -58,7 +58,8 @@
 
   --shell: 1240px;
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
-  --radius: 4px;
+  --radius: 12px;
+  --radius-pill: 999px;
   --nav-h: 62px;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -106,7 +107,7 @@
   --btn-hover-bg: rgba(12, 133, 119, 0.08);
   --primary-ink: #ffffff;
   --body-glow:
-    radial-gradient(1200px 600px at 75% -10%, rgba(12, 133, 119, 0.05), transparent 60%),
+    radial-gradient(1100px 560px at 50% -8%, rgba(12, 133, 119, 0.06), transparent 65%),
     radial-gradient(900px 500px at 10% 105%, rgba(12, 133, 119, 0.03), transparent 60%);
   --portrait-bg:
     repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(12, 133, 119, 0.05) 12px, rgba(12, 133, 119, 0.05) 24px),
@@ -283,9 +284,9 @@ h1, h2, h3, h4, h5 {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.72rem 1.15rem;
+  padding: 0.72rem 1.4rem;
   border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--text);
   font-family: var(--font-mono);
@@ -356,9 +357,9 @@ h1, h2, h3, h4, h5 {
 .chip {
   display: inline-flex;
   align-items: center;
-  padding: 0.28rem 0.6rem;
+  padding: 0.3rem 0.8rem;
   border: 1px solid var(--line);
-  border-radius: 2px;
+  border-radius: var(--radius-pill);
   font-family: var(--font-mono);
   font-size: 0.66rem;
   letter-spacing: 0.1em;
@@ -496,8 +497,8 @@ h1, h2, h3, h4, h5 {
   font-size: 0.86em;
   color: var(--accent-hi);
   background: var(--panel-teal);
-  padding: 0.12em 0.38em;
-  border-radius: 2px;
+  padding: 0.12em 0.5em;
+  border-radius: 6px;
 }
 
 /* -------------------------------------------------------------- callout */
@@ -579,12 +580,12 @@ h1, h2, h3, h4, h5 {
   left: 0.75rem;
   top: -100px;
   z-index: 200;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.1rem;
   background: var(--accent);
   color: var(--primary-ink);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  border-radius: var(--radius);
+  border-radius: var(--radius-pill);
   transition: top 0.2s var(--ease);
 }
 .skip-link:focus { top: 0.75rem; }
