@@ -215,7 +215,13 @@ const sections = [
         </ul>
         <a class="btn" style="margin-top:1.5rem" href="https://amazings-crynet.amazingadelowo.workers.dev/" target="_blank" rel="noopener">Open the live dashboard ↗</a>
       </div>
-      <Tft src={url('/img/crynet/tft-nowifi.png')} alt="Hub panel with no Wi-Fi: still listening, two cots linked" />
+      <div data-reveal>
+        <div class="figure__frame dash-shot">
+          <img class="dash-shot__img dash-shot__img--dark" src={url('/img/crynet/dash-dark.png')} alt="The CryNet dashboard in the dark theme, demo data: episode totals, cries-by-day and night-by-night charts, the by-cot table" loading="lazy" />
+          <img class="dash-shot__img dash-shot__img--light" src={url('/img/crynet/dash-light.png')} alt="The CryNet dashboard in the light theme, demo data" loading="lazy" />
+        </div>
+        <p class="figure-caption mono">the caregiver dashboard · shown with demo data · follows the site theme</p>
+      </div>
     </div>
   </section>
 
@@ -340,7 +346,10 @@ const sections = [
 
   /* dashboard */
   .dash { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr); gap: clamp(1.5rem, 4vw, 2.75rem); align-items: start; margin-top: 0.5rem; }
-  .dash :global(.screen) { margin-top: 0; }
+  .dash-shot { overflow: hidden; }
+  .dash-shot__img--light { display: none; }
+  :global([data-theme='light']) .dash-shot__img--dark { display: none; }
+  :global([data-theme='light']) .dash-shot__img--light { display: block; }
 
   /* honest */
   .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1.5rem; }
@@ -369,6 +378,5 @@ const sections = [
     .media-grid--2 { grid-template-columns: 1fr; }
     .chain li { grid-template-columns: 1fr; gap: 0.2rem; }
     .dash { grid-template-columns: 1fr; }
-    .dash :global(.tft) { max-width: 380px; }
   }
 </style>

@@ -51,8 +51,8 @@
     0 5px 14px -8px rgba(0, 0, 0, 0.55);
   --body-glow:
     radial-gradient(1100px 560px at 50% -8%, rgba(45, 212, 191, 0.075), transparent 65%),
-    radial-gradient(1150px 620px at 50% 42%, rgba(45, 212, 191, 0.045), transparent 72%),
-    radial-gradient(900px 500px at 10% 105%, rgba(45, 212, 191, 0.035), transparent 60%);
+    radial-gradient(1400px 950px at 50% 54%, rgba(45, 212, 191, 0.05), transparent 72%),
+    radial-gradient(1000px 620px at 10% 106%, rgba(45, 212, 191, 0.04), transparent 62%);
   --portrait-bg:
     repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(110, 231, 213, 0.035) 12px, rgba(110, 231, 213, 0.035) 24px),
     linear-gradient(180deg, #0a1112, #060b0c);
@@ -118,8 +118,8 @@
     0 4px 12px -7px rgba(23, 35, 31, 0.18);
   --body-glow:
     radial-gradient(1100px 560px at 50% -8%, rgba(12, 133, 119, 0.06), transparent 65%),
-    radial-gradient(1150px 620px at 50% 42%, rgba(12, 133, 119, 0.035), transparent 72%),
-    radial-gradient(900px 500px at 10% 105%, rgba(12, 133, 119, 0.03), transparent 60%);
+    radial-gradient(1400px 950px at 50% 54%, rgba(12, 133, 119, 0.04), transparent 72%),
+    radial-gradient(1000px 620px at 10% 106%, rgba(12, 133, 119, 0.032), transparent 62%);
   --portrait-bg:
     repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(12, 133, 119, 0.05) 12px, rgba(12, 133, 119, 0.05) 24px),
     linear-gradient(180deg, #ffffff, #eef1ef);
