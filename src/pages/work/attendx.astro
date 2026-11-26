@@ -74,7 +74,7 @@ const sections = [
 
     <figure class="figure figure--wide" data-reveal>
       <div class="figure__frame">
-        <video id="concept-reel" src={url('/img/attendx/concept-reel.mp4')} poster={url('/img/attendx/concept-reel-poster.jpg')} controls playsinline preload="metadata"></video>
+        <video id="concept-reel" src={url('/img/attendx/concept-reel.mp4')} poster={url('/img/attendx/concept-reel-poster.jpg')} controls muted playsinline preload="metadata"></video>
       </div>
       <figcaption>THE CONCEPT REEL · AI-rendered animation from the team's pitch: the terminal, the PIN path, the verdict · a render, not the physical unit</figcaption>
     </figure>
@@ -188,23 +188,28 @@ const sections = [
 </style>
 
 <script>
-  // Concept reel: start on page load with sound. If the browser refuses unmuted
-  // autoplay, start silent and unmute on the visitor's first interaction.
+  // Concept reel: plays only while scrolled into view, starts muted, and the
+  // visitor chooses sound from the video's own controls. Out of view, it stops.
   const reel = document.getElementById('concept-reel') as HTMLVideoElement | null;
-  if (reel) {
-    const attempt = reel.play();
-    if (attempt) {
-      attempt.catch(() => {
-        reel.muted = true;
-        reel.play().catch(() => {});
-        const unmute = () => {
-          // Leave a video the visitor paused or muted on their own.
-          if (!reel.paused) reel.muted = false;
-        };
-        for (const ev of ['pointerdown', 'keydown', 'touchstart']) {
-          document.addEventListener(ev, unmute, { once: true, capture: true });
+  if (reel && 'IntersectionObserver' in window) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let userPaused = false;
+    // A pause that lands while the reel is on screen is the visitor's doing; respect it.
+    reel.addEventListener('pause', () => { if (reel.dataset.inview === '1') userPaused = true; });
+    reel.addEventListener('play', () => { userPaused = false; });
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          reel.dataset.inview = entry.isIntersecting ? '1' : '0';
+          if (entry.isIntersecting) {
+            if (!reduced && !userPaused && reel.paused) reel.play().catch(() => {});
+          } else if (!reel.paused) {
+            reel.pause();
+          }
         }
-      });
-    }
+      },
+      { threshold: 0.3 }
+    );
+    io.observe(reel);
   }
 </script>
