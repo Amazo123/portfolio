@@ -97,7 +97,7 @@ const coursework = [
             </figure>
             <figure>
               <div class="camp__frame camp__frame--wide"><img src={url('/img/camp/robot-race.jpg')} alt="The maze race finale at the CEAISES and ATBU robotics camp" loading="lazy" /></div>
-              <figcaption class="mono">maze-race day, CEAISES &amp; ATBU</figcaption>
+              <figcaption class="mono">the camp grand finale, maze race day</figcaption>
             </figure>
             <figure>
               <div class="camp__frame camp__frame--wide"><img src={url('/img/camp/camp-group.jpg')} alt="Kids and instructors outside after the closing day of the camp" loading="lazy" /></div>
@@ -189,10 +189,20 @@ const coursework = [
             <li><strong>1st place, Grand Finale Maze Race</strong> · mentored Group Six at the CEAISES & ATBU children's robotics camp · Aug–Sep 2026</li>
             <li><strong>Student Spotlight</strong> · featured by NASCOMSOFT EMBEDED LTD during my SIWES internship</li>
           </ul>
-          <figure class="cert">
-            <div class="cert__frame"><img src={url('/img/camp/certificate.jpg')} alt="Certificate of appreciation from CEAISES and ATBU for instructing at the AI and Robotics Summer School for Kids 2026" loading="lazy" /></div>
-            <figcaption class="mono">instructor recognition · AI &amp; Robotics Summer School for Kids 2026</figcaption>
-          </figure>
+          <div class="recs-grid">
+            <figure>
+              <div class="recs-frame"><img src={url('/img/attendx/certificate.jpg')} alt="Grand winner certificate from the NASCOMSOFT EMBEDED Hackathon 2.0" loading="lazy" /></div>
+              <figcaption class="mono">hackathon · grand winner</figcaption>
+            </figure>
+            <figure>
+              <div class="recs-frame"><img src={url('/img/camp/certificate.jpg')} alt="Certificate of appreciation from CEAISES and ATBU for instructing at the AI and Robotics Summer Camp for Kids 2026" loading="lazy" /></div>
+              <figcaption class="mono">instructor recognition · AI &amp; Robotics Summer Camp for Kids 2026</figcaption>
+            </figure>
+            <figure>
+              <div class="recs-frame"><img src={url('/img/about/spotlight.jpg')} alt="NASCOMSOFT EMBEDED Student Spotlight graphic featuring Amazing Adelowo" loading="lazy" /></div>
+              <figcaption class="mono">student spotlight</figcaption>
+            </figure>
+          </div>
           <a class="btn" style="margin-top:1.5rem" href={url('/resume.pdf')}>Full CV · PDF ↗</a>
         </div>
       </div>
@@ -238,15 +248,23 @@ const coursework = [
     color: var(--dim);
   }
 
-  .cert { margin: 1.5rem 0 0; }
-  .cert__frame {
+  .recs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+    margin-top: 1.25rem;
+  }
+  .recs-grid figure { margin: 0; }
+  .recs-frame {
+    aspect-ratio: 1 / 1;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: var(--panel);
     box-shadow: var(--card-shadow);
     overflow: hidden;
   }
-  .cert figcaption {
+  .recs-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .recs-grid figcaption {
     margin-top: 0.55rem;
     font-size: 0.6rem;
     letter-spacing: 0.08em;
@@ -327,5 +345,11 @@ const coursework = [
     .skills { grid-template-columns: 1fr; }
     .record { grid-template-columns: 1fr; }
     .about__side { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+  }
+
+  @media (max-width: 640px) {
+    .recs-grid { grid-template-columns: 1fr; }
+    .recs-frame { aspect-ratio: auto; }
+    .recs-frame img { height: auto; }
   }
 </style>
