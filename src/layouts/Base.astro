@@ -70,6 +70,9 @@ const pageTitle = title === site.name ? `${site.name} — ${site.role}` : `${tit
           t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
         }
         document.documentElement.setAttribute('data-theme', t);
+        // Keep the browser chrome tint on the resolved theme, not always dark.
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute('content', t === 'light' ? '#f6f5f1' : '#020404');
       })();
     </script>
   </head>
