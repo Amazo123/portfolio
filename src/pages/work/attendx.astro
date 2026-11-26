@@ -18,7 +18,7 @@ const sections = [
   <section class="cs-section" id="overview">
     <div class="rail" data-reveal><span class="rail__num">01</span><span class="rail__label">Overview</span><span class="rail__line"></span></div>
     <p class="body" data-reveal>
-      AttendX is a smart biometric attendance and management system, built for the NASCOMSOFT
+      AttendX is a smart biometric attendance management system, built for the NASCOMSOFT
       EMBEDED Hackathon 2.0 over five weeks as <strong>TEAM RAMP</strong>, a four-person team. I
       ran product and worked on the hardware. The idea: clock
       in with a finger instead of a signature, and make sure nobody can clock in for somebody else.
@@ -68,7 +68,7 @@ const sections = [
       </figure>
       <figure class="figure">
         <div class="figure__frame"><img src={url('/img/attendx/circuit.jpg')} alt="Wiring diagram of the AttendX terminal: ESP32-S3, keypad, LCD, fingerprint module, buck converter and battery pack" loading="lazy" /></div>
-        <figcaption>THE WIRING PLAN · S3, keypad, LCD, fingerprint, buck and pack, drawn before the loom was crimped</figcaption>
+        <figcaption>THE WIRING PLAN · the whole loom drawn before anything was crimped</figcaption>
       </figure>
     </div>
 
@@ -121,10 +121,14 @@ const sections = [
       <li><strong>Result:</strong> a working physical demo on finale day: fingerprint clock-ins, PIN fallback with snapshot, the full loop on the enclosed terminal.</li>
     </ul>
 
-    <div class="media-grid media-grid--2" data-reveal>
+    <div class="media-grid media-grid--3" data-reveal>
+      <figure class="figure">
+        <div class="figure__frame"><img src={url('/img/attendx/sensor.jpg')} alt="The SFM-V1.7 capacitive fingerprint module held in hand, its ribbon cable trailing" loading="lazy" /></div>
+        <figcaption>THE SENSOR · the SFM-V1.7 capacitive module, two days before the finale</figcaption>
+      </figure>
       <figure class="figure">
         <div class="figure__frame"><img src={url('/img/attendx/wiring.jpg')} alt="A hand holding the AttendX ribbon-cable loom over the terminal shell" loading="lazy" /></div>
-        <figcaption>THE LOOM · point-to-point continuity on every conductor before any library was trusted</figcaption>
+        <figcaption>THE LOOM · every conductor checked before any library was trusted</figcaption>
       </figure>
       <figure class="figure">
         <div class="figure__frame">
@@ -154,7 +158,7 @@ const sections = [
     <div class="media-grid media-grid--2" data-reveal>
       <figure class="figure">
         <div class="figure__frame"><img src={url('/img/attendx/placard-me.jpg')} alt="Me holding the AttendX terminal and the grand winner cheque at the hackathon finale" loading="lazy" /></div>
-        <figcaption>Finale day · the terminal and the cheque, same hands</figcaption>
+        <figcaption>Finale day · the grand winner cheque and the terminal</figcaption>
       </figure>
       <figure class="figure">
         <div class="figure__frame"><img src={url('/img/attendx/placard-team.jpg')} alt="TEAM RAMP, all four members, with the grand winner cheque" loading="lazy" /></div>
@@ -165,7 +169,7 @@ const sections = [
     <div class="media-grid media-grid--2" data-reveal>
       <figure class="figure">
         <div class="figure__frame"><img src={url('/img/attendx/finale-crowd.jpg')} alt="Teams and judges gathered at the NASCOMSOFT EMBEDED Hackathon 2.0 grand finale" loading="lazy" /></div>
-        <figcaption>The grand finale hall · ASUP Hall, Federal Polytechnic Bauchi</figcaption>
+        <figcaption>The grand finale · participants, the NASCOMSOFT team and attendees</figcaption>
       </figure>
       <figure class="figure">
         <div class="figure__frame"><img src={url('/img/attendx/certificate.jpg')} alt="Grand winner certificate of achievement from NASCOMSOFT EMBEDED Hackathon 2.0" loading="lazy" /></div>

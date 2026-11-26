@@ -565,12 +565,13 @@ h1, h2, h3, h4, h5 {
 .figure figcaption { max-width: 70ch; }
 .figure__frame img, .figure__frame video { display: block; width: 100%; height: auto; }
 
-/* two-up media grids shared by the case studies */
+/* media grids shared by the case studies */
 .media-grid { display: grid; gap: 1rem; margin-top: 1.75rem; }
 .media-grid--2 { grid-template-columns: 1fr 1fr; }
+.media-grid--3 { grid-template-columns: repeat(3, 1fr); }
 .media-grid .figure { margin-top: 0; }
 @media (max-width: 860px) {
-  .media-grid--2 { grid-template-columns: 1fr; }
+  .media-grid--2, .media-grid--3 { grid-template-columns: 1fr; }
 }
 
 /* --------------------------------------------------------------- reveals */

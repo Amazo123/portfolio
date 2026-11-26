@@ -34,12 +34,12 @@ export const caseStudies: CaseStudy[] = [
     slug: 'attendx',
     index: '02',
     title: 'AttendX',
-    subtitle: 'Smart biometric attendance and management system · TEAM RAMP',
+    subtitle: 'Smart biometric attendance management system · TEAM RAMP',
     year: '2026',
     kind: 'Hackathon · NASCOMSOFT TEAM RAMP',
     status: 'built · demo',
     summary:
-      'A smart biometric attendance and management system on an ESP32-S3-CAM: SFM-V1.7 capacitive fingerprint module, 16×2 LCD, 4×4 keypad, and a 3D-printed enclosure. PIN clock-ins trigger an automatic camera snapshot so proxy attendance leaves evidence. TEAM RAMP took 1st place overall at the NASCOMSOFT EMBEDED Hackathon 2.0.',
+      'A smart biometric attendance management system on an ESP32-S3-CAM: SFM-V1.7 capacitive fingerprint module, 16×2 LCD, 4×4 keypad, and a 3D-printed enclosure. PIN clock-ins trigger an automatic camera snapshot so proxy attendance leaves evidence. TEAM RAMP took 1st place overall at the NASCOMSOFT EMBEDED Hackathon 2.0.',
     heroMetric: { value: '1st', label: 'Overall · TEAM RAMP grand finale' },
     role: 'Product manager & hardware engineer',
     tags: ['ESP32-S3-CAM', 'SFM-V1.7', 'UART', 'I²C LCD', '3D print'],
@@ -57,6 +57,7 @@ export const caseStudies: CaseStudy[] = [
     summary:
       'An ESP32 voting terminal that puts 20 party choices behind an AS608 optical fingerprint gate, paginated on a 16×4 LCD with a 4×4 keypad. Every verified ballot is pushed over Wi-Fi to a Render-hosted dashboard on Neon PostgreSQL. Brownout-resist power sequencing keeps optical scans stable mid-read.',
     heroMetric: { value: '20', label: 'Party choices · live cloud sync' },
+    role: 'Hardware & firmware engineer',
     tags: ['ESP32', 'AS608', 'PostgreSQL', 'Wi-Fi', 'Power design'],
     stack: ['ESP32', 'AS608', '16×4 LCD', 'Neon Postgres', 'Render'],
     accent: 'green',
@@ -180,7 +181,7 @@ export const timeline = [
     period: 'Aug–Oct 2026',
     title: 'Product Manager & Hardware Engineer, TEAM RAMP',
     org: 'NASCOMSOFT EMBEDED Hackathon 2.0',
-    note: 'Built AttendX with TEAM RAMP, the smart biometric attendance and management system that took 1st place overall: ESP32-S3-CAM, capacitive fingerprint module, 3D-printed enclosure, and the PIN-fallback snapshot that catches proxy clock-ins.',
+    note: 'Built AttendX with TEAM RAMP, the smart biometric attendance management system that took 1st place overall: ESP32-S3-CAM, capacitive fingerprint module, 3D-printed enclosure, and the PIN-fallback snapshot that catches proxy clock-ins.',
     tags: ['1st place'],
   },
   {
