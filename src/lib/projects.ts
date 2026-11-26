@@ -89,6 +89,8 @@ export interface ShortCard {
   source: string;
   /** photo path (under /img), only when a real photo exists for the build */
   img?: string;
+  /** alt override, for cards whose image is a diagram rather than the built hardware */
+  alt?: string;
 }
 
 export const shortCards: ShortCard[] = [
@@ -104,35 +106,27 @@ export const shortCards: ShortCard[] = [
     img: '/img/bench/p10.jpg',
   },
   {
-    title: 'RA-02 LoRa + SIM800L telemetry nodes',
-    year: '2026',
-    status: 'built & tested',
-    summary:
-      'Sub-GHz RA-02 LoRa transmit/receive pairs with a DHT sensor on the node side, plus GSM SIM800L paths for telemetry where LoRa cannot reach and SMS alerts where there is no network.',
-    tags: ['LoRa RA-02', 'SIM800L', 'DHT', 'Telemetry'],
-    accent: 'accent',
-    source: 'SIWES · NASCOMSOFT EMBEDED LTD',
-  },
-  {
     title: 'ATmega328P streetlight controller',
     year: '2026',
-    status: 'firmware + circuit design',
+    status: 'firmware',
     summary:
-      'Dual-LDR dawn/dusk streetlight controller in embedded C: relay switching with hysteresis, schematics drawn in Proteus. Firmware and circuit complete; hardware assembly pending.',
-    tags: ['ATmega328P', 'Relay', 'LDR', 'Proteus'],
+      'Dual-LDR dawn/dusk streetlight controller in embedded C: relay switching with hysteresis on the assignment circuit. My part was the firmware.',
+    tags: ['ATmega328P', 'Embedded C', 'Relay', 'LDR'],
     accent: 'plain',
     source: 'NASCOMSOFT EMBEDED LTD · week 23 assignment',
     img: '/img/bench/streetlight-circuit.jpg',
   },
   {
-    title: 'Soil-moisture irrigation controller',
+    title: 'Solar snake detection system',
     year: '2026',
-    status: 'firmware + circuit design',
+    status: 'circuit & design docs',
     summary:
-      'Automated irrigation rig driven by soil-moisture thresholds, with pump control through a relay and sensor-debounce logic. Firmware and circuit diagram delivered; not yet on hardware.',
-    tags: ['ATmega328P', 'Moisture sensing', 'Relay', 'Proteus'],
+      'A joint build: four PIR sensors feed an ESP32 that sounds a buzzer alarm, reports on an LCD and raises alerts over LoRa and GSM, running from a solar panel with charge control and battery storage. My contribution was the circuit diagram, the block diagram and the flowchart.',
+    tags: ['ESP32', 'PIR', 'LoRa', 'SIM800L', 'Solar'],
     accent: 'plain',
-    source: 'NASCOMSOFT EMBEDED LTD · week 23 assignment',
+    source: 'Joint project',
+    img: '/img/bench/snake-circuit.png',
+    alt: 'Circuit diagram of the solar snake detection system: four PIR sensors into an ESP32, with buzzer, LCD, LoRa, GSM and a solar charge path',
   },
   {
     title: 'Remote hazard-detection vehicle',
@@ -155,6 +149,7 @@ export const shortCards: ShortCard[] = [
     accent: 'accent',
     source: 'Personal build',
     img: '/img/bench/obstacle-cased.jpg',
+    alt: 'The obstacle-avoidance robot, upright: yellow enclosure over the HC-SR04 and the drive wheels',
   },
   {
     title: 'Electronic vault lock · CirkitDesigner study',
@@ -174,7 +169,7 @@ export const timeline = [
     period: 'Jun–Nov 2026',
     title: 'Embedded Systems Intern',
     org: 'NASCOMSOFT EMBEDED LTD, Bauchi',
-    note: 'Built and tested LoRa and GSM telemetry nodes, assembled an outdoor P10 LED display board with its controller and supply, and designed streetlight and irrigation controllers in embedded C. Featured in the NASCOMSOFT Student Spotlight.',
+    note: 'Assembled an outdoor P10 LED display board with its controller and supply, and wrote the embedded C firmware for the streetlight controller assignment. Featured in the NASCOMSOFT Student Spotlight.',
     tags: ['SIWES'],
   },
   {

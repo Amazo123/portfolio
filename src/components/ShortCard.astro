@@ -17,7 +17,7 @@ const tone = {
 <article class="short" style={`--tone:${tone}`}>
   {card.img && (
     <div class="short__frame">
-      <img src={url(card.img)} alt={`The ${card.title} build`} loading="lazy" />
+      <img src={url(card.img)} alt={card.alt ?? `The ${card.title} build`} loading="lazy" />
     </div>
   )}
   <div class="short__head mono">
