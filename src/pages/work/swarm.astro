@@ -30,6 +30,10 @@ const sections = [
       <dt>Power</dt><dd>Buck converters stepping the pack down per unit: one regulator per robot, not one shared rail</dd>
       <dt>Coordination</dt><dd>Python-side path planning against ArUco markers (in progress)</dd>
     </dl>
+    <figure class="figure figure--wide" data-reveal>
+      <div class="figure__frame"><img src={url('/img/swarm/one-robot.jpg')} alt="One swarm robot from above: ESP32, L298N, buck converter, 18650 cells and the electromagnet coil on a plywood deck" loading="lazy" /></div>
+      <figcaption>ONE ROBOT, TOP-DOWN · ESP32, L298N, buck, 18650s and the electromagnet coil on the plywood deck, before the wiring was dressed</figcaption>
+    </figure>
   </section>
 
   <!-- 02 docking -->
@@ -45,6 +49,10 @@ const sections = [
       <li><strong>Logic-level MOSFETs as the coil switches.</strong> The ESP32's 3.3 V GPIO drives the gates directly, no gate-driver stage, because the parts were chosen for V<sub>GS(th)</sub> and R<sub>DS(on)</sub> at 3.3 V, not grabbed from a drawer.</li>
       <li><strong>Buck converters per unit.</strong> Motors and coils share nothing electrical with a neighbour: one robot browning out cannot take the formation with it.</li>
     </ul>
+    <figure class="figure" data-reveal>
+      <div class="figure__frame"><img src={url('/img/swarm/fleet.jpg')} alt="Three swarm robot decks mid-build, L298N drivers mounted on plywood chassis" loading="lazy" /></div>
+      <figcaption>THE FLEET, MID-BUILD · three decks, three L298Ns, wheels on · the ESP32s and coils came next</figcaption>
+    </figure>
   </section>
 
   <!-- 03 drive -->
@@ -66,6 +74,12 @@ const sections = [
       It is the least glamorous work on this page and some of the most transferable: measure the
       component, not the datasheet's version of it.
     </p>
+    <figure class="figure figure--wide" data-reveal>
+      <div class="figure__frame">
+        <video src={url('/img/swarm/test-drive.mp4')} poster={url('/img/swarm/test-drive-poster.jpg')} autoplay muted loop playsinline></video>
+      </div>
+      <figcaption>THE STRAIGHT-LINE TRIALS · a unit running the marked line outdoors, per-wheel PWM compensation doing its job</figcaption>
+    </figure>
   </section>
 
   <!-- 04 choreography -->
@@ -102,6 +116,10 @@ const sections = [
       What stands: three working robots, protected electromagnetic coupling, calibrated formation
       driving. What remains: closing the loop from dashboard plan to dock-and-carry.
     </p>
+    <figure class="figure" data-reveal>
+      <div class="figure__frame"><img src={url('/img/swarm/bench-team.jpg')} alt="Bringing a swarm robot up with a teammate: laptop, multimeter, 18650 cells, robot half-apart on the bench" loading="lazy" /></div>
+      <figcaption>AT THE SWARM BENCH · bringing a unit up with a teammate: laptop, multimeter, cells, and the robot half-apart</figcaption>
+    </figure>
   </section>
 </CaseLayout>
 

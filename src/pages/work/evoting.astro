@@ -29,6 +29,10 @@ const sections = [
       <dt>Why the cloud</dt><dd>Collation is where paper systems fail. Writing each ballot straight to a hosted database removes the transcription step entirely.</dd>
       <dt>The hard part</dt><dd>Not the voting logic. It was keeping an optical scanner alive on the same rail as Wi-Fi and an LCD.</dd>
     </dl>
+    <figure class="figure figure--wide" data-reveal>
+      <div class="figure__frame"><img src={url('/img/evoting/terminal.jpg')} alt="The e-voting terminal in its enclosure: 16x4 LCD at voter-ID entry, 4x4 keypad, green button lit" loading="lazy" /></div>
+      <figcaption>THE TERMINAL · E-VOTE NIGERIA at the identify step: voter-ID entry on the 16×4 LCD, keypad, cast button lit · the [OFFLINE] banner is the terminal reporting its own link state</figcaption>
+    </figure>
   </section>
 
   <!-- 02 ballot flow -->
@@ -66,6 +70,10 @@ const sections = [
       code was fine, and the system still failed until the rail was fixed. I have budgeted decoupling
       into every build since.
     </p>
+    <figure class="figure figure--wide" data-reveal>
+      <div class="figure__frame"><img src={url('/img/evoting/build.jpg')} alt="The e-voting rig on veroboard: ESP32, AS608 optical sensor and 16x4 LCD on the bench beside a laptop" loading="lazy" /></div>
+      <figcaption>THE RIG · ESP32 on veroboard, the AS608 optical sensor at the end of its loom, the LCD already speaking · the rail that browned out mid-scan lives under that red LED</figcaption>
+    </figure>
   </section>
 
   <!-- 04 cloud -->
@@ -81,6 +89,10 @@ const sections = [
       useful ways: one request per ballot, no streaming sockets to hold open, and a schema simple
       enough to read at a glance.
     </p>
+    <figure class="figure figure--wide" data-reveal>
+      <div class="figure__frame"><img src={url('/img/evoting/dashboard.png')} alt="The e-vote admin dashboard: election state, turnout progress, accepted ballots and terminal telemetry" loading="lazy" /></div>
+      <figcaption>THE RECORD · the admin dashboard over Neon Postgres: election state, turnout and terminal telemetry from a demo session (one ballot cast, election open)</figcaption>
+    </figure>
   </section>
 
   <!-- 05 status -->

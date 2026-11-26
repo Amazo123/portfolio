@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import type { ShortCard } from '../lib/projects';
 
 interface Props {
@@ -14,6 +15,11 @@ const tone = {
 }[card.accent];
 ---
 <article class="short" style={`--tone:${tone}`}>
+  {card.img && (
+    <div class="short__frame">
+      <img src={url(card.img)} alt={`The ${card.title} build`} loading="lazy" />
+    </div>
+  )}
   <div class="short__head mono">
     <span class="tnum">{card.year}</span>
     <span class="short__status">{card.status}</span>
@@ -43,6 +49,19 @@ const tone = {
   }
 
   .short:hover { border-color: var(--line-strong); background: var(--panel-2); }
+
+  .short__frame {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--portrait-bg);
+  }
+  .short__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   .short__head {
     display: flex;

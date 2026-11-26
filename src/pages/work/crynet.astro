@@ -113,6 +113,41 @@ const sections = [
         <figcaption>Panel after the backlight/contrast fix; before/after shots are kept in the dossier as display evidence.</figcaption>
       </figure>
     </div>
+
+    <div class="media-grid media-grid--2" data-reveal>
+      <figure class="figure">
+        <div class="figure__frame"><img src={url('/img/crynet/units-load.jpg')} alt="The full CryNet system in printed enclosures: wearable, hub booting to its splash screen, both cot nodes" loading="lazy" /></div>
+        <figcaption>IN THE SHELLS · the wearable on its strap, the hub rising to its splash, both cot nodes beside it</figcaption>
+      </figure>
+      <figure class="figure">
+        <div class="figure__frame">
+          <video src={url('/img/crynet/inside-hardware.mp4')} poster={url('/img/crynet/inside-hardware-poster.jpg')} controls muted playsinline preload="metadata"></video>
+        </div>
+        <figcaption>INSIDE THE SHELLS · the wearable going together on camera: pack, buck and board into the enclosure, lid screwed down</figcaption>
+      </figure>
+    </div>
+
+    <div class="media-grid media-grid--2" data-reveal>
+      <figure class="figure">
+        <div class="figure__frame"><img src={url('/img/crynet/units-cry.jpg')} alt="The real hub panel showing CRY DETECTED on cot one at 100 percent while the wearable names cot one" loading="lazy" /></div>
+        <figcaption>THE ALERT, END TO END · the hub names cot 1 at 100 %, the wrist names it too: event 63, 8 s ago</figcaption>
+      </figure>
+      <figure class="figure">
+        <div class="figure__frame"><img src={url('/img/crynet/assembling.jpg')} alt="Me assembling the CryNet wearable enclosure at the NASCOMSOFT bench" loading="lazy" /></div>
+        <figcaption>AT THE NASCOMSOFT BENCH · the wearable enclosure coming together by hand</figcaption>
+      </figure>
+    </div>
+
+    <div class="media-grid media-grid--2" data-reveal>
+      <figure class="figure">
+        <div class="figure__frame"><img src={url('/img/crynet/breadboarding.jpg')} alt="CryNet nodes and the TFT panel on breadboards during bring-up, firmware open on a laptop" loading="lazy" /></div>
+        <figcaption>BEFORE THE SHELLS · nodes and the TFT on breadboards, the firmware open on the laptop</figcaption>
+      </figure>
+      <figure class="figure">
+        <div class="figure__frame"><img src={url('/img/crynet/wearable.jpg')} alt="The wearable prototype on a breadboard, OLED showing CRYNET LINK and a cleared screen" loading="lazy" /></div>
+        <figcaption>THE WEARABLE, ON THE BENCH · OLED showing LINK and a cleared screen, tape label and all</figcaption>
+      </figure>
+    </div>
   </section>
 
   <!-- 04 the model -->
@@ -220,7 +255,7 @@ const sections = [
           <img class="dash-shot__img dash-shot__img--dark" src={url('/img/crynet/dash-dark.png')} alt="The CryNet dashboard in the dark theme, demo data: episode totals, cries-by-day and night-by-night charts, the by-cot table" loading="lazy" />
           <img class="dash-shot__img dash-shot__img--light" src={url('/img/crynet/dash-light.png')} alt="The CryNet dashboard in the light theme, demo data" loading="lazy" />
         </div>
-        <p class="figure-caption mono">the caregiver dashboard · shown with demo data · follows the site theme</p>
+        <p class="figure-caption mono">the caregiver dashboard · shown with demo data</p>
       </div>
     </div>
   </section>
@@ -316,7 +351,7 @@ const sections = [
   .media-grid { display: grid; gap: 1rem; margin-top: 1.75rem; }
   .media-grid--2 { grid-template-columns: 1fr 1fr; }
 
-  :global(.figure) { margin-top: 1.5rem; }
+  .cs-section > .figure { margin-top: 1.5rem; }
   .figure--wide { margin-top: 1.75rem; }
   .figure :global(figcaption) { max-width: 70ch; }
   .figure :global(figcaption a) { color: var(--accent); }

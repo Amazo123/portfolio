@@ -81,13 +81,35 @@ const coursework = [
             <dt>Email</dt><dd><a href={site.emailCompose} target="_blank" rel="noopener">{site.email}</a></dd>
           </dl>
         </div>
+
+        <div class="camp" data-reveal>
+          <p class="camp__head mono">FROM THE BENCH AND THE CAMP</p>
+          <div class="camp__grid">
+            <figure>
+              <div class="camp__frame camp__frame--tall">
+                <video src={url('/img/camp/teaching-loop.mp4')} poster={url('/img/camp/teaching-loop-poster.jpg')} autoplay muted loop playsinline></video>
+              </div>
+              <figcaption class="mono">one on one at the camp</figcaption>
+            </figure>
+            <figure>
+              <div class="camp__frame camp__frame--tall"><img src={url('/img/camp/bench-cluster.jpg')} alt="Students crowded around a breadboard build at the robotics camp" loading="lazy" /></div>
+              <figcaption class="mono">the bench never stays empty</figcaption>
+            </figure>
+            <figure>
+              <div class="camp__frame camp__frame--wide"><img src={url('/img/camp/robot-race.jpg')} alt="The maze race finale at the CEAISES and ATBU robotics camp" loading="lazy" /></div>
+              <figcaption class="mono">maze-race day, CEAISES &amp; ATBU</figcaption>
+            </figure>
+            <figure>
+              <div class="camp__frame camp__frame--wide"><img src={url('/img/camp/camp-group.jpg')} alt="Kids and instructors outside after the closing day of the camp" loading="lazy" /></div>
+              <figcaption class="mono">closing day, kids and instructors</figcaption>
+            </figure>
+          </div>
+        </div>
       </div>
 
       <aside class="about__side">
         <div class="portrait" data-reveal>
-          <span class="portrait__ph mono">PORTRAIT · PHOTO PENDING</span>
-          <!-- When a real photo exists, replace the pill with:
-               <img src={url('/img/portrait.jpg')} alt="Amazing Adelowo at the bench" /> -->
+          <img src={url('/img/portrait/portrait.jpg')} alt="Amazing Adelowo" width="960" height="1200" />
         </div>
         <div class="side-rack" data-reveal>
           <p class="side-rack__head pixel">ON THE BENCH</p>
@@ -167,6 +189,10 @@ const coursework = [
             <li><strong>1st place, Grand Finale Maze Race</strong> · mentored Group Six at the CEAISES & ATBU children's robotics camp · Aug–Sep 2026</li>
             <li><strong>Student Spotlight</strong> · featured by NASCOMSOFT EMBEDED LTD during my SIWES internship</li>
           </ul>
+          <figure class="cert">
+            <div class="cert__frame"><img src={url('/img/camp/certificate.jpg')} alt="Certificate of appreciation from CEAISES and ATBU for instructing at the AI and Robotics Summer School for Kids 2026" loading="lazy" /></div>
+            <figcaption class="mono">instructor recognition · AI &amp; Robotics Summer School for Kids 2026</figcaption>
+          </figure>
           <a class="btn" style="margin-top:1.5rem" href={url('/resume.pdf')}>Full CV · PDF ↗</a>
         </div>
       </div>
@@ -186,30 +212,58 @@ const coursework = [
   .about__prose a { color: var(--accent); }
   .facts { margin-top: 2rem; }
 
+  /* photo strip: SIWES bench + kids camp */
+  .camp { margin-top: 2.25rem; }
+  .camp__head { color: var(--dim); font-size: 0.62rem; margin-bottom: 0.9rem; }
+  .camp__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .camp__grid figure { margin: 0; }
+  .camp__frame {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+  }
+  .camp__frame--tall { aspect-ratio: 4 / 4.4; }
+  .camp__frame--wide { aspect-ratio: 16 / 9; }
+  .camp__frame img, .camp__frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .camp__grid figcaption {
+    margin-top: 0.55rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--dim);
+  }
+
+  .cert { margin: 1.5rem 0 0; }
+  .cert__frame {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+  }
+  .cert figcaption {
+    margin-top: 0.55rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--dim);
+  }
+
   .about__side { display: flex; flex-direction: column; gap: 1rem; }
 
-  /* portrait slot — empty until a real photo lands; pill marks the spot */
+  /* portrait — the studio headshot sits directly on the frame */
   .portrait {
     aspect-ratio: 4 / 5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border: 1px solid var(--line-strong);
     border-radius: 16px;
     background: var(--portrait-bg);
     overflow: hidden;
   }
   .portrait img { width: 100%; height: 100%; object-fit: cover; }
-  .portrait__ph {
-    font-size: 0.5rem;
-    letter-spacing: 0.14em;
-    color: var(--dim);
-    border: 1px solid var(--line);
-    padding: 0.45rem 0.85rem;
-    border-radius: 999px;
-    background: var(--device-unit);
-  }
-
   .side-rack {
     padding: 1rem 1.1rem;
     background: var(--device-bg);

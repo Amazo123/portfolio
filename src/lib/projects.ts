@@ -86,6 +86,8 @@ export interface ShortCard {
   tags: string[];
   accent: 'accent' | 'amber' | 'green' | 'rose' | 'plain';
   source: string;
+  /** photo path (under /img), only when a real photo exists for the build */
+  img?: string;
 }
 
 export const shortCards: ShortCard[] = [
@@ -98,6 +100,7 @@ export const shortCards: ShortCard[] = [
     tags: ['LED matrix', 'PSU sizing', 'Assembly'],
     accent: 'amber',
     source: 'SIWES · NASCOMSOFT EMBEDED LTD',
+    img: '/img/bench/p10.jpg',
   },
   {
     title: 'RA-02 LoRa + SIM800L telemetry nodes',
@@ -118,6 +121,7 @@ export const shortCards: ShortCard[] = [
     tags: ['ATmega328P', 'Relay', 'LDR', 'Proteus'],
     accent: 'plain',
     source: 'NASCOMSOFT EMBEDED LTD · week 23 assignment',
+    img: '/img/bench/streetlight-circuit.jpg',
   },
   {
     title: 'Soil-moisture irrigation controller',
@@ -138,6 +142,7 @@ export const shortCards: ShortCard[] = [
     tags: ['Arduino Nano', 'ESP32-CAM', 'HC-SR04', 'Bluetooth'],
     accent: 'green',
     source: 'Personal build',
+    img: '/img/bench/hazard-vehicle.jpg',
   },
   {
     title: 'Obstacle-avoidance robot · veroboard build',
@@ -148,6 +153,7 @@ export const shortCards: ShortCard[] = [
     tags: ['ATmega328P', 'Veroboard', 'HC-SR04', 'L298N'],
     accent: 'accent',
     source: 'Personal build',
+    img: '/img/bench/obstacle-cased.jpg',
   },
   {
     title: 'Electronic vault lock · CirkitDesigner study',
@@ -158,6 +164,7 @@ export const shortCards: ShortCard[] = [
     tags: ['CirkitDesigner', 'Keypad', 'Servo', 'RFID'],
     accent: 'plain',
     source: 'SIWES · NASCOMSOFT EMBEDED LTD',
+    img: '/img/bench/vault-lock.jpg',
   },
 ];
 
