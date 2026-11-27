@@ -200,12 +200,24 @@ const toolboxB = [
           <li class="tl__item" data-reveal style={`--delay:${i * 60}ms`}>
             <p class="tl__period mono tnum">{t.period}</p>
             <div class="tl__body">
-              <h3 class="tl__title">{t.title}</h3>
-              <p class="tl__org mono">{t.org}</p>
-              <p class="tl__note">{t.note}</p>
-              <div class="chips tl__chips">
-                {t.tags.map((tag) => <span class="chip">{tag}</span>)}
+              <div class="tl__text">
+                <h3 class="tl__title">{t.title}</h3>
+                <p class="tl__org mono">{t.org}</p>
+                <p class="tl__note">{t.note}</p>
+                <div class="chips tl__chips">
+                  {t.tags.map((tag) => <span class="chip">{tag}</span>)}
+                </div>
               </div>
+              {t.img && (
+                <div class="tl__thumb">
+                  <img
+                    src={url(t.img)}
+                    alt={t.alt ?? t.title}
+                    loading="lazy"
+                    style={t.imgPos ? `object-position:${t.imgPos}` : undefined}
+                  />
+                </div>
+              )}
             </div>
           </li>
         ))}
@@ -490,6 +502,31 @@ const toolboxB = [
     border-top: 1px solid var(--line-soft);
   }
 
+  .tl__body {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    min-width: 0;
+  }
+
+  .tl__text { flex: 1; min-width: 0; }
+
+  .tl__thumb {
+    flex: none;
+    width: clamp(190px, 24vw, 270px);
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--portrait-bg);
+    box-shadow: var(--card-shadow);
+  }
+  .tl__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .tl__period { color: var(--accent); padding-top: 0.3rem; }
 
   .tl__title { font-size: clamp(1.15rem, 1rem + 0.8vw, 1.55rem); letter-spacing: -0.02em; }
@@ -534,5 +571,7 @@ const toolboxB = [
   @media (max-width: 640px) {
     .bench__grid { grid-template-columns: 1fr; }
     .tl__item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .tl__body { flex-direction: column; }
+    .tl__thumb { width: 100%; }
   }
 </style>

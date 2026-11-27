@@ -183,6 +183,8 @@ export const timeline = [
     org: 'NASCOMSOFT EMBEDED LTD, Bauchi',
     note: 'Assembled an outdoor P10 LED display board with its controller and supply, and wrote the embedded C firmware for the streetlight controller assignment. Featured in the NASCOMSOFT Student Spotlight.',
     tags: ['SIWES'],
+    img: '/img/bench/p10.jpg',
+    alt: 'The assembled P10 LED matrix display board on the NASCOMSOFT bench',
   },
   {
     period: 'Aug–Oct 2026',
@@ -190,6 +192,8 @@ export const timeline = [
     org: 'NASCOMSOFT EMBEDED Hackathon 2.0',
     note: 'Built AttendX with TEAM RAMP, the smart biometric attendance management system that took 1st place overall: ESP32-S3-CAM, capacitive fingerprint module, 3D-printed enclosure, and the PIN-fallback snapshot that catches proxy clock-ins.',
     tags: ['1st place'],
+    img: '/img/attendx/placard-team.jpg',
+    alt: 'TEAM RAMP with the Grand Winner cheque and the AttendX terminal at the hackathon finale',
   },
   {
     period: 'Aug–Sep 2026',
@@ -197,6 +201,9 @@ export const timeline = [
     org: 'CEAISES & ATBU, Bauchi',
     note: 'Taught electronics, breadboarding and sensor interfacing over a four-week children’s camp, and mentored Group Six to 1st place in the Grand Finale Maze Race.',
     tags: ['Teaching'],
+    img: '/img/camp/teaching.jpg',
+    imgPos: '50% 24%',
+    alt: 'Teaching sensor interfacing at the children’s camp bench',
   },
   {
     period: '2022–2027 (exp.)',
