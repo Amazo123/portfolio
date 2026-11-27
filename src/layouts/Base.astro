@@ -75,6 +75,9 @@ const pageTitle = title === site.name ? `${site.name} — ${site.role}` : `${tit
         if (m) m.setAttribute('content', t === 'light' ? '#f6f5f1' : '#020404');
       })();
     </script>
+
+    <!-- Cloudflare Web Analytics: cookieless, prompts the visitor for nothing -->
+    <script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "a6f5f82996bc4150b0b243b9c0ea78ea"}'></script>
   </head>
 
   <body>
