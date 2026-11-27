@@ -203,7 +203,7 @@ export const timeline = [
     note: 'Taught electronics, breadboarding and sensor interfacing over a four-week children’s camp, and mentored Group Six to 1st place in the Grand Finale Maze Race.',
     tags: ['Teaching'],
     img: '/img/timeline/camp-class.jpg',
-    imgPos: '50% 28%',
+    imgPos: '50% 10%',
     alt: 'Walking a group of children through hardware at the camp computers',
   },
   {
