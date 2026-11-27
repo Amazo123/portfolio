@@ -18,6 +18,16 @@ const accentVar = {
 }[project.accent];
 ---
 <a class="case" href={url(`/work/${project.slug}/`)} style={`--tone:${accentVar}`}>
+  {project.img && (
+    <div class="case__frame">
+      <img
+        src={url(project.img)}
+        alt={project.alt ?? `The ${project.title} build`}
+        loading="lazy"
+        style={project.imgPos ? `object-position:${project.imgPos}` : undefined}
+      />
+    </div>
+  )}
   <div class="case__head mono">
     <span class="case__index">{project.index}</span>
     <span class="case__sep" aria-hidden="true">/</span>
@@ -71,6 +81,19 @@ const accentVar = {
     background: var(--tone);
     opacity: 0;
     transition: opacity 0.3s var(--ease);
+  }
+
+  .case__frame {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--portrait-bg);
+  }
+  .case__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .case:hover {

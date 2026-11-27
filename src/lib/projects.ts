@@ -12,6 +12,12 @@ export interface CaseStudy {
   tags: string[];
   stack: string[];
   accent: 'accent' | 'amber' | 'green' | 'rose' | 'blue';
+  /** card image path (under /img), shown on the home and work grids */
+  img?: string;
+  /** alt override, for cards whose image is not simply the build itself */
+  alt?: string;
+  /** object-position override, for portrait photos whose subject sits off-center */
+  imgPos?: string;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -24,7 +30,9 @@ export const caseStudies: CaseStudy[] = [
     kind: 'Final-year capstone',
     status: 'built & tested',
     summary:
-      'Two ESP32-C3 nodes sit with two cots, track their own noise floors, and freeze two seconds of audio when a sound crosses three times that floor. A 286-fragment ESP-NOW burst with CRC-16/CRC-32 carries the window to an ESP32-S3 hub, which computes the log-Mel front end in C (41.7 ms) and runs a 122,770-parameter INT8 CNN on-chip (101.8 ms) before paging a BLE wearable. Zero false alarms across 308 windows of real non-cry audio.',
+      'Two ESP32-C3 nodes sit with two cots, track their own noise floors, and freeze two seconds of audio when a sound crosses three times that floor. The window travels over ESP-NOW to an ESP32-S3 hub, which runs a 122,770-parameter INT8 CNN on-chip before paging a BLE wearable. Zero false alarms across 308 windows of real non-cry audio.',
+    img: '/img/crynet/units-load.jpg',
+    alt: 'The full CryNet system in printed enclosures: wearable, hub, both cot nodes',
     heroMetric: { value: '0.9993', label: 'Test AUC · INT8, all on-chip' },
     tags: ['ESP32-S3', 'ESP-NOW', 'TFLite Micro', 'INMP441', 'BLE'],
     stack: ['ESP32-C3 ×3', 'ESP32-S3', 'TFLite Micro', 'ESP-DSP', 'Python'],
@@ -45,6 +53,8 @@ export const caseStudies: CaseStudy[] = [
     tags: ['ESP32-S3-CAM', 'SFM-V1.7', 'UART', 'I²C LCD', '3D print'],
     stack: ['ESP32-S3-CAM', 'SFM-V1.7', 'LCD 16×2', '4×4 keypad', 'C++'],
     accent: 'amber',
+    img: '/img/attendx/terminal.jpg',
+    imgPos: '50% 18%',
   },
   {
     slug: 'evoting',
@@ -61,6 +71,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ['ESP32', 'AS608', 'PostgreSQL', 'Wi-Fi', 'Power design'],
     stack: ['ESP32', 'AS608', '16×4 LCD', 'Neon Postgres', 'Render'],
     accent: 'green',
+    img: '/img/evoting/terminal.jpg',
   },
   {
     slug: 'swarm',
@@ -76,6 +87,7 @@ export const caseStudies: CaseStudy[] = [
     tags: ['ESP32', 'L298N', 'Electromagnets', 'ArUco', 'Python'],
     stack: ['ESP32 ×3', 'L298N', 'Logic-level MOSFETs', 'Buck converters', 'Python'],
     accent: 'blue',
+    img: '/img/swarm/fleet.jpg',
   },
 ];
 
